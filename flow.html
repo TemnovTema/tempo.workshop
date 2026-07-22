@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Сквозные user flows Tempo" />
+  <title>User flow - Tempo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <a class="brand" href="index.html"><span aria-hidden="true"></span>Tempo</a>
+    <nav aria-label="Основная навигация"><a href="index.html">Главная</a><a href="scenarios.html">Сценарии</a><a class="active" href="flow.html">User flow</a></nav>
+  </header>
+  <main class="page-shell">
+    <header class="page-title flow-heading">
+      <p class="kicker">Три сквозных потока</p>
+      <h1>User flows</h1>
+      <p>Ключевые цепочки, которые связывают рекомендации Tempo с контролем пользователя и обновлением реального плана.</p>
+    </header>
+
+    <section class="core-callout">
+      <span>Главный проверочный сценарий</span>
+      <p>План перестал быть реалистичным</p><i></i><p>Tempo замечает и объясняет</p><i></i><p>Предлагает корректировку</p><i></i><p>Пользователь подтверждает</p><i></i><p>Следующее действие понятно</p>
+    </section>
+
+    <div class="flow-tabs" role="tablist" aria-label="Сквозные потоки">
+      <button class="active" data-flow="daily" role="tab" aria-selected="true" type="button">A. Ежедневный цикл</button>
+      <button data-flow="adapt" role="tab" aria-selected="false" type="button">B. После отклонения</button>
+      <button data-flow="create" role="tab" aria-selected="false" type="button">C. Новое обязательство</button>
+    </div>
+
+    <section class="core-flow active" data-panel="daily" aria-label="Ежедневный цикл">
+      <header><span>A</span><div><h2>Ежедневный цикл</h2><p>От оценки состояния до осознанного завершения дня.</p></div></header>
+      <div class="core-flow-track">
+        <article><b>Оценить состояние</b><p>Энергия, сон и доступная ёмкость.</p></article><i></i>
+        <article><b>Проверить день</b><p>Найти перегрузку и конфликты.</p></article><i></i>
+        <article><b>Принять план</b><p>Подтвердить всё или часть.</p></article><i></i>
+        <article><b>Что сейчас?</b><p>Получить одно действие.</p></article><i></i>
+        <article><b>Выполнить блок</b><p>Работать в режиме фокуса.</p></article><i></i>
+        <article><b>Зафиксировать</b><p>Отметить фактический результат.</p></article><i></i>
+        <article><b>Следующий шаг</b><p>Продолжить по обновлённому плану.</p></article><i></i>
+        <article><b>Завершить день</b><p>Перенести остаток осознанно.</p></article>
+      </div>
+    </section>
+
+    <section class="core-flow" data-panel="adapt" aria-label="Адаптация после отклонения">
+      <header><span>B</span><div><h2>Адаптация после отклонения</h2><p>Внешнее событие не должно превращать весь день в провал.</p></div></header>
+      <div class="core-flow-track short">
+        <article><b>Обстоятельства изменились</b><p>Задержка, новая встреча или усталость.</p></article><i></i>
+        <article><b>Обнаружить проблему</b><p>Определить затронутые задачи.</p></article><i></i>
+        <article><b>Объяснить последствия</b><p>Показать, что больше не помещается.</p></article><i></i>
+        <article><b>Предложить план</b><p>Собрать реалистичный остаток дня.</p></article><i></i>
+        <article><b>Просмотреть изменения</b><p>Сравнить до и после.</p></article><i></i>
+        <article><b>Подтвердить</b><p>Принять всё или отдельные изменения.</p></article><i></i>
+        <article><b>Продолжить</b><p>Получить обновлённый следующий шаг.</p></article>
+      </div>
+    </section>
+
+    <section class="core-flow" data-panel="create" aria-label="Добавление нового обязательства">
+      <header><span>C</span><div><h2>Добавление нового обязательства</h2><p>Новая задача сразу проверяется на реалистичность.</p></div></header>
+      <div class="core-flow-track short">
+        <article><b>Создать задачу</b><p>Зафиксировать действие.</p></article><i></i>
+        <article><b>Срок и длительность</b><p>Точная оценка или диапазон.</p></article><i></i>
+        <article><b>Проверить ёмкость</b><p>Учесть календарь и другие задачи.</p></article><i></i>
+        <article><b>Найти окно</b><p>Предложить подходящее время.</p></article><i></i>
+        <article><b>Подтвердить</b><p>Принять или выбрать другое окно.</p></article><i></i>
+        <article><b>Учитывать дальше</b><p>Включить в будущие рекомендации.</p></article>
+      </div>
+    </section>
+
+    <section class="principles-strip" aria-label="Сквозные принципы">
+      <article><span>Контроль</span><p>Изменения не применяются незаметно.</p></article>
+      <article><span>Нейтральность</span><p>Отклонение от плана не трактуется как провал.</p></article>
+      <article><span>Объяснимость</span><p>Tempo показывает причины и последствия рекомендации.</p></article>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
