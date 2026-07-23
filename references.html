@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UX и UI референсы для первой версии Tempo" />
+  <title>Референсы - Tempo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <a class="brand" href="index.html"><span aria-hidden="true"></span>Tempo</a>
+    <nav aria-label="Основная навигация">
+      <a href="index.html">Главное</a><a href="scenarios.html">Сценарии</a><a href="flow.html">User flow</a><a href="sitemap.html">Карта приложения</a><a class="active" href="references.html">Референсы</a>
+    </nav>
+  </header>
+
+  <main class="page-shell references-page">
+    <header class="page-title references-heading">
+      <p class="kicker">Продуктовая рамка</p>
+      <h1>Референсы</h1>
+      <p>Не собираем интерфейс из чужих экранов. Для каждого продукта фиксируем конкретный паттерн, его роль в Tempo и границу заимствования.</p>
+    </header>
+
+    <section class="reference-thesis" aria-label="Краткий вывод">
+      <span>Формула Tempo</span>
+      <div>
+        <strong>Lifestack</strong><small>контекст состояния</small>
+      </div>
+      <i aria-hidden="true">+</i>
+      <div>
+        <strong>Structured</strong><small>композиция дня</small>
+      </div>
+      <i aria-hidden="true">+</i>
+      <div>
+        <strong>Sunsama</strong><small>тон и ритуалы</small>
+      </div>
+      <i aria-hidden="true">+</i>
+      <div>
+        <strong>Motion</strong><small>адаптация плана</small>
+      </div>
+    </section>
+
+    <section class="reference-section ux-section" aria-labelledby="uxTitle">
+      <header class="reference-section-head">
+        <p>Поведение продукта</p>
+        <h2 id="uxTitle">UX-референсы</h2>
+        <span>Что пользователь делает, как Tempo отвечает и где остаётся контроль.</span>
+      </header>
+
+      <div class="reference-table" role="table" aria-label="UX сравнение продуктов">
+        <div class="reference-table-head" role="row">
+          <span>Продукт и роль</span><span>Берём в Tempo</span><span>Адаптируем или исключаем</span>
+        </div>
+
+        <article class="reference-row primary-reference" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/lifestack.png" alt="Интерфейс Lifestack с расписанием и данными энергии" loading="lazy" />
+              <figcaption><a href="https://lifestack.ai/" target="_blank" rel="noreferrer">Изображение с сайта Lifestack</a></figcaption>
+            </figure>
+            <span class="decision-label take">Главный продуктовый референс</span>
+            <h3><a href="https://lifestack.ai/" target="_blank" rel="noreferrer">Lifestack</a></h3>
+            <p>Планирование с учётом энергии, сна, recovery и календарного контекста.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Состояние как вход в планирование, а не отдельную аналитику.</li><li>Энергетические окна рядом с задачами и событиями.</li><li>Объяснение, почему конкретная работа подходит текущему состоянию.</li><li>Health-данные как дополнительный контекст, а не обязательное условие.</li></ul>
+          </div>
+          <div>
+            <h4>Не берём</h4>
+            <ul><li>Доминирование графиков над ближайшим действием.</li><li>Попытку оптимизировать каждую часть дня автоматически.</li><li>Сложную модель состояния, которую нужно сначала изучить.</li></ul>
+          </div>
+        </article>
+
+        <article class="reference-row" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/structured.png" alt="Интерфейс планировщика Structured" loading="lazy" />
+              <figcaption><a href="https://structured.app/" target="_blank" rel="noreferrer">Изображение с сайта Structured</a></figcaption>
+            </figure>
+            <span class="decision-label take">Экран «Сегодня»</span>
+            <h3><a href="https://structured.app/" target="_blank" rel="noreferrer">Structured</a></h3>
+            <p>Все задачи и события собраны в одну непрерывную визуальную timeline.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Вертикальную ось времени как основу экрана «Сегодня».</li><li>Видимые свободные окна между обязательствами.</li><li>Выделение текущего момента и ближайшей задачи.</li><li>Быстрое считывание дня без переключения между календарём и списком.</li></ul>
+          </div>
+          <div>
+            <h4>Адаптируем</h4>
+            <ul><li>Добавляем слой энергии, но не превращаем timeline в график.</li><li>Ограничиваем цвет: роль и состояние важнее уникального цвета каждой задачи.</li><li>Сохраняем место для рекомендаций и конфликтов.</li></ul>
+          </div>
+        </article>
+
+        <article class="reference-row" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/sunsama.jpg" alt="Интерфейс ежедневного планирования Sunsama" loading="lazy" />
+              <figcaption><a href="https://www.sunsama.com/" target="_blank" rel="noreferrer">Изображение с сайта Sunsama</a></figcaption>
+            </figure>
+            <span class="decision-label take">Характер продукта</span>
+            <h3><a href="https://www.sunsama.com/" target="_blank" rel="noreferrer">Sunsama</a></h3>
+            <p>Guided planning, timeboxing и ежедневное завершение как спокойный рабочий ритуал.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Утреннюю проверку реалистичности дня.</li><li>Осознанное ограничение нагрузки.</li><li>Подтверждение плана пользователем.</li><li>Вечерний shutdown с акцентом на выполненное и решения.</li><li>Нейтральный язык без давления.</li></ul>
+          </div>
+          <div>
+            <h4>Адаптируем</h4>
+            <ul><li>Сокращаем длинный desktop-ритуал до нескольких мобильных шагов.</li><li>Не переносим доски и многоколоночную плотность.</li><li>Не заставляем проходить ритуал ради доступа к плану.</li></ul>
+          </div>
+        </article>
+
+        <article class="reference-row" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/motion.png" alt="Интерфейс AI-планировщика Motion" loading="lazy" />
+              <figcaption><a href="https://www.usemotion.com/" target="_blank" rel="noreferrer">Изображение с сайта Motion</a></figcaption>
+            </figure>
+            <span class="decision-label adapt">Механика перепланирования</span>
+            <h3><a href="https://www.usemotion.com/" target="_blank" rel="noreferrer">Motion</a></h3>
+            <p>План автоматически реагирует на новые задачи, приоритеты и пропущенные сроки.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Постоянную проверку конфликтов и риска дедлайна.</li><li>Пересборку только затронутой части плана.</li><li>Сравнение «до» и «после».</li><li>Чёткое объяснение последствий каждого изменения.</li></ul>
+          </div>
+          <div>
+            <h4>Не берём</h4>
+            <ul><li>Автоматическое применение изменений без подтверждения.</li><li>Обещание «идеального» плана.</li><li>Модель, где AI принимает решение вместо пользователя.</li><li>Командные и project-management сценарии первой версии.</li></ul>
+          </div>
+        </article>
+
+        <article class="reference-row" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/opal.webp" alt="Визуальный образ приложения Opal" loading="lazy" />
+              <figcaption><a href="https://opalapp.com/" target="_blank" rel="noreferrer">Изображение с сайта Opal</a></figcaption>
+            </figure>
+            <span class="decision-label adapt">Режим фокуса</span>
+            <h3><a href="https://opalapp.com/help/what-are-sessions" target="_blank" rel="noreferrer">Opal Sessions</a></h3>
+            <p>Отдельная сессия с заданной длительностью, блокировкой отвлечений, паузой и завершением.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Ясное начало и окончание рабочего блока.</li><li>Один главный объект во время сессии.</li><li>Понятные действия «пауза» и «завершить».</li><li>Защиту от случайного выхода без наказания.</li></ul>
+          </div>
+          <div>
+            <h4>Не берём</h4>
+            <ul><li>Жёсткую блокировку как обязательную механику.</li><li>Emergency Pass и искусственное усложнение выхода.</li><li>Streaks, очки и игровое давление.</li></ul>
+          </div>
+        </article>
+
+        <article class="reference-row" role="row">
+          <div>
+            <figure class="reference-preview">
+              <img src="assets/references/stoic.jpg" alt="Визуальный образ приложения Stoic" loading="lazy" />
+              <figcaption><a href="https://help.getstoic.com/stoic-user-guide/mooMJC6qGFVeG62FpCwNAw/daily-journaling-flow/6f9eBdDY7m4AnbXtALLGtM" target="_blank" rel="noreferrer">Изображение с сайта Stoic</a></figcaption>
+            </figure>
+            <span class="decision-label adapt">Check-in состояния</span>
+            <h3><a href="https://help.getstoic.com/stoic-user-guide/mooMJC6qGFVeG62FpCwNAw/daily-journaling-flow/6f9eBdDY7m4AnbXtALLGtM" target="_blank" rel="noreferrer">Stoic Daily Flow</a></h3>
+            <p>Короткий mood check-in при входе и настраиваемые утренние и вечерние рефлексии.</p>
+          </div>
+          <div>
+            <h4>Берём</h4>
+            <ul><li>Один простой вопрос при входе.</li><li>Постепенное раскрытие уточнений.</li><li>Возможность пропустить или полностью отключить check-in.</li><li>Короткую вечернюю рефлексию после обзора результатов.</li></ul>
+          </div>
+          <div>
+            <h4>Не берём</h4>
+            <ul><li>Дневник как основную модель продукта.</li><li>Диагностический или терапевтический язык.</li><li>Длинные письменные упражнения внутри ежедневного планирования.</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="reference-section ui-section" aria-labelledby="uiTitle">
+      <header class="reference-section-head">
+        <p>Визуальный язык</p>
+        <h2 id="uiTitle">UI-референсы</h2>
+        <span>Что определяет композицию экранов, плотность, цвет и ощущение взаимодействия.</span>
+      </header>
+
+      <div class="ui-reference-grid">
+        <article class="ui-reference-card featured-ui">
+          <div class="ui-card-top"><span>Основа экрана</span><b>Structured</b></div>
+          <h3>Непрерывный день</h3>
+          <p>Вертикальная timeline, ясный текущий момент, свободные окна и задачи читаются как единый ритм.</p>
+          <div class="takeaway"><strong>Берём</strong><span>геометрию дня и последовательность</span></div>
+          <div class="takeaway reject"><strong>Исключаем</strong><span>радугу из цветов задач</span></div>
+        </article>
+
+        <article class="ui-reference-card dark-ui">
+          <div class="ui-card-top"><span>Активный блок</span><b>Opal</b></div>
+          <h3>Визуальная тишина</h3>
+          <p>Во время фокуса остаются задача, время и два безопасных действия. Второстепенная навигация исчезает.</p>
+          <div class="takeaway"><strong>Берём</strong><span>контрастный режим и крупный таймер</span></div>
+          <div class="takeaway reject"><strong>Исключаем</strong><span>игровые награды и угрозы</span></div>
+        </article>
+
+        <article class="ui-reference-card">
+          <div class="ui-card-top"><span>Тон интерфейса</span><b>Sunsama</b></div>
+          <h3>Спокойная рабочая среда</h3>
+          <p>Много воздуха, последовательное раскрытие и формулировки, которые помогают принять решение без чувства вины.</p>
+          <div class="takeaway"><strong>Берём</strong><span>темп, ритуальность и мягкую иерархию</span></div>
+          <div class="takeaway reject"><strong>Исключаем</strong><span>desktop-плотность</span></div>
+        </article>
+
+        <article class="ui-reference-card">
+          <div class="ui-card-top"><span>Состояние</span><b>Lifestack</b></div>
+          <h3>Энергия рядом с планом</h3>
+          <p>Состояние видно непосредственно в расписании, но в Tempo это тихий слой, а не отдельная аналитическая панель.</p>
+          <div class="takeaway"><strong>Берём</strong><span>связь энергии и временных окон</span></div>
+          <div class="takeaway reject"><strong>Исключаем</strong><span>графики и фиолетовую AI-эстетику</span></div>
+        </article>
+
+        <article class="ui-reference-card wide-ui">
+          <div class="ui-card-top"><span>Изменение плана</span><b>Motion</b></div>
+          <h3>Понятное сравнение</h3>
+          <p>Из Motion берём не внешний вид, а структуру представления изменений: причина, затронутые задачи, вариант нового расписания и подтверждение.</p>
+          <div class="before-after">
+            <div><span>Было</span><strong>Вечер перегружен</strong><small>Сложная задача после двух встреч</small></div>
+            <i aria-hidden="true"></i>
+            <div><span>Стало</span><strong>Сохранён реалистичный остаток</strong><small>Подготовка сегодня, глубокая работа завтра</small></div>
+          </div>
+        </article>
+
+        <article class="ui-reference-card">
+          <div class="ui-card-top"><span>Check-in</span><b>Stoic</b></div>
+          <h3>Один вопрос за раз</h3>
+          <p>Короткий выбор состояния с необязательным уточнением. Без дневниковых метафор и medical-визуала.</p>
+          <div class="takeaway"><strong>Берём</strong><span>progressive disclosure</span></div>
+          <div class="takeaway reject"><strong>Исключаем</strong><span>роль mental-health приложения</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="reference-principles" aria-labelledby="principlesReferenceTitle">
+      <header>
+        <p class="kicker">Фильтр решений</p>
+        <h2 id="principlesReferenceTitle">Что остаётся характером Tempo</h2>
+      </header>
+      <div>
+        <article><strong>Человек подтверждает</strong><p>AI предлагает и объясняет. План меняется только после явного решения пользователя.</p></article>
+        <article><strong>Состояние влияет, но не определяет</strong><p>Tempo учитывает энергию и сон, не делает медицинских выводов и не ограничивает человека.</p></article>
+        <article><strong>Один следующий шаг</strong><p>Данные и аналитика подчинены ответу на вопрос «что делать сейчас?».</p></article>
+        <article><strong>Нейтральный язык</strong><p>Пропуск, усталость и изменение плана являются входными данными, а не поводом для оценки.</p></article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
