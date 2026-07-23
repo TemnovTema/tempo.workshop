@@ -19,3 +19,18 @@ document.querySelectorAll('.flow-tabs button').forEach((button) => {
     document.querySelector(`[data-panel="${button.dataset.flow}"]`).classList.add('active');
   });
 });
+
+const mapNodes = document.querySelectorAll('.map-node');
+const mapDetailType = document.getElementById('mapDetailType');
+const mapDetailTitle = document.getElementById('mapDetailTitle');
+const mapDetailText = document.getElementById('mapDetailText');
+
+mapNodes.forEach((node) => {
+  node.addEventListener('click', () => {
+    mapNodes.forEach((item) => item.classList.remove('selected'));
+    node.classList.add('selected');
+    mapDetailType.textContent = node.dataset.type;
+    mapDetailTitle.textContent = node.dataset.title;
+    mapDetailText.textContent = node.dataset.text;
+  });
+});
