@@ -10,103 +10,100 @@
 <body>
   <header class="site-nav">
     <a class="brand" href="index.html"><span aria-hidden="true"></span>Tempo</a>
-    <nav aria-label="Основная навигация">
-      <a href="index.html">Главное</a><a href="scenarios.html">Сценарии</a><a href="flow.html">User flow</a><a class="active" href="sitemap.html">Карта приложения</a>
-    </nav>
+    <nav aria-label="Основная навигация"><a href="index.html">Главное</a><a href="scenarios.html">Сценарии</a><a href="flow.html">User flow</a><a class="active" href="sitemap.html">Карта приложения</a></nav>
   </header>
 
   <main class="page-shell sitemap-page">
     <header class="page-title sitemap-heading">
-      <p class="kicker">Информационная архитектура</p>
+      <p class="kicker">Мобильное приложение</p>
       <h1>Карта приложения</h1>
-      <p>Структура первой версии мобильного Tempo: точки входа, основные разделы, дочерние экраны и общие системные состояния.</p>
+      <p>Событие фиксировано. Задача переносима. Проект хранит долгую личную или совместную работу. Заряд 0–10 показывает доступную ёмкость.</p>
     </header>
 
-    <section class="map-overview" aria-label="Принцип навигации">
-      <div>
-        <span>Главная навигация</span>
-        <strong>Сегодня</strong><strong>Задачи</strong><strong>Фокус</strong><strong>Профиль</strong>
-      </div>
-      <p>Восстановление, рекомендации и перепланирование появляются в контексте дня, а не существуют отдельными разделами.</p>
+    <section class="map-overview" aria-label="Типы записей">
+      <div><span>Типы записей</span><strong>Событие · фиксировано</strong><strong>Задача · переносима</strong><strong>Проект · отдельный режим</strong></div>
+      <p>События не двигаются автоматически. Задачи можно переносить после подтверждения. Проект входит в расписание агрегированным слотом.</p>
     </section>
 
     <section class="app-map" aria-label="Структура экранов Tempo">
       <div class="map-root">
-        <button class="map-node root-node selected" type="button" data-type="Корневой экран" data-title="Tempo" data-text="Точка входа в приложение. После запуска пользователь попадает в актуальный контекст: онбординг, сегодняшний план или возвращение после перерыва.">
-          <span>Приложение</span><strong>Tempo</strong><small>Определение точки входа</small>
-        </button>
+        <button class="map-node root-node selected" type="button" data-type="Корневой экран" data-title="Tempo" data-text="Открывает сегодняшний контекст: заряд, фиксированные события, гибкие задачи и проектные слоты."><span>Приложение</span><strong>Tempo</strong><small>Актуальный контекст</small></button>
       </div>
 
       <div class="map-branch onboarding-branch">
-        <div class="map-section-title"><span>До основного приложения</span><strong>Вход и настройка</strong></div>
+        <div class="map-section-title"><span>До основного приложения</span><strong>Вход и заряд</strong></div>
         <div class="map-node-list">
-          <button class="map-node" type="button" data-type="Сценарий входа" data-title="Первый запуск" data-text="Краткое объяснение ценности Tempo и переход к минимальной настройке."><span>Вход</span><strong>Первый запуск</strong><small>Ценность продукта</small></button>
-          <button class="map-node" type="button" data-type="Настройка" data-title="Роли и время" data-text="Выбор ролей: работа, учёба, личное. Настройка рабочего и личного времени."><span>Настройка</span><strong>Роли и время</strong><small>Границы расписания</small></button>
-          <button class="map-node" type="button" data-type="Интеграция" data-title="Подключение данных" data-text="Календарь обязателен для полного контекста. Сон, активность и устройства подключаются опционально."><span>Интеграция</span><strong>Подключение данных</strong><small>Календарь и устройства</small></button>
-          <button class="map-node" type="button" data-type="Возвращение" data-title="Возврат после перерыва" data-text="Нейтральное обновление контекста и построение плана на ближайший день без обязательного разбора всего накопившегося."><span>Возвращение</span><strong>После перерыва</strong><small>Обновление контекста</small></button>
+          <button class="map-node" type="button" data-type="Вход" data-title="Первый запуск" data-text="Краткое объяснение ценности и сразу картина дня. Оценка состояния не блокирует вход."><span>Вход</span><strong>Первый запуск</strong><small>Без обязательной оценки</small></button>
+          <button class="map-node" type="button" data-type="Интеграция" data-title="Внешние данные" data-text="Сон, шаги, активность, экранное время и календарь дают первый расчёт заряда."><span>Данные</span><strong>Источники заряда</strong><small>Холодный старт</small></button>
+          <button class="map-node" type="button" data-type="Модель" data-title="Персональная кривая" data-text="Уточняется вопросами, переносами, отменами и вечерней оценкой, а не шаблоном жаворонок / сова."><span>Модель</span><strong>Персональная кривая</strong><small>Обучение по факту</small></button>
+          <button class="map-node" type="button" data-type="Возвращение" data-title="После перерыва" data-text="Нейтральное обновление контекста без разбора всего накопившегося."><span>Возвращение</span><strong>После перерыва</strong><small>Ближайший день</small></button>
+        </div>
+      </div>
+
+      <div class="map-branch onboarding-branch">
+        <div class="map-section-title"><span>Раздел верхнего уровня</span><strong>Проекты</strong></div>
+        <div class="map-node-list">
+          <button class="map-node" type="button" data-type="Список" data-title="Все проекты" data-text="Масштабная долгая работа: личная или совместная с друзьями и коллегами."><span>Экран</span><strong>Все проекты</strong><small>Личные и командные</small></button>
+          <button class="map-node" type="button" data-type="Объект" data-title="Карточка проекта" data-text="Участники, роли, задачи, прогресс и статистика внутри проекта."><span>Объект</span><strong>Карточка проекта</strong><small>Участники и роли</small></button>
+          <button class="map-node" type="button" data-type="Хранилище" data-title="Хранилище проекта" data-text="Заметки, файлы и ссылки в общем контексте проекта."><span>Раздел</span><strong>Хранилище</strong><small>Заметки, файлы, ссылки</small></button>
+          <button class="map-node" type="button" data-type="Приватность" data-title="Состояние проекта" data-text="Пользователь видит свою оценку и только усреднённую оценку всех участников — без сравнения людей."><span>Элемент</span><strong>Средняя оценка</strong><small>Личная остаётся личной</small></button>
         </div>
       </div>
 
       <div class="map-main-sections">
         <article class="map-column today-column">
-          <header><span>Основной раздел</span><h2>Сегодня</h2><p>Текущий план и следующее действие.</p></header>
+          <header><span>Основной раздел</span><h2>Сегодня</h2><p>Заряд, план, следующее действие.</p></header>
           <div class="map-node-list">
-            <button class="map-node" type="button" data-type="Главный экран" data-title="Обзор дня" data-text="События, задачи, состояние, доступная ёмкость и ближайшее действие в одном обзоре."><span>Экран</span><strong>Обзор дня</strong><small>План, нагрузка, состояние</small></button>
-            <button class="map-node" type="button" data-type="Проверка" data-title="Утренняя проверка" data-text="Оценка энергии и реалистичности плана. Проблемные места и предлагаемая корректировка."><span>Экран</span><strong>Утренняя проверка</strong><small>Состояние и риски</small></button>
-            <button class="map-node" type="button" data-type="Рекомендация" data-title="Что делать сейчас?" data-text="Одно рекомендуемое действие, объяснение выбора и доступные альтернативы."><span>Экран</span><strong>Что делать сейчас?</strong><small>Рекомендация и причины</small></button>
-            <button class="map-node" type="button" data-type="Изменение плана" data-title="Конфликт расписания" data-text="Объяснение того, что перестало помещаться, и сравнение исходного и нового плана."><span>Состояние</span><strong>Конфликт расписания</strong><small>Последствия и решение</small></button>
-            <button class="map-node" type="button" data-type="Завершение" data-title="Итог дня" data-text="Выполненное, незавершённое, варианты переноса и предварительная нагрузка завтра."><span>Экран</span><strong>Итог дня</strong><small>Закрытие рабочего режима</small></button>
+            <button class="map-node" type="button" data-type="Главный экран" data-title="Обзор дня" data-text="Заряд 0–10, события, задачи и проектные слоты в одном плане."><span>Экран</span><strong>Обзор дня</strong><small>Заряд и ёмкость</small></button>
+            <button class="map-node" type="button" data-type="Показатель" data-title="Заряд" data-text="Оценка состояния, внешние данные и занятые рабочие часы. Уточнение доступно в любое время."><span>Элемент</span><strong>Заряд 6/10</strong><small>Оценка необязательна</small></button>
+            <button class="map-node" type="button" data-type="Рекомендация" data-title="Что делать сейчас?" data-text="Одно действие с объяснением. Принять, изменить или отклонить решает пользователь."><span>Экран</span><strong>Что сейчас?</strong><small>Готовое действие</small></button>
+            <button class="map-node" type="button" data-type="Адаптация" data-title="Развилка разгрузки" data-text="Равный выбор: перенести или отменить гибкую задачу либо сделать практику."><span>Состояние</span><strong>Разгрузка / практика</strong><small>Два равных инструмента</small></button>
           </div>
         </article>
 
         <article class="map-column tasks-column">
-          <header><span>Основной раздел</span><h2>Задачи</h2><p>Все обязательства и их место в плане.</p></header>
+          <header><span>Основной раздел</span><h2>Задачи и события</h2><p>Гибкие и фиксированные записи.</p></header>
           <div class="map-node-list">
-            <button class="map-node" type="button" data-type="Список" data-title="Все задачи" data-text="Активные, запланированные, просроченные и отложенные задачи с фильтрацией по роли."><span>Экран</span><strong>Все задачи</strong><small>Статусы и роли</small></button>
-            <button class="map-node" type="button" data-type="Создание" data-title="Быстрое добавление" data-text="Название, срок, приблизительная длительность и роль. Остальное Tempo предлагает заполнить позже."><span>Экран</span><strong>Быстрое добавление</strong><small>Минимум обязательных полей</small></button>
-            <button class="map-node" type="button" data-type="Объект" data-title="Карточка задачи" data-text="Описание, срок, оценка времени, история блоков и место задачи в текущем плане."><span>Экран</span><strong>Карточка задачи</strong><small>Детали и история</small></button>
-            <button class="map-node" type="button" data-type="Планирование" data-title="Выбор времени" data-text="Предложенное окно, альтернативы и влияние размещения на другие обязательства."><span>Экран</span><strong>Выбор времени</strong><small>Окна до дедлайна</small></button>
-            <button class="map-node" type="button" data-type="Конфликт" data-title="Задача не помещается" data-text="Другой день, разделение на блоки, перенос менее важного или сохранение без времени."><span>Состояние</span><strong>Не помещается</strong><small>Осознанная перегрузка</small></button>
+            <button class="map-node" type="button" data-type="Список" data-title="Все записи" data-text="Единый список с фильтром по типу: событие или задача."><span>Экран</span><strong>Все записи</strong><small>Фильтр по типу</small></button>
+            <button class="map-node" type="button" data-type="Создание" data-title="Новая запись" data-text="Выбор правила времени до заполнения остальных полей."><span>Экран</span><strong>Создать</strong><small>Событие / задача</small></button>
+            <button class="map-node" type="button" data-type="Объект" data-title="Событие" data-text="Фиксированное время, длительность, ручная важность и подзадачи-чеклист."><span>Объект</span><strong>Событие</strong><small>Не двигается системой</small></button>
+            <button class="map-node" type="button" data-type="Объект" data-title="Задача" data-text="Срок, гибкое окно, длительность, ручная важность и подзадачи-чеклист."><span>Объект</span><strong>Задача</strong><small>Можно переносить</small></button>
+            <button class="map-node" type="button" data-type="Компонент" data-title="Подзадачи" data-text="Чеклист доступен и событию, и задаче: Италия → билеты → вещи."><span>Компонент</span><strong>Подзадачи</strong><small>Опциональный чеклист</small></button>
           </div>
         </article>
 
         <article class="map-column focus-column">
-          <header><span>Основной раздел</span><h2>Фокус</h2><p>Рабочий блок от запуска до результата.</p></header>
+          <header><span>Основной раздел</span><h2>Фокус</h2><p>Работа и точечное восстановление.</p></header>
           <div class="map-node-list">
-            <button class="map-node" type="button" data-type="Подготовка" data-title="Настройка блока" data-text="Подтверждение задачи и длительности перед началом фокус-сессии."><span>Экран</span><strong>Настройка блока</strong><small>Задача и длительность</small></button>
-            <button class="map-node" type="button" data-type="Выполнение" data-title="Активный блок" data-text="Текущая задача, оставшееся время, пауза и досрочное завершение."><span>Экран</span><strong>Активный блок</strong><small>Одно действие на экране</small></button>
-            <button class="map-node" type="button" data-type="Промежуточное состояние" data-title="Пауза" data-text="Короткая остановка с возможностью продолжить, завершить или выбрать восстановительную практику."><span>Состояние</span><strong>Пауза</strong><small>Продолжить или остановиться</small></button>
-            <button class="map-node" type="button" data-type="Результат" data-title="Результат блока" data-text="Завершено, нужно ещё время, возникла проблема или пользователь не хочет продолжать."><span>Экран</span><strong>Результат блока</strong><small>Обновление плана</small></button>
-            <button class="map-node" type="button" data-type="Восстановление" data-title="Практика восстановления" data-text="Короткая практика, подходящая по времени и текущей нагрузке, с возвращением к задаче или плану."><span>Экран</span><strong>Восстановление</strong><small>Пауза в контексте дня</small></button>
+            <button class="map-node" type="button" data-type="Инструмент" data-title="Pomodoro" data-text="Таймер рабочего блока с паузой и досрочным завершением."><span>Инструмент</span><strong>Pomodoro</strong><small>Рабочий таймер</small></button>
+            <button class="map-node" type="button" data-type="Инструмент" data-title="Фоновые звуки" data-text="Фоновое сопровождение фокус-блока."><span>Инструмент</span><strong>Фоновые звуки</strong><small>Опционально</small></button>
+            <button class="map-node" type="button" data-type="Рекомендация" data-title="Практика" data-text="Одна практика в моменте, без широкого каталога. Можно скрыть без повторного показа."><span>Инструмент</span><strong>Практика</strong><small>Точечная рекомендация</small></button>
+            <button class="map-node" type="button" data-type="Отдельный тип" data-title="Рефлексия" data-text="Отдельный формат, не смешанный с дыхательными или двигательными практиками."><span>Инструмент</span><strong>Рефлексия</strong><small>Отдельный тип</small></button>
+            <button class="map-node" type="button" data-type="Результат" data-title="Результат блока" data-text="Факт выполнения, переноса или отмены уточняет план и персональную кривую."><span>Экран</span><strong>Результат</strong><small>Обучение модели</small></button>
           </div>
         </article>
 
         <article class="map-column profile-column">
-          <header><span>Основной раздел</span><h2>Профиль</h2><p>Настройки контекста и данных.</p></header>
+          <header><span>Основной раздел</span><h2>Профиль</h2><p>Модель, данные и согласия.</p></header>
           <div class="map-node-list">
-            <button class="map-node" type="button" data-type="Настройки" data-title="Роли и границы" data-text="Рабочие, учебные и личные роли, доступные часы и предпочтительные периоды фокуса."><span>Экран</span><strong>Роли и границы</strong><small>Рабочее и личное время</small></button>
-            <button class="map-node" type="button" data-type="Интеграции" data-title="Календари" data-text="Подключение, отключение и выбор календарей, которые Tempo учитывает при планировании."><span>Экран</span><strong>Календари</strong><small>Источники событий</small></button>
-            <button class="map-node" type="button" data-type="Интеграции" data-title="Сон и активность" data-text="Управление опциональными источниками состояния без блокировки основных функций."><span>Экран</span><strong>Сон и активность</strong><small>Опциональные данные</small></button>
-            <button class="map-node" type="button" data-type="Настройки" data-title="Уведомления" data-text="Моменты утренней проверки, конфликтов, пропущенных задач и завершения дня."><span>Экран</span><strong>Уведомления</strong><small>Частота и контекст</small></button>
-            <button class="map-node" type="button" data-type="Приватность" data-title="Данные и приватность" data-text="Просмотр используемых данных, отключение источников и удаление истории."><span>Экран</span><strong>Данные и приватность</strong><small>Контроль пользователя</small></button>
+            <button class="map-node" type="button" data-type="Настройки" data-title="Роли и границы" data-text="Рабочее время, роли и доступные часы."><span>Настройка</span><strong>Границы</strong><small>Личная ёмкость</small></button>
+            <button class="map-node" type="button" data-type="Модель" data-title="Кривая заряда" data-text="Источники данных и история уточнений персональной модели."><span>Экран</span><strong>Кривая заряда</strong><small>Паттерны человека</small></button>
+            <button class="map-node" type="button" data-type="Предпочтения" data-title="Разгрузка и практики" data-text="Что помогает: перенос, отмена, практика, рефлексия или другой формат."><span>Настройка</span><strong>Предпочтения</strong><small>Накопленное понимание</small></button>
+            <button class="map-node" type="button" data-type="Согласие" data-title="Обмен состоянием" data-text="В проект передаётся только усреднённая оценка и только после явного согласия."><span>Настройка</span><strong>Согласия</strong><small>Без сравнения</small></button>
           </div>
         </article>
       </div>
     </section>
 
-    <aside class="map-detail" aria-live="polite">
-      <span id="mapDetailType">Корневой экран</span>
-      <h2 id="mapDetailTitle">Tempo</h2>
-      <p id="mapDetailText">Точка входа в приложение. После запуска пользователь попадает в актуальный контекст: онбординг, сегодняшний план или возвращение после перерыва.</p>
-    </aside>
+    <aside class="map-detail" aria-live="polite"><span id="mapDetailType">Корневой экран</span><h2 id="mapDetailTitle">Tempo</h2><p id="mapDetailText">Открывает сегодняшний контекст: заряд, фиксированные события, гибкие задачи и проектные слоты.</p></aside>
 
     <section class="system-states" aria-labelledby="statesTitle">
-      <header><h2 id="statesTitle">Общие состояния</h2><p>Эти состояния не являются самостоятельными разделами и могут появиться в разных частях приложения.</p></header>
+      <header><h2 id="statesTitle">Общие состояния</h2><p>Появляются в контексте дня, записи или проекта.</p></header>
       <div>
-        <article><strong>Нет данных</strong><p>Минимальный путь к первому полезному действию.</p></article>
-        <article><strong>Анализ</strong><p>Tempo сопоставляет состояние, задачи и время.</p></article>
+        <article><strong>Холодный старт</strong><p>Заряд по внешним данным, затем короткие уточнения.</p></article>
+        <article><strong>Не помещается</strong><p>Заряд до / после и варианты разгрузки.</p></article>
         <article><strong>Рекомендация отклонена</strong><p>Причина опциональна, сразу доступна альтернатива.</p></article>
-        <article><strong>Нет сети</strong><p>Локальные задачи доступны, синхронизация отложена.</p></article>
+        <article><strong>Нет сети</strong><p>Локальные записи доступны, синхронизация отложена.</p></article>
       </div>
     </section>
   </main>
