@@ -433,13 +433,23 @@ const moodLevels = [
 
 function renderMood(value) {
   const mood = moodLevels.reduce((closest, item) => Math.abs(item.value - value) < Math.abs(closest.value - value) ? item : closest);
-  moodStage.className = `mood-stage mood-${mood.style} is-changing`;
+  const previousStyle = moodStage.dataset.mood;
+  if (previousStyle && previousStyle !== mood.style) {
+    moodStage.querySelectorAll('.face-outgoing').forEach((face) => face.remove());
+    const outgoingFace = moodFace.cloneNode(true);
+    outgoingFace.removeAttribute('id');
+    outgoingFace.classList.add('face-outgoing');
+    moodFace.before(outgoingFace);
+    window.setTimeout(() => outgoingFace.remove(), 760);
+  }
+  moodStage.dataset.mood = mood.style;
+  moodStage.className = `mood-stage mood-${mood.style} is-changing${previousStyle && previousStyle !== mood.style ? ' is-morphing' : ''}`;
   moodFace.className = `face face-${mood.style}`;
   statePreviewLabel.textContent = mood.label;
   stateReading.textContent = mood.reading;
   stateReadingCopy.textContent = mood.copy;
   window.clearTimeout(renderMood.timeout);
-  renderMood.timeout = window.setTimeout(() => moodStage.classList.remove('is-changing'), 180);
+  renderMood.timeout = window.setTimeout(() => moodStage.classList.remove('is-changing', 'is-morphing'), 720);
 }
 
 energyRange?.addEventListener('input', () => {
