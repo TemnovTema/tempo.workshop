@@ -303,6 +303,13 @@ document.querySelectorAll('.role-tabs button').forEach((button) => button.addEve
   document.querySelectorAll('.role-tabs button').forEach((item) => item.classList.toggle('active', item === button));
 }));
 
+document.querySelectorAll('[data-settings-tab]').forEach((button) => button.addEventListener('click', () => {
+  const section = button.dataset.settingsTab;
+  document.querySelectorAll('[data-settings-tab]').forEach((item) => item.classList.toggle('active', item === button));
+  document.querySelectorAll('[data-settings-panel]').forEach((panel) => panel.classList.toggle('active', panel.dataset.settingsPanel === section));
+  document.querySelectorAll('[data-settings-aside]').forEach((panel) => panel.classList.toggle('active', panel.dataset.settingsAside === section));
+}));
+
 document.querySelectorAll('[data-practice-filter]').forEach((button) => {
   button.addEventListener('click', () => {
     document.querySelectorAll('[data-practice-filter]').forEach((item) => item.classList.toggle('active', item === button));
