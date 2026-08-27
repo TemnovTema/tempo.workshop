@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="tempo-app.css" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
+  <link rel="stylesheet" href="buttons-v2.css" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -45,7 +46,7 @@
         </div>
         <div class="intro-meta">
           <p>План собран из календаря, задач и последней оценки состояния.</p>
-          <button class="text-action" type="button" data-open-view="checkin">Обновить состояние <span>↗</span></button>
+          <button class="text-action" type="button" data-open-view="checkin">Обновить состояние</button>
           <div class="context-links"><button type="button" data-open-view="conflict">Изменение плана</button><button type="button" data-open-view="review">Завершить день</button></div>
         </div>
       </div>
@@ -112,7 +113,7 @@
         <aside class="today-timeline" aria-labelledby="timelineTitle">
           <header>
             <div><span class="section-label">Сегодня</span><h2 id="timelineTitle">6 событий</h2></div>
-            <button class="icon-text-button" type="button" data-open-view="calendar">Открыть день ↗</button>
+            <button class="icon-text-button" type="button" data-open-view="calendar">Открыть день</button>
           </header>
           <ol class="mini-agenda">
             <li class="done"><time>09:00</time><div><strong>Утренняя проверка</strong><span>завершено</span></div></li>
@@ -146,12 +147,12 @@
       <section class="project-composer" aria-hidden="true" hidden>
         <label>Название проекта<input type="text" placeholder="Например, подготовить запуск"></label>
         <label>Желаемый результат<input type="text" placeholder="Что должно измениться после завершения?"></label>
-        <button class="primary-action" type="button" data-close-project>Создать <span>↗</span></button>
+        <button class="primary-action" type="button" data-close-project>Создать</button>
       </section>
 
       <section class="project-stage" aria-label="Проект Tempo Remake">
         <div class="project-stage-main">
-          <header class="project-stage-header"><div><span>В фокусе до 18 сентября</span><h2>Tempo Remake</h2></div><button type="button" data-open-view="calendar">Открыть в календаре ↗</button></header>
+          <header class="project-stage-header"><div><span>В фокусе до 18 сентября</span><h2>Tempo Remake</h2></div><button type="button" data-open-view="calendar">Открыть в календаре</button></header>
           <p class="project-statement">Собрать цельный продукт, который помогает планировать день по реальной энергии, а не только по свободным часам.</p>
 
           <div class="project-phases" aria-label="Этапы проекта">
@@ -183,10 +184,10 @@
 
       <section class="project-index" aria-label="Все проекты">
         <header><div><h2>Все проекты</h2><span>крупные обязательства и результаты</span></div><div class="project-filters"><button class="active" type="button" data-project-filter="active">Активные</button><button type="button" data-project-filter="paused">На паузе</button><button type="button" data-project-filter="done">Завершённые</button></div></header>
-        <article class="project-index-row active" data-project-status="active"><div class="project-order">01</div><div><span>Продукт</span><strong>Tempo Remake</strong></div><p>Основной продуктовый контур и интерактивный прототип.</p><div class="project-mini-progress"><i style="--project-progress:64%"></i><span>64%</span></div><div><b>18 сен</b><small>следующая точка 4 сен</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
-        <article class="project-index-row" data-project-status="active"><div class="project-order">02</div><div><span>Учёба</span><strong>Курсовая работа</strong></div><p>Глава о цифровых инструментах личного планирования.</p><div class="project-mini-progress"><i style="--project-progress:38%"></i><span>38%</span></div><div><b>30 сен</b><small>6 задач в календаре</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
-        <article class="project-index-row" data-project-status="active"><div class="project-order">03</div><div><span>Личное</span><strong>Переезд</strong></div><p>Документы, вещи и подготовка новой квартиры.</p><div class="project-mini-progress"><i style="--project-progress:21%"></i><span>21%</span></div><div><b>12 окт</b><small>2 задачи без времени</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
-        <article class="project-index-row hidden" data-project-status="paused"><div class="project-order">04</div><div><span>Личное</span><strong>Архив фотографий</strong></div><p>Разобрать семейные снимки и подготовить печать.</p><div class="project-mini-progress"><i style="--project-progress:46%"></i><span>46%</span></div><div><b>без срока</b><small>на паузе</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
+        <article class="project-index-row active" data-project-status="active"><div class="project-order">01</div><div><span>Продукт</span><strong>Tempo Remake</strong></div><p>Основной продуктовый контур и интерактивный прототип.</p><div class="project-mini-progress"><i style="--project-progress:64%"></i><span>64%</span></div><div><b>18 сен</b><small>следующая точка 4 сен</small></div><button type="button">Открыть</button></article>
+        <article class="project-index-row" data-project-status="active"><div class="project-order">02</div><div><span>Учёба</span><strong>Курсовая работа</strong></div><p>Глава о цифровых инструментах личного планирования.</p><div class="project-mini-progress"><i style="--project-progress:38%"></i><span>38%</span></div><div><b>30 сен</b><small>6 задач в календаре</small></div><button type="button">Открыть</button></article>
+        <article class="project-index-row" data-project-status="active"><div class="project-order">03</div><div><span>Личное</span><strong>Переезд</strong></div><p>Документы, вещи и подготовка новой квартиры.</p><div class="project-mini-progress"><i style="--project-progress:21%"></i><span>21%</span></div><div><b>12 окт</b><small>2 задачи без времени</small></div><button type="button">Открыть</button></article>
+        <article class="project-index-row hidden" data-project-status="paused"><div class="project-order">04</div><div><span>Личное</span><strong>Архив фотографий</strong></div><p>Разобрать семейные снимки и подготовить печать.</p><div class="project-mini-progress"><i style="--project-progress:46%"></i><span>46%</span></div><div><b>без срока</b><small>на паузе</small></div><button type="button">Открыть</button></article>
         <div class="project-filter-empty hidden" role="status"><strong>Завершённых проектов пока нет</strong><span>После завершения здесь останется результат и история календарных блоков.</span></div>
       </section>
     </section>
@@ -208,7 +209,7 @@
           <span class="section-label">Влияние на день</span><h2>Появилось<br />18 свободных минут</h2><p>Tempo не заполняет их автоматически. Следующий созвон остаётся в 12:00.</p>
           <div class="impact-timeline"><span>11:17</span><i></i><b>Свободно</b><span>11:35</span><i class="meeting"></i><b>Подготовка</b><span>12:00</span></div>
           <label class="result-note">Заметка к результату<textarea placeholder="Что важно продолжить или передать?"></textarea></label>
-          <button class="primary-action" type="button" data-open-view="today">Сохранить результат <span>↗</span></button>
+          <button class="primary-action" type="button" data-open-view="today">Сохранить результат</button>
         </aside>
       </div>
     </section>
@@ -223,11 +224,11 @@
 
     <section class="app-view" data-view-panel="review" aria-labelledby="reviewTitle">
       <div class="view-intro review-intro"><div><p class="date-line"><span>Итог дня</span> 18:42</p><h1 id="reviewTitle">Рабочий день<br />можно завершить.</h1></div><div class="intro-meta"><p>Главное сделано. Две незавершённые задачи уже получили реалистичное место завтра.</p></div></div>
-      <div class="review-grid"><section class="review-score"><span class="section-label">Сегодня</span><div class="review-ring"><strong>4</strong><span>из 6 действий</span></div><h2>4 ч 37 мин<br />сфокусированной работы</h2><p>На 26 минут больше плана, но вечер остался свободным.</p></section><section class="review-list"><header><span class="section-label">Решения</span><h2>Что переносим</h2></header><article><i class="done-mark"></i><div><strong>Макет главного экрана</strong><span>завершено · 57 мин</span></div><b>готово</b></article><article><i></i><div><strong>Курсовая</strong><span>завтра · 10:00–11:30</span></div><button type="button">Изменить</button></article><article><i></i><div><strong>Ответить команде</strong><span>завтра · лёгкий старт дня</span></div><button type="button">Изменить</button></article><label class="day-note">Короткая заметка<textarea placeholder="Что стоит помнить завтра?"></textarea></label></section><aside class="tomorrow-preview"><span class="section-label">Завтра</span><strong>3 ч 10 мин</strong><p>Предварительная нагрузка</p><div class="tomorrow-bars"><i style="--h:45%"></i><i style="--h:76%"></i><i style="--h:32%"></i><i style="--h:58%"></i></div><h3>Утро подходит для сложного</h3><p>Первая встреча только в 12:30.</p><button class="primary-action" type="button" data-open-view="today">Завершить день <span>↗</span></button></aside></div>
+      <div class="review-grid"><section class="review-score"><span class="section-label">Сегодня</span><div class="review-ring"><strong>4</strong><span>из 6 действий</span></div><h2>4 ч 37 мин<br />сфокусированной работы</h2><p>На 26 минут больше плана, но вечер остался свободным.</p></section><section class="review-list"><header><span class="section-label">Решения</span><h2>Что переносим</h2></header><article><i class="done-mark"></i><div><strong>Макет главного экрана</strong><span>завершено · 57 мин</span></div><b>готово</b></article><article><i></i><div><strong>Курсовая</strong><span>завтра · 10:00–11:30</span></div><button type="button">Изменить</button></article><article><i></i><div><strong>Ответить команде</strong><span>завтра · лёгкий старт дня</span></div><button type="button">Изменить</button></article><label class="day-note">Короткая заметка<textarea placeholder="Что стоит помнить завтра?"></textarea></label></section><aside class="tomorrow-preview"><span class="section-label">Завтра</span><strong>3 ч 10 мин</strong><p>Предварительная нагрузка</p><div class="tomorrow-bars"><i style="--h:45%"></i><i style="--h:76%"></i><i style="--h:32%"></i><i style="--h:58%"></i></div><h3>Утро подходит для сложного</h3><p>Первая встреча только в 12:30.</p><button class="primary-action" type="button" data-open-view="today">Завершить день</button></aside></div>
     </section>
 
     <section class="app-view" data-view-panel="profile" aria-labelledby="profileTitle">
-      <div class="view-intro profile-intro"><div><p class="date-line"><span>Контекст</span> настройки</p><h1 id="profileTitle">Профиль</h1></div><div class="intro-meta"><p>Здесь Tempo хранит только тот контекст, который нужен для реалистичного планирования.</p><button class="text-action" type="button" data-open-view="onboarding">Повторить настройку ↗</button></div></div>
+      <div class="view-intro profile-intro"><div><p class="date-line"><span>Контекст</span> настройки</p><h1 id="profileTitle">Профиль</h1></div><div class="intro-meta"><p>Здесь Tempo хранит только тот контекст, который нужен для реалистичного планирования.</p><button class="text-action" type="button" data-open-view="onboarding">Повторить настройку</button></div></div>
       <div class="settings-layout">
         <nav class="settings-nav" aria-label="Разделы настроек">
           <button class="active" type="button" data-settings-tab="roles">Роли и границы</button>
@@ -245,7 +246,7 @@
 
         <section class="settings-content settings-panel" data-settings-panel="notifications"><header><span class="section-label">04</span><h2>Уведомления</h2><p>Только сообщения, которые помогают вовремя изменить план. Все остальные обновления останутся внутри приложения.</p></header><div class="notification-settings"><article><div><strong>Изменение нагрузки</strong><span>Когда план перестаёт помещаться в доступный ресурс</span></div><label class="switch-control"><input type="checkbox" checked><i></i></label></article><article><div><strong>Начало задачи</strong><span>За 10 минут до запланированного блока</span></div><label class="switch-control"><input type="checkbox" checked><i></i></label></article><article><div><strong>Групповые задачи</strong><span>Новый участник, комментарий или перенос времени</span></div><label class="switch-control"><input type="checkbox" checked><i></i></label></article><article><div><strong>Рекомендации практик</strong><span>Когда состояние заметно изменилось</span></div><label class="switch-control"><input type="checkbox"><i></i></label></article></div><div class="quiet-hours"><div><span>Тихие часы</span><strong>19:30 — 08:30</strong></div><div class="quiet-hours-track"><i></i><b></b><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div></div></section>
 
-        <section class="settings-content settings-panel" data-settings-panel="privacy"><header><span class="section-label">05</span><h2>Данные и приватность</h2><p>Вы управляете источниками и сроком хранения. Tempo не продаёт данные и не использует содержимое задач для рекламы.</p></header><div class="privacy-status"><i></i><div><span>Статус приватности</span><strong>Все разрешения под контролем</strong><small>Последняя проверка сегодня, 10:14</small></div></div><div class="data-map"><article><span>Календарь</span><strong>названия, время, участники</strong><em>хранится</em></article><article><span>Состояние</span><strong>ваши оценки и заметки</strong><em>хранится</em></article><article><span>Здоровье</span><strong>только дневные сводки</strong><em>24 часа</em></article></div><div class="privacy-actions"><button type="button"><span>Экспорт данных</span><strong>Скачать архив JSON и CSV</strong><b>↗</b></button><button type="button"><span>История активности</span><strong>Просмотреть входы и подключения</strong><b>↗</b></button><button class="danger" type="button"><span>Удаление данных</span><strong>Настроить срок хранения</strong><b>↗</b></button></div></section>
+        <section class="settings-content settings-panel" data-settings-panel="privacy"><header><span class="section-label">05</span><h2>Данные и приватность</h2><p>Вы управляете источниками и сроком хранения. Tempo не продаёт данные и не использует содержимое задач для рекламы.</p></header><div class="privacy-status"><i></i><div><span>Статус приватности</span><strong>Все разрешения под контролем</strong><small>Последняя проверка сегодня, 10:14</small></div></div><div class="data-map"><article><span>Календарь</span><strong>названия, время, участники</strong><em>хранится</em></article><article><span>Состояние</span><strong>ваши оценки и заметки</strong><em>хранится</em></article><article><span>Здоровье</span><strong>только дневные сводки</strong><em>24 часа</em></article></div><div class="privacy-actions"><button type="button"><span>Экспорт данных</span><strong>Скачать архив JSON и CSV</strong><b>Открыть</b></button><button type="button"><span>История активности</span><strong>Просмотреть входы и подключения</strong><b>Открыть</b></button><button class="danger" type="button"><span>Удаление данных</span><strong>Настроить срок хранения</strong><b>Настроить</b></button></div></section>
 
         <aside class="integration-panel settings-aside active" data-settings-aside="roles"><span class="section-label">Подключено</span><article><i class="source-mark calendar-source"></i><div><strong>Google Calendar</strong><span>3 календаря · обновлено сейчас</span></div><b>активно</b></article><article><i class="source-mark health-source"></i><div><strong>Apple Health</strong><span>сон, пульс, активность</span></div><b>активно</b></article><article class="muted"><i class="source-mark"></i><div><strong>Oura</strong><span>не подключено</span></div><button>Подключить</button></article><p>Источники состояния опциональны. Без них Tempo продолжит работать с календарём и вашей оценкой.</p></aside>
         <aside class="integration-panel settings-aside" data-settings-aside="calendars"><span class="section-label">Синхронизация</span><div class="sync-orbit"><strong>3</strong><span>источника</span><i></i><i></i><i></i></div><h3>Все календари обновлены</h3><p>Последняя синхронизация — сейчас. Следующая запланирована через 14 минут.</p><button class="aside-action" type="button">Обновить вручную</button></aside>
@@ -377,57 +378,57 @@
         <article class="practice-card practice-focus" data-practice-category="focus" tabindex="0">
           <div class="practice-visual orbit-visual"><i></i><i></i><b></b></div>
           <div class="practice-meta"><span>Фокус · 8 минут</span><strong>Собрать внимание</strong><p>Короткое наблюдение за одной точкой и возвращение к задаче.</p></div>
-          <button type="button" data-practice-start="Собрать внимание">Открыть ↗</button>
+          <button type="button" data-practice-start="Собрать внимание">Открыть</button>
         </article>
         <article class="practice-card practice-energy" data-practice-category="energy" tabindex="0">
           <div class="practice-visual pulse-visual"><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Энергия · 6 минут</span><strong>Разбудить тело</strong><p>Мягкая последовательность движений без спортивной нагрузки.</p></div>
-          <button type="button" data-practice-start="Разбудить тело">Открыть ↗</button>
+          <button type="button" data-practice-start="Разбудить тело">Открыть</button>
         </article>
         <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
           <div class="practice-visual wave-visual"><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Спокойствие · 3 минуты</span><strong>Снизить шум</strong><p>Простая звуковая практика для перехода из перегруженного состояния.</p></div>
-          <button type="button" data-practice-start="Снизить шум">Открыть ↗</button>
+          <button type="button" data-practice-start="Снизить шум">Открыть</button>
         </article>
         <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
           <div class="practice-visual gradient-visual"><i></i></div>
           <div class="practice-meta"><span>Спокойствие · 10 минут</span><strong>Оставить день позади</strong><p>Вечерняя практика, которая помогает завершить рабочий режим.</p></div>
-          <button type="button" data-practice-start="Оставить день позади">Открыть ↗</button>
+          <button type="button" data-practice-start="Оставить день позади">Открыть</button>
         </article>
         <article class="practice-card practice-focus" data-practice-category="focus" tabindex="0">
           <div class="practice-visual steps-visual"><i></i><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Фокус · 12 минут</span><strong>Разложить сложное</strong><p>Разделить большую задачу на один понятный следующий шаг.</p></div>
-          <button type="button" data-practice-start="Разложить сложное">Открыть ↗</button>
+          <button type="button" data-practice-start="Разложить сложное">Открыть</button>
         </article>
         <article class="practice-card practice-energy" data-practice-category="energy" tabindex="0">
           <div class="practice-visual sun-visual"><i></i><b></b></div>
           <div class="practice-meta"><span>Энергия · 15 минут</span><strong>Выйти на свет</strong><p>Небольшая прогулка с ориентиром на свет, дыхание и темп шага.</p></div>
-          <button type="button" data-practice-start="Выйти на свет">Открыть ↗</button>
+          <button type="button" data-practice-start="Выйти на свет">Открыть</button>
         </article>
         <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
           <div class="practice-visual reflection-visual"><i></i><i></i><i></i><b>?</b></div>
           <div class="practice-meta"><span>Рефлексия · 8 минут</span><strong>Что со мной сейчас</strong><p>Четыре вопроса, чтобы заметить состояние, потребность и подходящий следующий шаг.</p></div>
-          <button type="button" data-practice-start="Что со мной сейчас" data-practice-type="reflection">Открыть ↗</button>
+          <button type="button" data-practice-start="Что со мной сейчас" data-practice-type="reflection">Открыть</button>
         </article>
         <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
           <div class="practice-visual thought-visual"><i></i><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Рефлексия · 10 минут</span><strong>Распутать мысль</strong><p>Отделить факт от интерпретации и понять, на что действительно можно повлиять.</p></div>
-          <button type="button" data-practice-start="Распутать мысль" data-practice-type="reflection">Открыть ↗</button>
+          <button type="button" data-practice-start="Распутать мысль" data-practice-type="reflection">Открыть</button>
         </article>
         <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
           <div class="practice-visual good-things-visual"><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Рефлексия · 10 минут</span><strong>Три хороших момента</strong><p>Вспомнить три события дня, свои чувства и то, благодаря чему они случились.</p></div>
-          <button type="button" data-practice-start="Три хороших момента" data-practice-type="reflection">Открыть ↗</button>
+          <button type="button" data-practice-start="Три хороших момента" data-practice-type="reflection">Открыть</button>
         </article>
         <article class="practice-card practice-meditation" data-practice-category="meditation" tabindex="0">
           <div class="practice-visual breath-visual"><i></i><i></i><i></i></div>
           <div class="practice-meta"><span>Медитация · 4 минуты</span><strong>Дыхание 4 × 6</strong><p>Вдох на четыре счёта и длинный выдох на шесть, без задержки дыхания.</p></div>
-          <button type="button" data-practice-start="Дыхание 4 × 6" data-practice-type="breathing">Открыть ↗</button>
+          <button type="button" data-practice-start="Дыхание 4 × 6" data-practice-type="breathing">Открыть</button>
         </article>
         <article class="practice-card practice-meditation" data-practice-category="meditation" tabindex="0">
           <div class="practice-visual body-scan-visual"><i></i><i></i><b></b></div>
           <div class="practice-meta"><span>Медитация · 7 минут</span><strong>Сканирование тела</strong><p>Медленно перевести внимание от лица к стопам, ничего не исправляя.</p></div>
-          <button type="button" data-practice-start="Сканирование тела" data-practice-type="meditation">Открыть ↗</button>
+          <button type="button" data-practice-start="Сканирование тела" data-practice-type="meditation">Открыть</button>
         </article>
       </section>
     </section>
@@ -504,7 +505,7 @@
         <span class="section-label">Состояние обновлено</span>
         <h2>Tempo скорректировал<br />остаток дня</h2>
         <p>Вечерняя задача перенесена на завтра. Следующее действие не изменилось.</p>
-        <button class="primary-action" type="button" data-open-view="today">Вернуться к дню <span>↗</span></button>
+        <button class="primary-action" type="button" data-open-view="today">Вернуться к дню</button>
       </section>
     </section>
   </main>
@@ -516,7 +517,7 @@
       <label>Название<input type="text" placeholder="Например, подготовить вопросы" /></label>
       <div class="dialog-row"><label>Длительность<select><option>30 минут</option><option>45 минут</option><option>1 час</option><option>Не знаю</option></select></label><label>Срок<input type="date" value="2026-08-27" /></label></div>
       <p>Tempo проверит свободное время перед добавлением в план.</p>
-      <button class="primary-action" value="confirm">Найти время <span>↗</span></button>
+      <button class="primary-action" value="confirm">Найти время</button>
     </form>
   </dialog>
 
