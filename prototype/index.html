@@ -24,13 +24,14 @@
         </nav>
       </div>
       <div class="header-actions">
-        <button class="pomodoro-timer" type="button" data-pomodoro-toggle aria-label="Pomodoro — таймер не запущен"><i aria-hidden="true"></i><span><small data-pomodoro-task>Pomodoro</small><strong data-pomodoro-time>25:00</strong></span></button>
+        <button class="work-rest-switch" type="button" data-work-rest-toggle aria-label="Переключить в режим работы" aria-pressed="false"><span>Работа</span><span>Отдых</span><i aria-hidden="true"></i></button>
         <button class="header-icon-button header-date-button" type="button" aria-label="Среда, 26 августа — открыть календарь" data-open-view="calendar"><strong>26</strong><small>СР</small></button>
         <button class="header-icon-button notification-button" type="button" aria-label="Оповещения, 2 новых" data-header-panel="notifications"><span aria-hidden="true">◔</span><i></i></button>
         <button class="header-profile" type="button" data-open-view="profile" aria-label="Профиль Артёма Темнова"><span class="profile-photo">AT</span></button>
       </div>
     </div>
     <aside class="header-popover notifications-popover" data-header-popover="notifications" aria-hidden="true"><header><strong>Оповещения</strong><button type="button" data-close-header-panel>×</button></header><article><i></i><div><strong>Марина добавила задачу</strong><span>«Проверить сценарий проекта» · 8 минут назад</span></div></article><article><i></i><div><strong>План группы изменился</strong><span>Созвон перенесён на 15:30</span></div></article><button type="button">Посмотреть все</button></aside>
+    <aside class="focus-plan-popover" data-focus-plan aria-hidden="true"><header><span data-focus-phase>Работа · спринт 1 из 2</span><button type="button" data-focus-plan-close aria-label="Свернуть карточку">×</button></header><h2 data-focus-task-name>Макет главного экрана</h2><div class="focus-plan-time"><strong data-focus-countdown>25:00</strong><span data-focus-total>50 минут в календаре</span></div><div class="focus-sprint-map" aria-label="План фокус-сессии"><i class="active" data-sprint-one>25</i><b data-break-duration>5</b><i data-sprint-two>25</i></div><div class="focus-plan-meta"><span>спринт 1</span><span>пауза</span><span>спринт 2</span></div><button class="focus-plan-pause" type="button" data-focus-plan-pause>Пауза</button></aside>
   </header>
 
   <main id="appMain" class="app-main">
@@ -296,11 +297,11 @@
               <div class="time-labels" aria-hidden="true"><span>08:00</span><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span><span>13:00</span><span>14:00</span><span>15:00</span><span>16:00</span><span>17:00</span><span>18:00</span><span>19:00</span><span>20:00</span></div>
               <div class="day-track">
                 <i class="now-line" style="--top: 18.7%"><span>10:20</span></i>
-                <article class="calendar-event event-neutral pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Проверка дня" style="--start:7.7%;--duration:5.8%"><span>09:00</span><strong>Проверка дня</strong><small>15 мин</small></article>
-                <article class="calendar-event event-recommended pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Макет главного экрана" style="--start:18.7%;--duration:14.8%"><span>10:20</span><strong>Макет главного экрана</strong><small>Tempo рекомендует · 50 мин</small></article>
-                <article class="calendar-event event-meeting pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Синхронизация" style="--start:34.6%;--duration:9.2%"><span>11:30</span><strong>Синхронизация</strong><small>Google Meet · команда</small><span class="event-members" aria-label="Участники: Марина, Кирилл и Артём"><i>М</i><i>К</i><i>А</i></span></article>
+                <article class="calendar-event event-neutral pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Проверка дня" data-focus-minutes="15" style="--start:7.7%;--duration:5.8%"><span>09:00</span><strong>Проверка дня</strong><small>15 мин</small></article>
+                <article class="calendar-event event-recommended pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Макет главного экрана" data-focus-minutes="50" style="--start:18.7%;--duration:14.8%"><span>10:20</span><strong>Макет главного экрана</strong><small>Tempo рекомендует · 50 мин</small></article>
+                <article class="calendar-event event-meeting pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Синхронизация" data-focus-minutes="30" style="--start:34.6%;--duration:9.2%"><span>11:30</span><strong>Синхронизация</strong><small>Google Meet · команда</small><span class="event-members" aria-label="Участники: Марина, Кирилл и Артём"><i>М</i><i>К</i><i>А</i></span></article>
                 <article class="calendar-event event-rest" style="--start:46.2%;--duration:12.8%"><span>13:00</span><strong>Обед и прогулка</strong><small>восстановление</small></article>
-                <article class="calendar-event event-project pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Проверка прототипа" style="--start:61.5%;--duration:19.5%"><span>15:00</span><strong>Проверка прототипа</strong><small>Tempo · глубокая работа</small><span class="event-members" aria-label="Участники: Кирилл и Артём"><i>К</i><i>А</i></span></article>
+                <article class="calendar-event event-project pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Проверка прототипа" data-focus-minutes="80" style="--start:61.5%;--duration:19.5%"><span>15:00</span><strong>Проверка прототипа</strong><small>Tempo · глубокая работа</small><span class="event-members" aria-label="Участники: Кирилл и Артём"><i>К</i><i>А</i></span></article>
                 <article class="calendar-event event-protected" style="--start:88.4%;--duration:9.5%"><span>18:30</span><strong>Без обязательств</strong><small>защищённое время</small></article>
               </div>
             </div>

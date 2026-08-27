@@ -151,8 +151,115 @@ alternativesButton?.addEventListener('click', () => {
 });
 
 const focusOverlay = document.querySelector('.focus-overlay');
+const workRestSwitch = document.querySelector('[data-work-rest-toggle]');
+const focusPlan = document.querySelector('[data-focus-plan]');
+const focusCountdown = document.querySelector('[data-focus-countdown]');
+const focusTaskNameElement = document.querySelector('[data-focus-task-name]');
+const focusPhaseElement = document.querySelector('[data-focus-phase]');
+const focusTotalElement = document.querySelector('[data-focus-total]');
+const focusPlanPause = document.querySelector('[data-focus-plan-pause]');
+let focusTaskName = '';
+let focusTotalMinutes = 0;
+let focusSprintOne = 25;
+let focusSprintTwo = 25;
+let focusBreakMinutes = 5;
+let focusSprint = 1;
+let focusPhase = 'rest';
+let focusSeconds = 0;
+let focusRunning = false;
+let focusInterval = null;
+
+function formatFocusTime(seconds) {
+  return `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+}
+
+function renderFocusPlan() {
+  focusCountdown.textContent = formatFocusTime(focusSeconds);
+  focusTaskNameElement.textContent = focusTaskName || 'Следующая задача';
+  focusTotalElement.textContent = `${focusTotalMinutes} минут в календаре`;
+  focusPhaseElement.textContent = focusPhase === 'work' ? `Работа · спринт ${focusSprint} из 2` : `Отдых · ${focusBreakMinutes} минут`;
+  document.querySelector('[data-sprint-one]').textContent = focusSprintOne;
+  document.querySelector('[data-sprint-two]').textContent = focusSprintTwo;
+  document.querySelector('[data-break-duration]').textContent = focusBreakMinutes;
+  document.querySelector('[data-sprint-one]').classList.toggle('active', focusPhase === 'work' && focusSprint === 1);
+  document.querySelector('[data-sprint-two]').classList.toggle('active', focusPhase === 'work' && focusSprint === 2);
+  document.querySelector('[data-break-duration]').classList.toggle('active', focusPhase === 'rest');
+  workRestSwitch.classList.toggle('work', focusPhase === 'work');
+  workRestSwitch.setAttribute('aria-pressed', focusPhase === 'work' ? 'true' : 'false');
+  workRestSwitch.setAttribute('aria-label', focusPhase === 'work' ? 'Переключить на отдых' : 'Переключить на работу');
+  focusPlanPause.textContent = focusRunning ? 'Пауза' : 'Продолжить';
+}
+
+function runFocusTimer() {
+  clearInterval(focusInterval);
+  focusRunning = true;
+  focusInterval = setInterval(() => {
+    focusSeconds -= 1;
+    if (focusSeconds <= 0) {
+      clearInterval(focusInterval);
+      if (focusPhase === 'work' && focusSprint === 1) {
+        setFocusPhase('rest');
+        return;
+      }
+      if (focusPhase === 'rest') {
+        focusSprint = 2;
+        setFocusPhase('work');
+        return;
+      }
+      focusRunning = false;
+      focusSeconds = 0;
+      focusPhaseElement.textContent = 'Задача завершена';
+    }
+    renderFocusPlan();
+  }, 1000);
+  renderFocusPlan();
+}
+
+function setFocusPhase(phase) {
+  focusPhase = phase;
+  if (phase === 'rest') focusSeconds = focusBreakMinutes * 60;
+  if (phase === 'work') focusSeconds = (focusSprint === 1 ? focusSprintOne : focusSprintTwo) * 60;
+  focusPlan.classList.add('open');
+  focusPlan.setAttribute('aria-hidden', 'false');
+  runFocusTimer();
+}
+
+function startFocusPlan(taskName, totalMinutes = 50) {
+  focusTaskName = taskName;
+  focusTotalMinutes = totalMinutes;
+  focusSprintOne = Math.ceil(totalMinutes / 2);
+  focusSprintTwo = Math.floor(totalMinutes / 2);
+  focusBreakMinutes = totalMinutes > 60 ? 10 : 5;
+  focusSprint = 1;
+  setFocusPhase('work');
+}
+
+workRestSwitch?.addEventListener('click', () => {
+  if (!focusTaskName) {
+    startFocusPlan('Макет главного экрана', 50);
+    return;
+  }
+  if (focusPhase === 'work') {
+    setFocusPhase('rest');
+    return;
+  }
+  focusSprint = Math.min(2, focusSprint + 1);
+  setFocusPhase('work');
+});
+
+focusPlanPause?.addEventListener('click', () => {
+  focusRunning = !focusRunning;
+  clearInterval(focusInterval);
+  if (focusRunning) runFocusTimer();
+  renderFocusPlan();
+});
+document.querySelector('[data-focus-plan-close]')?.addEventListener('click', () => {
+  focusPlan.classList.remove('open');
+  focusPlan.setAttribute('aria-hidden', 'true');
+});
+
 document.querySelectorAll('[data-focus-start]').forEach((button) => button.addEventListener('click', () => {
-  startPomodoro('Макет главного экрана');
+  startFocusPlan('Макет главного экрана', 50);
   focusOverlay.classList.add('open');
   focusOverlay.setAttribute('aria-hidden', 'false');
 }));
@@ -166,56 +273,9 @@ document.querySelector('[data-focus-complete]')?.addEventListener('click', () =>
   openView('focus-result');
 });
 document.querySelector('[data-focus-pause]')?.addEventListener('click', (event) => {
-  togglePomodoro();
-  event.currentTarget.textContent = pomodoroRunning ? 'Пауза' : 'Продолжить';
+  focusPlanPause.click();
+  event.currentTarget.textContent = focusRunning ? 'Пауза' : 'Продолжить';
 });
-
-const pomodoroButton = document.querySelector('[data-pomodoro-toggle]');
-const pomodoroTime = document.querySelector('[data-pomodoro-time]');
-const pomodoroTask = document.querySelector('[data-pomodoro-task]');
-let pomodoroSeconds = 25 * 60;
-let pomodoroRunning = false;
-let pomodoroInterval = null;
-
-function renderPomodoro() {
-  const minutes = Math.floor(pomodoroSeconds / 60).toString().padStart(2, '0');
-  const seconds = (pomodoroSeconds % 60).toString().padStart(2, '0');
-  pomodoroTime.textContent = `${minutes}:${seconds}`;
-  pomodoroButton.classList.toggle('running', pomodoroRunning);
-  pomodoroButton.classList.toggle('paused', !pomodoroRunning && pomodoroSeconds < 25 * 60);
-  pomodoroButton.setAttribute('aria-label', `${pomodoroTask.textContent} — ${minutes}:${seconds}. ${pomodoroRunning ? 'Нажмите, чтобы поставить на паузу' : 'Нажмите, чтобы продолжить'}`);
-}
-
-function tickPomodoro() {
-  if (pomodoroSeconds <= 0) {
-    clearInterval(pomodoroInterval);
-    pomodoroRunning = false;
-    pomodoroTask.textContent = 'Фокус завершён';
-    renderPomodoro();
-    return;
-  }
-  pomodoroSeconds -= 1;
-  renderPomodoro();
-}
-
-function startPomodoro(taskName) {
-  clearInterval(pomodoroInterval);
-  pomodoroSeconds = 25 * 60;
-  pomodoroRunning = true;
-  pomodoroTask.textContent = taskName;
-  pomodoroInterval = setInterval(tickPomodoro, 1000);
-  renderPomodoro();
-}
-
-function togglePomodoro() {
-  if (pomodoroSeconds === 25 * 60 && !pomodoroRunning) return;
-  pomodoroRunning = !pomodoroRunning;
-  clearInterval(pomodoroInterval);
-  if (pomodoroRunning) pomodoroInterval = setInterval(tickPomodoro, 1000);
-  renderPomodoro();
-}
-
-pomodoroButton?.addEventListener('click', togglePomodoro);
 
 function selectPomodoroTask(task) {
   document.querySelectorAll('.pomodoro-task.selected').forEach((item) => {
@@ -226,10 +286,14 @@ function selectPomodoroTask(task) {
   const startButton = document.createElement('button');
   startButton.type = 'button';
   startButton.className = 'event-start-action';
-  startButton.textContent = 'Начать · 25:00';
+  const totalMinutes = Number(task.dataset.focusMinutes || 50);
+  const sprintOne = Math.ceil(totalMinutes / 2);
+  const sprintTwo = Math.floor(totalMinutes / 2);
+  const breakMinutes = totalMinutes > 60 ? 10 : 5;
+  startButton.textContent = `Начать · ${sprintOne} + ${breakMinutes} + ${sprintTwo}`;
   startButton.addEventListener('click', (event) => {
     event.stopPropagation();
-    startPomodoro(task.dataset.pomodoroTaskName);
+    startFocusPlan(task.dataset.pomodoroTaskName, totalMinutes);
     task.classList.remove('selected');
     startButton.remove();
   });
