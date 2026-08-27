@@ -23,7 +23,6 @@
       <div class="header-center">
         <nav class="primary-nav" aria-label="Навигация приложения">
           <button class="nav-item active" type="button" data-view="today">Сегодня</button>
-          <button class="nav-item" type="button" data-view="projects">Проекты</button>
           <button class="nav-item" type="button" data-view="calendar">Календарь</button>
           <button class="nav-item" type="button" data-view="practices">Практики</button>
           <button class="nav-item" type="button" data-view="checkin">Состояние</button>
@@ -138,60 +137,6 @@
           <button type="button" data-focus-pause>Пауза</button>
           <button type="button" data-focus-complete>Завершить</button>
         </div>
-      </section>
-    </section>
-
-    <section class="app-view" data-view-panel="projects" aria-labelledby="projectsTitle">
-      <div class="view-intro projects-intro">
-        <div><p class="date-line"><span>Три активных</span> один в фокусе</p><h1 id="projectsTitle">Проекты</h1></div>
-        <div class="projects-intro-copy"><p>Большие результаты собраны из задач, которые уже живут в календаре.</p><button class="primary-compact" type="button" data-new-project>Новый проект</button></div>
-      </div>
-
-      <section class="project-composer" aria-hidden="true" hidden>
-        <label>Название проекта<input type="text" placeholder="Например, подготовить запуск"></label>
-        <label>Желаемый результат<input type="text" placeholder="Что должно измениться после завершения?"></label>
-        <button class="primary-action" type="button" data-close-project>Создать</button>
-      </section>
-
-      <section class="project-stage" aria-label="Проект Tempo Remake">
-        <div class="project-stage-main">
-          <header class="project-stage-header"><div><span>В фокусе до 18 сентября</span><h2>Tempo Remake</h2></div><button type="button" data-open-view="calendar">Открыть в календаре</button></header>
-          <p class="project-statement">Собрать цельный продукт, который помогает планировать день по реальной энергии, а не только по свободным часам.</p>
-
-          <div class="project-phases" aria-label="Этапы проекта">
-            <article class="done"><span>Основа</span><strong>Сценарии и структура</strong><small>готово</small></article>
-            <article class="current"><span>Сейчас</span><strong>Основные экраны</strong><small>6 из 9 задач</small></article>
-            <article><span>Дальше</span><strong>Связать состояния</strong><small>3 задачи</small></article>
-            <article><span>Финал</span><strong>Проверить прототип</strong><small>до 18 сентября</small></article>
-          </div>
-
-          <div class="project-calendar-bridge">
-            <header><div><span>Ближайший результат</span><h3>Закрыть основной продуктовый контур</h3></div><strong>до 4 сентября</strong></header>
-            <div class="project-task-chain">
-              <article class="complete"><i></i><div><span>ср, 26 августа</span><strong>Главная и календарь</strong></div><b>готово</b></article>
-              <article class="active"><i></i><div><span>чт, 27 августа в 10:00</span><strong>Экран проектов</strong></div><b>1 ч 20 мин</b></article>
-              <article><i></i><div><span>пт, 28 августа в 15:00</span><strong>Связать проект с календарём</strong></div><b>50 мин</b></article>
-              <article class="unplaced"><i></i><div><span>место пока не найдено</span><strong>Проверить полный сценарий</strong></div><button type="button" data-open-view="calendar">Запланировать</button></article>
-            </div>
-          </div>
-        </div>
-
-        <aside class="project-pulse">
-          <header><span>Состояние проекта</span><b>обновлено сегодня</b></header>
-          <div class="project-progress-orbit"><i></i><i></i><div><strong>64</strong><span>процента</span></div></div>
-          <h3>Темп устойчивый</h3><p>До целевой даты остаётся 16 рабочих окон. Для текущего объёма нужно 11.</p>
-          <dl><div><dt>В календаре</dt><dd>7 ч 40 мин</dd></div><div><dt>Осталось</dt><dd>4 ч 50 мин</dd></div><div><dt>Следующая точка</dt><dd>4 сентября</dd></div></dl>
-          <div class="project-health"><span>Риск</span><strong>Низкий</strong><p>Одна задача без времени. Она не влияет на ближайший результат.</p></div>
-        </aside>
-      </section>
-
-      <section class="project-index" aria-label="Все проекты">
-        <header><div><h2>Все проекты</h2><span>крупные обязательства и результаты</span></div><div class="project-filters"><button class="active" type="button" data-project-filter="active">Активные</button><button type="button" data-project-filter="paused">На паузе</button><button type="button" data-project-filter="done">Завершённые</button></div></header>
-        <article class="project-index-row active" data-project-status="active"><div class="project-order">01</div><div><span>Продукт</span><strong>Tempo Remake</strong></div><p>Основной продуктовый контур и интерактивный прототип.</p><div class="project-mini-progress"><i style="--project-progress:64%"></i><span>64%</span></div><div><b>18 сен</b><small>следующая точка 4 сен</small></div><button type="button">Открыть</button></article>
-        <article class="project-index-row" data-project-status="active"><div class="project-order">02</div><div><span>Учёба</span><strong>Курсовая работа</strong></div><p>Глава о цифровых инструментах личного планирования.</p><div class="project-mini-progress"><i style="--project-progress:38%"></i><span>38%</span></div><div><b>30 сен</b><small>6 задач в календаре</small></div><button type="button">Открыть</button></article>
-        <article class="project-index-row" data-project-status="active"><div class="project-order">03</div><div><span>Личное</span><strong>Переезд</strong></div><p>Документы, вещи и подготовка новой квартиры.</p><div class="project-mini-progress"><i style="--project-progress:21%"></i><span>21%</span></div><div><b>12 окт</b><small>2 задачи без времени</small></div><button type="button">Открыть</button></article>
-        <article class="project-index-row hidden" data-project-status="paused"><div class="project-order">04</div><div><span>Личное</span><strong>Архив фотографий</strong></div><p>Разобрать семейные снимки и подготовить печать.</p><div class="project-mini-progress"><i style="--project-progress:46%"></i><span>46%</span></div><div><b>без срока</b><small>на паузе</small></div><button type="button">Открыть</button></article>
-        <div class="project-filter-empty hidden" role="status"><strong>Завершённых проектов пока нет</strong><span>После завершения здесь останется результат и история календарных блоков.</span></div>
       </section>
     </section>
 
@@ -583,6 +528,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260827-live-time-1"></script>
+  <script src="tempo-app.js?v=20260828-remove-projects-1"></script>
 </body>
 </html>

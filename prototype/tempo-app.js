@@ -4,7 +4,7 @@ const viewPanels = document.querySelectorAll('[data-view-panel]');
 function openView(name) {
   viewButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === name));
   viewPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.viewPanel === name));
-  const viewNames = { today: 'Сегодня', projects: 'Проекты', calendar: 'Календарь', practices: 'Практики', checkin: 'Состояние', profile: 'Профиль', conflict: 'Изменение плана', review: 'Итог дня', onboarding: 'Настройка', 'focus-result': 'Результат фокуса' };
+  const viewNames = { today: 'Сегодня', calendar: 'Календарь', practices: 'Практики', checkin: 'Состояние', profile: 'Профиль', conflict: 'Изменение плана', review: 'Итог дня', onboarding: 'Настройка', 'focus-result': 'Результат фокуса' };
   const headerTitle = document.querySelector('[data-header-title]');
   if (headerTitle) headerTitle.textContent = viewNames[name] || 'Tempo';
   history.replaceState(null, '', `#${name}`);
@@ -15,7 +15,8 @@ viewButtons.forEach((button) => button.addEventListener('click', () => openView(
 document.querySelectorAll('[data-open-view]').forEach((button) => button.addEventListener('click', () => openView(button.dataset.openView)));
 document.querySelectorAll('[data-route]').forEach((link) => link.addEventListener('click', (event) => { event.preventDefault(); openView(link.dataset.route); }));
 
-const initialView = location.hash.slice(1) === 'tasks' ? 'projects' : location.hash.slice(1);
+const initialHash = location.hash.slice(1);
+const initialView = initialHash === 'tasks' || initialHash === 'projects' ? 'calendar' : initialHash;
 if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
 
 document.querySelectorAll('[data-header-panel]').forEach((button) => button.addEventListener('click', () => {
@@ -480,30 +481,6 @@ document.querySelector('.task-delete')?.addEventListener('click', () => {
 
 document.querySelectorAll('.outcome-options button').forEach((button) => button.addEventListener('click', () => {
   document.querySelectorAll('.outcome-options button').forEach((item) => item.classList.toggle('active', item === button));
-}));
-
-const projectComposer = document.querySelector('.project-composer');
-document.querySelector('[data-new-project]')?.addEventListener('click', () => {
-  projectComposer.hidden = false;
-  const isOpen = projectComposer.classList.toggle('open');
-  projectComposer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-  if (isOpen) projectComposer.querySelector('input')?.focus();
-});
-document.querySelector('[data-close-project]')?.addEventListener('click', () => {
-  projectComposer.classList.remove('open');
-  projectComposer.setAttribute('aria-hidden', 'true');
-  projectComposer.hidden = true;
-});
-
-document.querySelectorAll('[data-project-filter]').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('[data-project-filter]').forEach((item) => item.classList.toggle('active', item === button));
-  document.querySelectorAll('.project-index-row').forEach((row) => row.classList.toggle('hidden', row.dataset.projectStatus !== button.dataset.projectFilter));
-  const hasProjects = [...document.querySelectorAll('.project-index-row')].some((row) => !row.classList.contains('hidden'));
-  document.querySelector('.project-filter-empty')?.classList.toggle('hidden', hasProjects);
-}));
-
-document.querySelectorAll('.project-index-row').forEach((row) => row.addEventListener('click', () => {
-  document.querySelectorAll('.project-index-row').forEach((item) => item.classList.toggle('active', item === row));
 }));
 
 const taskDialog = document.getElementById('taskDialog');
