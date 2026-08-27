@@ -104,7 +104,6 @@ function renderCalendarPeriod() {
     periodLabel.textContent = start.getMonth() === end.getMonth() ? `${start.getDate()}–${end.getDate()} ${monthNamesGenitive[end.getMonth()]} ${year}` : `${start.getDate()} ${monthNamesGenitive[start.getMonth()]} – ${end.getDate()} ${monthNamesGenitive[end.getMonth()]}`;
   }
   if (calendarMode === 'month') periodLabel.textContent = `${monthNames[month]} ${year}`;
-  document.querySelector('[data-context-date]').textContent = `${day} ${monthNamesGenitive[month]}`;
   document.querySelector('[data-context-day]').textContent = day;
   document.querySelector('[data-context-weekday]').textContent = weekdayNames[calendarDate.getDay()];
   document.querySelector('[data-month-name]').textContent = monthNamesTitle[month];
@@ -326,9 +325,9 @@ let activeCalendarTask;
 const calendarProjectDialog = document.getElementById('calendarProjectDialog');
 const calendarProjectForm = document.getElementById('calendarProjectForm');
 const calendarProjectData = {
-  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral' },
-  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue' },
-  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green' }
+  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','bright','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
+  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
+  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','bright','Бодро']], tasks: [['Разобрать документы','Артём','30 авг','Запланировано'],['Прогулка','Артём','сегодня','В календаре'],['План недели','Артём','31 авг','Запланировано']] }
 };
 let activeProjectKey = null;
 
@@ -344,19 +343,49 @@ document.querySelectorAll('.w-event[data-pomodoro-task-name]').forEach((task) =>
 function filterCalendarByProject(projectKey) {
   document.querySelectorAll('[data-calendar-project-filter]').forEach((button) => button.classList.toggle('active', button.dataset.calendarProjectFilter === projectKey));
   document.querySelectorAll('[data-calendar-project]').forEach((task) => task.classList.toggle('project-filtered', projectKey !== 'all' && task.dataset.calendarProject !== projectKey));
+  renderProjectPeek(projectKey);
+}
+
+function renderProjectPeek(projectKey) {
+  const peek = document.querySelector('[data-project-peek]');
+  const data = calendarProjectData[projectKey];
+  peek.hidden = !data;
+  if (!data) return;
+  activeProjectKey = projectKey;
+  peek.querySelector('[data-project-peek-name]').textContent = data.name;
+  peek.querySelector('[data-project-peek-deadline]').textContent = `до ${data.deadline}`;
+  peek.querySelector('[data-project-peek-progress]').style.width = `${data.progress}%`;
+  peek.querySelector('[data-project-peek-percent]').textContent = `${data.progress}%`;
+  peek.querySelector('[data-project-peek-team]').innerHTML = data.moods.map(([name, mood, label]) => `<div><span class="project-mood project-mood-${mood}"><i></i><b></b></span><small>${name}</small><em>${label}</em></div>`).join('');
+  peek.querySelector('[data-project-peek-tasks]').innerHTML = data.tasks.slice(0, 2).map(([task, owner, date]) => `<article><strong>${task}</strong><span>${date} · ${owner}</span></article>`).join('');
+}
+
+function renderProjectWorkspace(data) {
+  document.getElementById('projectWorkspaceProgress').textContent = `${data.progress}%`;
+  document.getElementById('projectWorkspaceDone').textContent = `${Math.round(data.tasks.length * data.progress / 100)} из ${data.tasks.length} задач готовы`;
+  document.getElementById('projectWorkspaceDays').textContent = data.days;
+  document.getElementById('projectWorkspaceDeadline').textContent = data.deadline;
+  document.getElementById('projectWorkspaceHours').textContent = data.hours;
+  document.getElementById('projectWorkspaceHealth').textContent = data.health;
+  document.getElementById('projectTaskCount').textContent = `${data.tasks.length} задач`;
+  document.getElementById('projectTaskRows').innerHTML = data.tasks.map(([task, owner, date, status], index) => `<article><span><i class="${index === 0 ? 'active' : ''}"></i><strong>${task}</strong></span><span><b>${owner.slice(0, 2).toUpperCase()}</b>${owner}</span><time>${date}</time><em>${status}</em></article>`).join('');
 }
 
 function openProjectDialog(projectKey = null) {
   activeProjectKey = projectKey;
   const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral' };
-  document.getElementById('calendarProjectEyebrow').textContent = projectKey ? 'Настройки проекта' : 'Новый проект';
-  document.getElementById('calendarProjectDialogTitle').textContent = projectKey ? 'Детали проекта' : 'Собрать задачи в проект';
+  document.getElementById('calendarProjectEyebrow').textContent = projectKey ? 'Проект' : 'Новый проект';
+  document.getElementById('calendarProjectDialogTitle').textContent = projectKey ? data.name : 'Собрать задачи в проект';
   document.getElementById('calendarProjectName').value = data.name;
   document.getElementById('calendarProjectDescription').value = data.description;
   document.getElementById('calendarProjectLink').value = data.link;
+  document.getElementById('calendarProjectDeadline').value = projectKey === 'tempo' ? '2026-09-18' : projectKey === 'personal' ? '2026-10-12' : '2026-09-30';
   document.querySelectorAll('[data-project-person]').forEach((button) => button.classList.toggle('active', data.members.includes(button.dataset.projectPerson)));
   document.querySelectorAll('[data-project-color]').forEach((button) => button.classList.toggle('active', button.dataset.projectColor === data.color));
   document.querySelector('[data-project-delete]').hidden = !projectKey;
+  document.querySelector('[data-project-workspace-summary]').hidden = !projectKey;
+  document.querySelector('[data-project-task-board]').hidden = !projectKey;
+  if (projectKey) renderProjectWorkspace(data);
   calendarProjectDialog.showModal();
 }
 
@@ -372,6 +401,7 @@ document.querySelectorAll('[data-project-edit]').forEach((button) => {
   });
 });
 document.querySelector('[data-calendar-project-add]')?.addEventListener('click', () => openProjectDialog());
+document.querySelector('[data-project-open-details]')?.addEventListener('click', () => openProjectDialog(activeProjectKey));
 document.querySelectorAll('[data-project-color], [data-project-person]').forEach((button) => button.addEventListener('click', () => {
   if (button.hasAttribute('data-project-color')) document.querySelectorAll('[data-project-color]').forEach((item) => item.classList.toggle('active', item === button));
   else button.classList.toggle('active');

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
   <link rel="stylesheet" href="calendar-projects.css?v=1" />
   <link rel="stylesheet" href="calendar-time.css?v=1" />
+  <link rel="stylesheet" href="calendar-project-hub.css?v=1" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -229,7 +230,6 @@
 
       <div class="calendar-shell">
         <aside class="calendar-context">
-          <span class="section-label" data-context-date>26 августа</span>
           <strong class="context-date" data-context-day>26</strong>
           <p data-context-weekday>Среда</p>
           <div class="day-metric"><span>В плане</span><strong>4 ч 20 мин</strong></div>
@@ -242,11 +242,13 @@
             <button class="calendar-project-row" type="button" data-calendar-project-filter="personal"><i class="project-glyph project-glyph-personal" aria-hidden="true"></i><strong>Личное</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Личное" data-project-edit="personal">✎</span></button>
             <button class="calendar-project-add" type="button" data-calendar-project-add><span>+</span> Добавить проект</button>
           </nav>
-          <div class="energy-curve" aria-label="Прогноз энергии по времени">
-            <span>энергия</span>
-            <svg viewBox="0 0 230 90" role="img" aria-label="Энергия выше утром и снижается вечером"><path d="M2 68 C36 66, 40 18, 76 22 S126 72, 156 48 S190 24, 228 62"/><line x1="0" y1="76" x2="230" y2="76"/></svg>
-            <div><small>09</small><small>13</small><small>17</small><small>21</small></div>
-          </div>
+          <section class="calendar-project-peek" data-project-peek hidden aria-live="polite">
+            <header><span>Проект</span><strong data-project-peek-name>Разработка Tempo</strong><small data-project-peek-deadline>до 18 сентября</small></header>
+            <div class="project-peek-progress"><span><i data-project-peek-progress></i></span><strong data-project-peek-percent>64%</strong></div>
+            <div class="project-peek-team" data-project-peek-team aria-label="Состояние команды"></div>
+            <div class="project-peek-next"><span>Ближайшие задачи</span><div data-project-peek-tasks></div></div>
+            <button class="project-peek-open" type="button" data-project-open-details>Открыть детали</button>
+          </section>
         </aside>
 
         <div class="calendar-stage">
@@ -482,12 +484,18 @@
   <dialog class="project-detail-dialog" id="calendarProjectDialog">
     <form method="dialog" id="calendarProjectForm">
       <header><div><span class="section-label" id="calendarProjectEyebrow">Новый проект</span><strong id="calendarProjectDialogTitle">Собрать задачи в проект</strong></div><button value="cancel" aria-label="Закрыть">×</button></header>
+      <section class="project-workspace-summary" data-project-workspace-summary>
+        <div><span>Прогресс</span><strong id="projectWorkspaceProgress">64%</strong><small id="projectWorkspaceDone">7 из 11 задач готовы</small></div>
+        <div><span>До срока</span><strong id="projectWorkspaceDays">21 день</strong><small id="projectWorkspaceDeadline">18 сентября</small></div>
+        <div><span>Запланировано</span><strong id="projectWorkspaceHours">7 ч 40 мин</strong><small>в календаре команды</small></div>
+        <div><span>Состояние</span><strong id="projectWorkspaceHealth">Устойчиво</strong><small>рисков по сроку нет</small></div>
+      </section>
       <div class="project-dialog-grid">
         <section class="project-dialog-main">
           <label>Название<input id="calendarProjectName" type="text" placeholder="Название проекта" required /></label>
           <label>Описание<textarea id="calendarProjectDescription" placeholder="Что вы хотите получить в результате и что важно помнить"></textarea></label>
           <label>Ссылка проекта<input id="calendarProjectLink" type="url" placeholder="Figma, Notion, папка или другая рабочая ссылка" /></label>
-          <div class="project-extra-links"><span>Материалы</span><button type="button" data-project-add-link>+ Добавить ещё ссылку</button></div>
+          <div class="project-materials"><span>Материалы</span><div id="projectMaterials"><a href="#">Figma · рабочий макет</a><a href="#">Notion · требования</a><a href="#">Drive · исследования</a></div><button type="button" data-project-add-link>+ Добавить ссылку</button></div>
         </section>
         <aside class="project-dialog-aside">
           <fieldset><legend>Цвет</legend><div class="project-colors"><button class="active" type="button" data-project-color="coral" aria-label="Коралловый"></button><button type="button" data-project-color="blue" aria-label="Голубой"></button><button type="button" data-project-color="green" aria-label="Зелёный"></button><button type="button" data-project-color="lilac" aria-label="Сиреневый"></button></div></fieldset>
@@ -495,6 +503,10 @@
           <label>Срок проекта<input id="calendarProjectDeadline" type="date" value="2026-09-30" /></label>
         </aside>
       </div>
+      <section class="project-task-board" data-project-task-board>
+        <header><div><span>Задачи проекта</span><strong id="projectTaskCount">11 задач</strong></div><button type="button" data-new-task>+ Добавить задачу</button></header>
+        <div class="project-task-table"><div class="project-task-table-head"><span>Задача</span><span>Ответственный</span><span>Дата</span><span>Статус</span></div><div id="projectTaskRows"></div></div>
+      </section>
       <footer><button class="project-delete" type="button" data-project-delete>Удалить проект</button><div><button class="secondary-action" value="cancel">Отмена</button><button class="primary-action" value="confirm" data-project-save>Сохранить проект</button></div></footer>
     </form>
   </dialog>
@@ -528,6 +540,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260828-remove-projects-1"></script>
+  <script src="tempo-app.js?v=20260828-project-hub-1"></script>
 </body>
 </html>
