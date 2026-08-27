@@ -295,6 +295,86 @@ document.querySelector('[data-focus-pause]')?.addEventListener('click', (event) 
 const taskDetailDialog = document.getElementById('taskDetailDialog');
 let activeCalendarTask;
 
+const calendarProjectDialog = document.getElementById('calendarProjectDialog');
+const calendarProjectForm = document.getElementById('calendarProjectForm');
+const calendarProjectData = {
+  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral' },
+  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue' },
+  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green' }
+};
+let activeProjectKey = null;
+
+const weekProjectMap = {
+  'Исследование': 'university', 'Созвон': 'tempo', 'Прототип': 'tempo', 'Учёба': 'university',
+  'Главный экран': 'tempo', 'Синхронизация': 'tempo', 'Проверка': 'university', 'Планирование': 'tempo',
+  'Курсовая': 'university', 'Команда': 'tempo', 'Сборка': 'tempo', 'Прогулка': 'personal', 'План недели': 'personal'
+};
+document.querySelectorAll('.w-event[data-pomodoro-task-name]').forEach((task) => {
+  task.dataset.calendarProject = weekProjectMap[task.dataset.pomodoroTaskName] || 'personal';
+});
+
+function filterCalendarByProject(projectKey) {
+  document.querySelectorAll('[data-calendar-project-filter]').forEach((button) => button.classList.toggle('active', button.dataset.calendarProjectFilter === projectKey));
+  document.querySelectorAll('[data-calendar-project]').forEach((task) => task.classList.toggle('project-filtered', projectKey !== 'all' && task.dataset.calendarProject !== projectKey));
+}
+
+function openProjectDialog(projectKey = null) {
+  activeProjectKey = projectKey;
+  const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral' };
+  document.getElementById('calendarProjectEyebrow').textContent = projectKey ? 'Настройки проекта' : 'Новый проект';
+  document.getElementById('calendarProjectDialogTitle').textContent = projectKey ? 'Детали проекта' : 'Собрать задачи в проект';
+  document.getElementById('calendarProjectName').value = data.name;
+  document.getElementById('calendarProjectDescription').value = data.description;
+  document.getElementById('calendarProjectLink').value = data.link;
+  document.querySelectorAll('[data-project-person]').forEach((button) => button.classList.toggle('active', data.members.includes(button.dataset.projectPerson)));
+  document.querySelectorAll('[data-project-color]').forEach((button) => button.classList.toggle('active', button.dataset.projectColor === data.color));
+  document.querySelector('[data-project-delete]').hidden = !projectKey;
+  calendarProjectDialog.showModal();
+}
+
+document.querySelectorAll('[data-calendar-project-filter]').forEach((button) => button.addEventListener('click', (event) => {
+  if (event.target.closest('[data-project-edit]')) return;
+  filterCalendarByProject(button.dataset.calendarProjectFilter);
+}));
+document.querySelectorAll('[data-project-edit]').forEach((button) => {
+  const open = (event) => { event.stopPropagation(); openProjectDialog(button.dataset.projectEdit); };
+  button.addEventListener('click', open);
+  button.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(event); }
+  });
+});
+document.querySelector('[data-calendar-project-add]')?.addEventListener('click', () => openProjectDialog());
+document.querySelectorAll('[data-project-color], [data-project-person]').forEach((button) => button.addEventListener('click', () => {
+  if (button.hasAttribute('data-project-color')) document.querySelectorAll('[data-project-color]').forEach((item) => item.classList.toggle('active', item === button));
+  else button.classList.toggle('active');
+}));
+document.querySelector('[data-project-add-person]')?.addEventListener('click', (event) => {
+  event.currentTarget.querySelector('span').textContent = 'Нина';
+  event.currentTarget.querySelector('i').textContent = 'НГ';
+  event.currentTarget.classList.add('active');
+});
+document.querySelector('[data-project-add-link]')?.addEventListener('click', () => {
+  const link = document.getElementById('calendarProjectLink');
+  link.focus();
+  if (!link.value) link.placeholder = 'Вставьте первую рабочую ссылку';
+});
+calendarProjectForm?.addEventListener('submit', () => {
+  const name = document.getElementById('calendarProjectName').value.trim();
+  if (!name) return;
+  if (activeProjectKey) {
+    calendarProjectData[activeProjectKey].name = name;
+    calendarProjectData[activeProjectKey].description = document.getElementById('calendarProjectDescription').value;
+    calendarProjectData[activeProjectKey].link = document.getElementById('calendarProjectLink').value;
+    document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"] strong`).textContent = name;
+  }
+});
+document.querySelector('[data-project-delete]')?.addEventListener('click', () => {
+  if (!activeProjectKey) return;
+  document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"]`)?.remove();
+  filterCalendarByProject('all');
+  calendarProjectDialog.close();
+});
+
 function openCalendarTask(task) {
   activeCalendarTask = task;
   const name = task.dataset.pomodoroTaskName;
