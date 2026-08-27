@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
   <link rel="stylesheet" href="tempo-app.css" />
+  <link rel="stylesheet" href="state-moods.css" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -453,9 +454,18 @@
         </section>
 
         <aside class="state-preview" aria-live="polite">
-          <div class="state-orb" style="--energy:68">
-            <i class="orb-layer layer-a"></i><i class="orb-layer layer-b"></i><i class="orb-layer layer-c"></i>
-            <div><span>состояние</span><strong id="statePreviewValue">68</strong><small id="statePreviewLabel">устойчивое</small></div>
+          <div class="mood-field">
+            <div class="mood-field-heading"><span>Состояние сейчас</span><strong id="statePreviewLabel">Спокойно</strong></div>
+            <div class="mood-spectrum" role="listbox" aria-label="Выберите состояние">
+              <button class="mood-option mood-angry" type="button" role="option" aria-selected="false" data-mood-value="10" data-mood-label="Напряжение" data-reading="Нагрузку лучше снизить" data-copy="Сейчас полезнее оставить только необходимое и создать пространство для восстановления."><span class="mood-orb"><i class="face face-angry"><b></b><b></b><em></em></i></span><small>напряжение</small></button>
+              <button class="mood-option mood-irritated" type="button" role="option" aria-selected="false" data-mood-value="23" data-mood-label="Раздражение" data-reading="Лучше убрать лишние стимулы" data-copy="Tempo сократит переключения и предложит начать с одной короткой понятной задачи."><span class="mood-orb"><i class="face face-irritated"><b></b><b></b><em></em></i></span><small>раздражение</small></button>
+              <button class="mood-option mood-surprised" type="button" role="option" aria-selected="false" data-mood-value="48" data-mood-label="Удивление" data-reading="Нужна короткая сверка плана" data-copy="Сначала стоит понять, что изменилось, и только потом выбирать следующий фокус."><span class="mood-orb"><i class="face face-surprised"><b></b><b></b><em></em></i></span><small>удивление</small></button>
+              <button class="mood-option mood-calm is-selected" type="button" role="option" aria-selected="true" data-mood-value="68" data-mood-label="Спокойно" data-reading="Темп можно сохранить" data-copy="Лучшее окно для сложной задачи — до 13:00. После встречи стоит оставить короткую паузу."><span class="mood-orb"><i class="face face-calm"><b></b><b></b><em></em></i></span><small>спокойно</small></button>
+              <button class="mood-option mood-energized" type="button" role="option" aria-selected="false" data-mood-value="82" data-mood-label="Бодро" data-reading="Есть ресурс для сложного" data-copy="Можно использовать ближайшее длинное окно для глубокой работы, не уплотняя вечер."><span class="mood-orb"><i class="face face-energized"><b></b><b></b><em></em></i></span><small>бодро</small></button>
+              <button class="mood-option mood-sad" type="button" role="option" aria-selected="false" data-mood-value="34" data-mood-label="Грустно" data-reading="Сегодня нужен мягкий темп" data-copy="Tempo предложит знакомые задачи без лишнего давления и сохранит больше пауз."><span class="mood-orb"><i class="face face-sad"><b></b><b></b><em></em></i></span><small>грустно</small></button>
+              <button class="mood-option mood-tired" type="button" role="option" aria-selected="false" data-mood-value="39" data-mood-label="Усталость" data-reading="Стоит беречь внимание" data-copy="Длинные задачи лучше разделить, а между спринтами оставить полноценное восстановление."><span class="mood-orb"><i class="face face-tired"><b></b><b></b><em></em></i></span><small>усталость</small></button>
+              <button class="mood-option mood-delighted" type="button" role="option" aria-selected="false" data-mood-value="96" data-mood-label="В восторге" data-reading="Энергию можно направить в важное" data-copy="Хороший момент для задачи, которую давно хотелось сдвинуть с места."><span class="mood-orb"><i class="face face-delighted"><b></b><b></b><em></em></i></span><small>в восторге</small></button>
+            </div>
           </div>
           <div class="state-reading">
             <span>Предварительная оценка</span>

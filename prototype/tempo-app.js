@@ -414,29 +414,36 @@ document.querySelector('.player-pause')?.addEventListener('click', (event) => {
 
 const energyRange = document.getElementById('energyRange');
 const energyOutput = document.getElementById('energyOutput');
-const statePreviewValue = document.getElementById('statePreviewValue');
 const statePreviewLabel = document.getElementById('statePreviewLabel');
 const stateReading = document.getElementById('stateReading');
 const stateReadingCopy = document.getElementById('stateReadingCopy');
+const moodOptions = [...document.querySelectorAll('.mood-option')];
+
+function selectMood(option, updateRange = true) {
+  if (!option) return;
+  moodOptions.forEach((item) => {
+    const selected = item === option;
+    item.classList.toggle('is-selected', selected);
+    item.setAttribute('aria-selected', String(selected));
+  });
+  statePreviewLabel.textContent = option.dataset.moodLabel;
+  stateReading.textContent = option.dataset.reading;
+  stateReadingCopy.textContent = option.dataset.copy;
+  if (updateRange) {
+    energyRange.value = option.dataset.moodValue;
+    energyOutput.value = option.dataset.moodValue;
+    energyOutput.textContent = option.dataset.moodValue;
+  }
+}
+
+moodOptions.forEach((option) => option.addEventListener('click', () => selectMood(option)));
 
 energyRange?.addEventListener('input', () => {
   const value = Number(energyRange.value);
   energyOutput.value = value;
   energyOutput.textContent = value;
-  statePreviewValue.textContent = value;
-  if (value < 35) {
-    statePreviewLabel.textContent = 'низкое';
-    stateReading.textContent = 'Нагрузку лучше снизить';
-    stateReadingCopy.textContent = 'Tempo предложит короткие задачи и сохранит больше свободного времени для восстановления.';
-  } else if (value < 72) {
-    statePreviewLabel.textContent = 'устойчивое';
-    stateReading.textContent = 'Темп можно сохранить';
-    stateReadingCopy.textContent = 'Лучшее окно для сложной задачи — до 13:00. После встречи стоит оставить короткую паузу.';
-  } else {
-    statePreviewLabel.textContent = 'высокое';
-    stateReading.textContent = 'Есть ресурс для сложного';
-    stateReadingCopy.textContent = 'Можно использовать ближайшее длинное окно для глубокой работы, не уплотняя вечер.';
-  }
+  const closest = moodOptions.reduce((best, option) => Math.abs(Number(option.dataset.moodValue) - value) < Math.abs(Number(best.dataset.moodValue) - value) ? option : best);
+  selectMood(closest, false);
 });
 
 let stateStep = 1;
