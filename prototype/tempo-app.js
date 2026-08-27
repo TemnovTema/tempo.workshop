@@ -399,18 +399,93 @@ document.querySelectorAll('[data-practice-filter]').forEach((button) => {
 });
 
 const practicePlayer = document.querySelector('.practice-player');
+const meditationPlayer = practicePlayer?.querySelector('.player-meditation');
+const reflectionPlayer = practicePlayer?.querySelector('.reflection-player');
+const reflectionPrompts = {
+  'Что со мной сейчас': ['Что вы замечаете в теле прямо сейчас?', 'Какая эмоция занимает больше всего места?', 'Чего вам сейчас не хватает?', 'Какой небольшой следующий шаг поддержит вас?'],
+  'Распутать мысль': ['Какая мысль возвращается снова и снова?', 'Что здесь является фактом, а что вашей интерпретацией?', 'На какую часть ситуации вы можете повлиять?', 'Что можно отпустить хотя бы до завтра?'],
+  'Три хороших момента': ['Что сегодня прошло хорошо, даже если это мелочь?', 'Как вы чувствовали себя в этот момент?', 'Благодаря чему это событие стало возможным?', 'Какие ещё два хороших момента вы хотите сохранить?']
+};
+let practiceTimer;
+let breathTimer;
+let practiceSeconds = 240;
+let reflectionIndex = 0;
+let activePrompts = [];
+
+function stopPracticeTimers() {
+  window.clearInterval(practiceTimer);
+  window.clearInterval(breathTimer);
+}
+
+function formatPracticeTime(seconds) {
+  return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+function startMeditation(name, breathing = false) {
+  reflectionPlayer.hidden = true;
+  reflectionPlayer.setAttribute('aria-hidden', 'true');
+  meditationPlayer.hidden = false;
+  meditationPlayer.querySelector('h2').textContent = name;
+  meditationPlayer.classList.toggle('is-breathing', breathing);
+  meditationPlayer.classList.remove('paused');
+  practiceSeconds = name === 'Сканирование тела' ? 420 : name === 'Дыхание 4 × 6' ? 240 : 180;
+  meditationPlayer.querySelector('strong').textContent = formatPracticeTime(practiceSeconds);
+  meditationPlayer.querySelector('.breath-cue').textContent = breathing ? 'Медленный вдох' : 'Оставайтесь с ощущением';
+  document.querySelector('.player-pause').textContent = 'Пауза';
+  let cycleSeconds = 0;
+  practiceTimer = window.setInterval(() => {
+    if (meditationPlayer.classList.contains('paused')) return;
+    practiceSeconds = Math.max(0, practiceSeconds - 1);
+    meditationPlayer.querySelector('strong').textContent = formatPracticeTime(practiceSeconds);
+    if (!practiceSeconds) stopPracticeTimers();
+  }, 1000);
+  if (breathing) breathTimer = window.setInterval(() => {
+    if (meditationPlayer.classList.contains('paused')) return;
+    cycleSeconds = (cycleSeconds + 1) % 10;
+    meditationPlayer.querySelector('.breath-cue').textContent = cycleSeconds < 4 ? 'Медленный вдох' : 'Длинный выдох';
+  }, 1000);
+}
+
+function renderReflectionQuestion() {
+  document.getElementById('reflectionStep').textContent = reflectionIndex + 1;
+  document.getElementById('reflectionTotal').textContent = activePrompts.length;
+  document.getElementById('reflectionPrompt').textContent = activePrompts[reflectionIndex];
+  document.querySelector('.reflection-progress i').style.setProperty('--progress', `${((reflectionIndex + 1) / activePrompts.length) * 100}%`);
+  document.getElementById('reflectionAnswer').value = '';
+  document.querySelector('.reflection-next').innerHTML = reflectionIndex === activePrompts.length - 1 ? 'Завершить <span>✓</span>' : 'Следующий вопрос <span>→</span>';
+}
+
+function startReflection(name) {
+  meditationPlayer.hidden = true;
+  reflectionPlayer.hidden = false;
+  reflectionPlayer.setAttribute('aria-hidden', 'false');
+  document.getElementById('reflectionTitle').textContent = name;
+  activePrompts = reflectionPrompts[name] || reflectionPrompts['Что со мной сейчас'];
+  reflectionIndex = 0;
+  renderReflectionQuestion();
+}
+
 document.querySelectorAll('[data-practice-start]').forEach((button) => button.addEventListener('click', () => {
-  practicePlayer.querySelector('h2').textContent = button.dataset.practiceStart;
+  stopPracticeTimers();
   practicePlayer.classList.add('open');
   practicePlayer.setAttribute('aria-hidden', 'false');
+  if (button.dataset.practiceType === 'reflection') startReflection(button.dataset.practiceStart);
+  else startMeditation(button.dataset.practiceStart, button.dataset.practiceType === 'breathing');
 }));
 document.querySelector('.player-close')?.addEventListener('click', () => {
+  stopPracticeTimers();
   practicePlayer.classList.remove('open');
   practicePlayer.setAttribute('aria-hidden', 'true');
 });
 document.querySelector('.player-pause')?.addEventListener('click', (event) => {
+  meditationPlayer.classList.toggle('paused');
   event.currentTarget.textContent = event.currentTarget.textContent === 'Пауза' ? 'Продолжить' : 'Пауза';
 });
+document.querySelectorAll('.reflection-next,.reflection-skip').forEach((button) => button.addEventListener('click', () => {
+  if (reflectionIndex < activePrompts.length - 1) { reflectionIndex += 1; renderReflectionQuestion(); return; }
+  practicePlayer.classList.remove('open');
+  practicePlayer.setAttribute('aria-hidden', 'true');
+}));
 
 const energyRange = document.getElementById('energyRange');
 const energyOutput = document.getElementById('energyOutput');

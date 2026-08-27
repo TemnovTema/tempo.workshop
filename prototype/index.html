@@ -8,6 +8,7 @@
   <title>Tempo — сегодня</title>
   <link rel="stylesheet" href="tempo-app.css" />
   <link rel="stylesheet" href="state-moods.css" />
+  <link rel="stylesheet" href="practices-v2.css" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -341,7 +342,7 @@
     <section class="app-view" data-view-panel="practices" aria-labelledby="practicesTitle">
       <div class="view-intro practices-intro">
         <div>
-          <p class="date-line"><span>Восстановление</span> 18 практик</p>
+          <p class="date-line"><span>Восстановление</span> 23 практики</p>
           <h1 id="practicesTitle">Практики</h1>
         </div>
         <div class="intro-meta">
@@ -351,6 +352,8 @@
             <button type="button" data-practice-filter="focus">Фокус</button>
             <button type="button" data-practice-filter="calm">Спокойствие</button>
             <button type="button" data-practice-filter="energy">Энергия</button>
+            <button type="button" data-practice-filter="reflection">Рефлексия</button>
+            <button type="button" data-practice-filter="meditation">Медитации</button>
           </div>
         </div>
       </div>
@@ -361,7 +364,7 @@
           <span class="section-label">Подходит сейчас · 4 минуты</span>
           <h2>Освободить внимание<br />после нескольких встреч</h2>
           <p>Спокойный дыхательный ритм без задержек. Поможет переключиться перед глубокой работой.</p>
-          <button class="primary-action" type="button" data-practice-start="Дыхание 4 × 6">Начать практику <span>4 мин</span></button>
+          <button class="primary-action" type="button" data-practice-start="Дыхание 4 × 6" data-practice-type="breathing">Начать практику <span>4 мин</span></button>
         </div>
         <div class="practice-fit">
           <span>Почему сейчас</span>
@@ -400,6 +403,31 @@
           <div class="practice-visual sun-visual"><i></i><b></b></div>
           <div class="practice-meta"><span>Энергия · 15 минут</span><strong>Выйти на свет</strong><p>Небольшая прогулка с ориентиром на свет, дыхание и темп шага.</p></div>
           <button type="button" data-practice-start="Выйти на свет">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
+          <div class="practice-visual reflection-visual"><i></i><i></i><i></i><b>?</b></div>
+          <div class="practice-meta"><span>Рефлексия · 8 минут</span><strong>Что со мной сейчас</strong><p>Четыре вопроса, чтобы заметить состояние, потребность и подходящий следующий шаг.</p></div>
+          <button type="button" data-practice-start="Что со мной сейчас" data-practice-type="reflection">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
+          <div class="practice-visual thought-visual"><i></i><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Рефлексия · 10 минут</span><strong>Распутать мысль</strong><p>Отделить факт от интерпретации и понять, на что действительно можно повлиять.</p></div>
+          <button type="button" data-practice-start="Распутать мысль" data-practice-type="reflection">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-reflection" data-practice-category="reflection" tabindex="0">
+          <div class="practice-visual good-things-visual"><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Рефлексия · 10 минут</span><strong>Три хороших момента</strong><p>Вспомнить три события дня, свои чувства и то, благодаря чему они случились.</p></div>
+          <button type="button" data-practice-start="Три хороших момента" data-practice-type="reflection">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-meditation" data-practice-category="meditation" tabindex="0">
+          <div class="practice-visual breath-visual"><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Медитация · 4 минуты</span><strong>Дыхание 4 × 6</strong><p>Вдох на четыре счёта и длинный выдох на шесть, без задержки дыхания.</p></div>
+          <button type="button" data-practice-start="Дыхание 4 × 6" data-practice-type="breathing">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-meditation" data-practice-category="meditation" tabindex="0">
+          <div class="practice-visual body-scan-visual"><i></i><i></i><b></b></div>
+          <div class="practice-meta"><span>Медитация · 7 минут</span><strong>Сканирование тела</strong><p>Медленно перевести внимание от лица к стопам, ничего не исправляя.</p></div>
+          <button type="button" data-practice-start="Сканирование тела" data-practice-type="meditation">Открыть ↗</button>
         </article>
       </section>
     </section>
@@ -494,10 +522,20 @@
 
   <div class="practice-player" aria-hidden="true">
     <button class="player-close" type="button" aria-label="Закрыть практику">×</button>
-    <div class="player-orb"><i></i><i></i><i></i><i></i></div>
-    <span>Практика</span><h2>Дыхание 4 × 6</h2><strong>03:42</strong>
-    <p>Медленный вдох</p>
-    <button class="player-pause" type="button">Пауза</button>
+    <div class="player-meditation">
+      <div class="player-orb"><i></i><i></i><i></i><i></i><b></b></div>
+      <span>Практика</span><h2>Дыхание 4 × 6</h2><strong>04:00</strong>
+      <p class="breath-cue">Медленный вдох</p>
+      <button class="player-pause" type="button">Пауза</button>
+    </div>
+    <div class="reflection-player" aria-hidden="true">
+      <header><span>Рефлексия</span><small><b id="reflectionStep">1</b> / <b id="reflectionTotal">4</b></small></header>
+      <div class="reflection-progress"><i></i></div>
+      <h2 id="reflectionTitle">Что со мной сейчас</h2>
+      <p id="reflectionPrompt">Что вы замечаете в теле прямо сейчас?</p>
+      <textarea id="reflectionAnswer" aria-label="Ваш ответ" placeholder="Можно записать несколько слов..."></textarea>
+      <div class="reflection-actions"><button class="reflection-skip" type="button">Пропустить</button><button class="primary-action reflection-next" type="button">Следующий вопрос <span>→</span></button></div>
+    </div>
   </div>
 
   <script src="tempo-app.js"></script>
