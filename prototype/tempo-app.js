@@ -292,37 +292,83 @@ document.querySelector('[data-focus-pause]')?.addEventListener('click', (event) 
   event.currentTarget.textContent = focusRunning ? 'Пауза' : 'Продолжить';
 });
 
-function selectPomodoroTask(task) {
-  document.querySelectorAll('.pomodoro-task.selected').forEach((item) => {
-    item.classList.remove('selected');
-    item.querySelector('.event-start-action')?.remove();
-  });
-  task.classList.add('selected');
-  const startButton = document.createElement('button');
-  startButton.type = 'button';
-  startButton.className = 'event-start-action';
+const taskDetailDialog = document.getElementById('taskDetailDialog');
+let activeCalendarTask;
+
+function openCalendarTask(task) {
+  activeCalendarTask = task;
+  const name = task.dataset.pomodoroTaskName;
   const totalMinutes = Number(task.dataset.focusMinutes || 50);
-  const sprintOne = Math.ceil(totalMinutes / 2);
-  const sprintTwo = Math.floor(totalMinutes / 2);
-  const breakMinutes = totalMinutes > 60 ? 10 : 5;
-  startButton.textContent = `Начать · ${sprintOne} + ${breakMinutes} + ${sprintTwo}`;
-  startButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    startFocusPlan(task.dataset.pomodoroTaskName, totalMinutes);
-    task.classList.remove('selected');
-    startButton.remove();
-  });
-  task.append(startButton);
+  const visibleTime = task.querySelector(':scope > span')?.textContent?.trim() || '10:00';
+  const [hours, minutes] = /^\d{2}:\d{2}$/.test(visibleTime) ? visibleTime.split(':').map(Number) : [10, 0];
+  const endTotal = hours * 60 + minutes + totalMinutes;
+  const endTime = `${String(Math.floor(endTotal / 60) % 24).padStart(2, '0')}:${String(endTotal % 60).padStart(2, '0')}`;
+  const isMeeting = task.classList.contains('group-event') || name.toLowerCase().includes('созвон') || name.toLowerCase().includes('синхронизац');
+  document.getElementById('calendarTaskTitle').textContent = name;
+  const projectName = isMeeting ? 'Команда' : name.includes('Курсов') || name.includes('Учёб') ? 'Курсовая работа' : 'Tempo Remake';
+  document.getElementById('taskDetailProject').textContent = projectName;
+  document.getElementById('taskDetailProjectSelect').value = projectName;
+  document.getElementById('taskDetailStartTime').value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  document.getElementById('taskDetailEndTime').value = endTime;
+  const durationSelect = document.getElementById('taskDetailDuration');
+  const matchingDuration = [...durationSelect.options].find((option) => Number.parseInt(option.textContent, 10) === totalMinutes);
+  if (matchingDuration) durationSelect.value = matchingDuration.value;
+  document.getElementById('taskDetailNotes').value = isMeeting
+    ? 'Сверить прогресс, зафиксировать решения и определить следующие шаги команды.'
+    : `Подготовить результат по задаче «${name}» и сохранить материалы в проекте.`;
+  document.getElementById('taskDetailLinks').classList.toggle('is-empty', !isMeeting);
+  taskDetailDialog.showModal();
 }
 
 document.querySelectorAll('.pomodoro-task').forEach((task) => {
-  task.addEventListener('click', () => selectPomodoroTask(task));
+  task.addEventListener('click', () => openCalendarTask(task));
   task.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      selectPomodoroTask(task);
+      openCalendarTask(task);
     }
   });
+});
+
+document.getElementById('taskDetailStart')?.addEventListener('click', () => {
+  if (!activeCalendarTask) return;
+  const totalMinutes = Number(activeCalendarTask.dataset.focusMinutes || 50);
+  startFocusPlan(activeCalendarTask.dataset.pomodoroTaskName, totalMinutes);
+  taskDetailDialog.close();
+});
+
+document.querySelectorAll('.person-chip').forEach((button) => button.addEventListener('click', () => button.classList.toggle('active')));
+document.querySelector('.person-add')?.addEventListener('click', (event) => {
+  if (document.querySelector('.person-chip[data-added-person]')) return;
+  const person = document.createElement('button');
+  person.type = 'button';
+  person.className = 'person-chip active';
+  person.dataset.addedPerson = 'true';
+  person.innerHTML = '<i>НГ</i> Нина';
+  person.addEventListener('click', () => person.classList.toggle('active'));
+  event.currentTarget.before(person);
+});
+document.querySelector('.task-link-list>button')?.addEventListener('click', (event) => {
+  const list = event.currentTarget.closest('.task-link-list');
+  list.classList.remove('is-empty');
+  const link = list.querySelector('a');
+  link.querySelector('strong').textContent = 'Материалы задачи';
+  link.querySelector('small').textContent = 'Рабочая ссылка добавлена';
+});
+document.querySelectorAll('.task-member-editor button:not(.member-add)').forEach((button) => button.addEventListener('click', () => button.classList.toggle('is-removed')));
+document.querySelector('.task-member-editor .member-add')?.addEventListener('click', (event) => {
+  if (document.querySelector('.task-member-editor [data-added-member]')) return;
+  const member = document.createElement('button');
+  member.type = 'button';
+  member.dataset.addedMember = 'true';
+  member.innerHTML = '<i>НГ</i><span>Нина</span>';
+  member.addEventListener('click', () => member.classList.toggle('is-removed'));
+  event.currentTarget.before(member);
+});
+document.querySelector('.task-delete')?.addEventListener('click', () => {
+  activeCalendarTask?.remove();
+  taskDetailDialog.close();
+  activeCalendarTask = null;
 });
 
 document.querySelectorAll('.outcome-options button').forEach((button) => button.addEventListener('click', () => {

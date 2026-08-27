@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
+  <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -512,12 +513,26 @@
 
   <dialog class="task-dialog" id="taskDialog">
     <form method="dialog">
-      <header><span class="section-label">Новое обязательство</span><button value="cancel" aria-label="Закрыть">×</button></header>
+      <header><div><span class="section-label">Новая задача</span><strong>Запланировать гибко</strong></div><button value="cancel" aria-label="Закрыть">×</button></header>
       <h2>Что нужно сделать?</h2>
-      <label>Название<input type="text" placeholder="Например, подготовить вопросы" /></label>
-      <div class="dialog-row"><label>Длительность<select><option>30 минут</option><option>45 минут</option><option>1 час</option><option>Не знаю</option></select></label><label>Срок<input type="date" value="2026-08-27" /></label></div>
-      <p>Tempo проверит свободное время перед добавлением в план.</p>
-      <button class="primary-action" value="confirm">Найти время</button>
+      <label>Название<input type="text" placeholder="Например, подготовить вопросы к встрече" /></label>
+      <div class="dialog-row dialog-row-three"><label>Дата<input type="date" value="2026-08-27" /></label><label>Начало<input type="time" value="14:00" /></label><label>Длительность<select><option>15 минут</option><option selected>30 минут</option><option>45 минут</option><option>1 час</option><option>1 ч 30 мин</option><option>Не знаю</option></select></label></div>
+      <div class="dialog-row"><label>Проект<select><option>Без проекта</option><option selected>Tempo Remake</option><option>Курсовая работа</option><option>Личное</option></select></label><label>Повторение<select><option selected>Не повторять</option><option>Каждый день</option><option>По будням</option><option>Каждую неделю</option></select></label></div>
+      <label>Ссылка или место<input type="url" placeholder="Google Meet, Zoom или адрес" /></label>
+      <fieldset class="task-people-field"><legend>Участники</legend><div class="task-people"><button type="button" class="person-chip active"><i>АТ</i> Артём</button><button type="button" class="person-chip"><i>МК</i> Марина</button><button type="button" class="person-chip"><i>КС</i> Кирилл</button><button type="button" class="person-add">+ Добавить</button></div></fieldset>
+      <label>Заметка<textarea placeholder="Контекст, результат или полезные материалы"></textarea></label>
+      <div class="task-dialog-footer"><p>Tempo проверит нагрузку и предупредит, если выбранное окно уже занято.</p><div><button class="secondary-action" value="cancel">Отмена</button><button class="primary-action" value="confirm">Добавить задачу</button></div></div>
+    </form>
+  </dialog>
+
+  <dialog class="task-detail-dialog" id="taskDetailDialog">
+    <form method="dialog">
+      <header><div><span class="task-detail-status"><i></i> Запланировано</span><small id="taskDetailProject">Tempo Remake</small></div><button value="cancel" aria-label="Закрыть">×</button></header>
+      <div class="task-detail-title"><div><span id="taskDetailDate">Сегодня, 26 августа</span><h2 id="calendarTaskTitle">Макет главного экрана</h2></div><button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button></div>
+      <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
+      <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Личное</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
+      <section class="task-detail-section task-resource-grid"><div><h3>Ссылки</h3><div class="task-link-list" id="taskDetailLinks"><a href="https://meet.google.com" target="_blank" rel="noreferrer"><i>G</i><span><strong>Google Meet</strong><small>Видеовстреча команды</small></span></a><button type="button">+ Добавить ссылку</button></div></div><div><h3>Участники</h3><div class="task-member-editor"><button type="button"><i>АТ</i><span>Артём</span></button><button type="button"><i>МК</i><span>Марина</span></button><button type="button"><i>КС</i><span>Кирилл</span></button><button type="button" class="member-add"><i>+</i><span>Добавить</span></button></div></div></section>
+      <footer><button class="task-delete" type="button">Удалить задачу</button><div><button class="secondary-action" value="cancel">Закрыть</button><button class="primary-action" value="confirm">Сохранить изменения</button></div></footer>
     </form>
   </dialog>
 
@@ -539,6 +554,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js"></script>
+  <script src="tempo-app.js?v=20260827-task-dialogs-2"></script>
 </body>
 </html>
