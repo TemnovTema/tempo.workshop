@@ -133,6 +133,7 @@ function shiftCalendarPeriod(direction) {
 
 document.querySelectorAll('[data-calendar-mode]').forEach((button) => {
   button.addEventListener('click', () => {
+    closeInlineProjectDetails();
     calendarMode = button.dataset.calendarMode;
     document.querySelectorAll('[data-calendar-mode]').forEach((item) => {
       item.classList.toggle('active', item === button);
@@ -344,6 +345,10 @@ function filterCalendarByProject(projectKey) {
   document.querySelectorAll('[data-calendar-project-filter]').forEach((button) => button.classList.toggle('active', button.dataset.calendarProjectFilter === projectKey));
   document.querySelectorAll('[data-calendar-project]').forEach((task) => task.classList.toggle('project-filtered', projectKey !== 'all' && task.dataset.calendarProject !== projectKey));
   renderProjectPeek(projectKey);
+  if (document.querySelector('.calendar-stage').classList.contains('project-details-open')) {
+    if (projectKey === 'all') closeInlineProjectDetails();
+    else renderInlineProjectDetails(projectKey);
+  }
 }
 
 function renderProjectPeek(projectKey) {
@@ -369,6 +374,36 @@ function renderProjectWorkspace(data) {
   document.getElementById('projectWorkspaceHealth').textContent = data.health;
   document.getElementById('projectTaskCount').textContent = `${data.tasks.length} задач`;
   document.getElementById('projectTaskRows').innerHTML = data.tasks.map(([task, owner, date, status], index) => `<article><span><i class="${index === 0 ? 'active' : ''}"></i><strong>${task}</strong></span><span><b>${owner.slice(0, 2).toUpperCase()}</b>${owner}</span><time>${date}</time><em>${status}</em></article>`).join('');
+}
+
+function renderInlineProjectDetails(projectKey) {
+  const data = calendarProjectData[projectKey];
+  if (!data) return;
+  activeProjectKey = projectKey;
+  document.querySelector('.calendar-stage').classList.add('project-details-open');
+  document.querySelector('[data-project-inline-view]').hidden = false;
+  document.getElementById('projectInlineTitle').textContent = data.name;
+  document.getElementById('projectInlineDescription').textContent = data.description;
+  document.getElementById('projectInlineProgress').textContent = `${data.progress}%`;
+  document.getElementById('projectInlineDays').textContent = data.days;
+  document.getElementById('projectInlineHours').textContent = data.hours;
+  document.getElementById('projectInlineHealth').textContent = data.health;
+  document.getElementById('projectInlineTeam').innerHTML = data.moods.map(([name, mood, label]) => `<article><span class="project-mood project-mood-${mood}"><i></i><b></b></span><div><strong>${name}</strong><small>${label}</small></div></article>`).join('');
+  document.getElementById('projectInlineTasks').innerHTML = data.tasks.map(([task, owner, date, status], index) => `<article><button type="button" class="project-inline-check ${index === 0 ? 'active' : ''}" aria-label="Отметить задачу"></button><div><strong>${task}</strong><span>${owner}</span></div><time>${date}</time><em>${status}</em><button type="button" class="project-inline-more" aria-label="Действия с задачей">•••</button></article>`).join('');
+  const peekButton = document.querySelector('[data-project-open-details]');
+  peekButton.textContent = 'Открыть в календаре';
+  peekButton.setAttribute('aria-pressed', 'true');
+}
+
+function closeInlineProjectDetails() {
+  document.querySelector('.calendar-stage')?.classList.remove('project-details-open');
+  const view = document.querySelector('[data-project-inline-view]');
+  if (view) view.hidden = true;
+  const peekButton = document.querySelector('[data-project-open-details]');
+  if (peekButton) {
+    peekButton.textContent = 'Открыть детали';
+    peekButton.setAttribute('aria-pressed', 'false');
+  }
 }
 
 function openProjectDialog(projectKey = null) {
@@ -401,7 +436,17 @@ document.querySelectorAll('[data-project-edit]').forEach((button) => {
   });
 });
 document.querySelector('[data-calendar-project-add]')?.addEventListener('click', () => openProjectDialog());
-document.querySelector('[data-project-open-details]')?.addEventListener('click', () => openProjectDialog(activeProjectKey));
+document.querySelector('[data-project-open-details]')?.addEventListener('click', () => {
+  const isOpen = document.querySelector('.calendar-stage').classList.contains('project-details-open');
+  if (isOpen) closeInlineProjectDetails();
+  else renderInlineProjectDetails(activeProjectKey);
+});
+document.querySelector('[data-project-back-calendar]')?.addEventListener('click', closeInlineProjectDetails);
+document.querySelector('[data-project-inline-edit]')?.addEventListener('click', () => openProjectDialog(activeProjectKey));
+document.getElementById('projectInlineTasks')?.addEventListener('click', (event) => {
+  const check = event.target.closest('.project-inline-check');
+  if (check) check.classList.toggle('done');
+});
 document.querySelectorAll('[data-project-color], [data-project-person]').forEach((button) => button.addEventListener('click', () => {
   if (button.hasAttribute('data-project-color')) document.querySelectorAll('[data-project-color]').forEach((item) => item.classList.toggle('active', item === button));
   else button.classList.toggle('active');

@@ -293,6 +293,19 @@
               <button type="button"><span>31</span><i class="load low"></i></button><button class="outside" type="button"><span>1</span></button><button class="outside" type="button"><span>2</span></button><button class="outside" type="button"><span>3</span></button><button class="outside" type="button"><span>4</span></button><button class="outside" type="button"><span>5</span></button><button class="outside" type="button"><span>6</span></button>
             </div>
           </div>
+
+          <section class="project-inline-view" data-project-inline-view hidden aria-labelledby="projectInlineTitle">
+            <header class="project-inline-header"><div><button type="button" data-project-back-calendar>Вернуться в календарь</button><span>Проект</span><h2 id="projectInlineTitle">Разработка Tempo</h2><p id="projectInlineDescription"></p></div><button class="secondary-action" type="button" data-project-inline-edit>Настроить проект</button></header>
+            <div class="project-inline-metrics"><div><span>Готово</span><strong id="projectInlineProgress">64%</strong></div><div><span>До срока</span><strong id="projectInlineDays">21 день</strong></div><div><span>В календаре</span><strong id="projectInlineHours">7 ч 40 мин</strong></div><div><span>Ритм</span><strong id="projectInlineHealth">Устойчиво</strong></div></div>
+            <div class="project-inline-layout">
+              <section class="project-inline-tasks"><header><div><span>Работа проекта</span><h3>Задачи и ответственность</h3></div><button type="button" data-new-task>+ Добавить задачу</button></header><div class="project-inline-task-list" id="projectInlineTasks"></div></section>
+              <aside class="project-inline-aside">
+                <section><span>Команда сегодня</span><div class="project-inline-team" id="projectInlineTeam"></div></section>
+                <section><span>Ближайшие точки</span><div class="project-milestones"><article><time>31 авг</time><strong>Проверка основного сценария</strong></article><article><time>4 сен</time><strong>Пользовательский тест</strong></article><article><time>18 сен</time><strong>Готовый прототип</strong></article></div></section>
+                <section><span>Материалы</span><div class="project-inline-materials"><a href="#">Рабочий макет <small>Figma</small></a><a href="#">Требования <small>Notion</small></a><a href="#">Исследования <small>Drive</small></a></div></section>
+              </aside>
+            </div>
+          </section>
         </div>
       </div>
     </section>
@@ -540,6 +553,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260828-project-hub-1"></script>
+  <script src="tempo-app.js?v=20260828-inline-project-1"></script>
 </body>
 </html>
