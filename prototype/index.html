@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tempo — адаптивный план дня с учётом энергии, задач и календаря." />
+  <meta name="theme-color" content="#f2f1ef" />
+  <title>Tempo — сегодня</title>
+  <link rel="stylesheet" href="tempo-app.css" />
+</head>
+<body>
+  <a class="skip-link" href="#appMain">К содержанию</a>
+
+  <header class="app-header">
+    <div class="header-topline">
+      <a class="app-brand" href="#today" data-route="today" aria-label="Tempo, на главную"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span>Tempo</span></a>
+      <div class="header-center">
+        <nav class="primary-nav" aria-label="Навигация приложения">
+          <button class="nav-item active" type="button" data-view="today">Сегодня</button>
+          <button class="nav-item" type="button" data-view="projects">Проекты</button>
+          <button class="nav-item" type="button" data-view="calendar">Календарь</button>
+          <button class="nav-item" type="button" data-view="practices">Практики</button>
+          <button class="nav-item" type="button" data-view="checkin">Состояние</button>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <button class="header-group-button" type="button" data-header-panel="groups"><span aria-hidden="true">♧</span> Группа</button>
+        <button class="header-icon-button" type="button" aria-label="Настройки" data-open-view="profile"><span aria-hidden="true">⌁</span></button>
+        <button class="header-icon-button notification-button" type="button" aria-label="Оповещения, 2 новых" data-header-panel="notifications"><span aria-hidden="true">◔</span><i></i></button>
+        <button class="header-profile" type="button" data-open-view="profile"><span class="profile-photo">АТ</span><span><strong>Артём Темнов</strong><small>artem@tempo.app</small></span></button>
+      </div>
+    </div>
+    <aside class="header-popover notifications-popover" data-header-popover="notifications" aria-hidden="true"><header><strong>Оповещения</strong><button type="button" data-close-header-panel>×</button></header><article><i></i><div><strong>Марина добавила задачу</strong><span>«Проверить сценарий проекта» · 8 минут назад</span></div></article><article><i></i><div><strong>План группы изменился</strong><span>Созвон перенесён на 15:30</span></div></article><button type="button">Посмотреть все</button></aside>
+    <aside class="header-popover groups-popover" data-header-popover="groups" aria-hidden="true"><header><strong>Групповые задачи</strong><button type="button" data-close-header-panel>×</button></header><p>Tempo Remake · 4 участника</p><article><span class="member-stack"><i>М</i><i>К</i><i>Л</i></span><div><strong>Проверить полный сценарий</strong><span>Марина и Кирилл · завтра</span></div></article><article><span class="member-stack"><i>К</i><i>А</i></span><div><strong>Собрать обратную связь</strong><span>Кирилл и Артём · 2 сентября</span></div></article><button type="button">Открыть пространство</button></aside>
+  </header>
+
+  <main id="appMain" class="app-main">
+    <section class="app-view active" data-view-panel="today" aria-labelledby="todayTitle">
+      <div class="view-intro today-intro">
+        <div>
+          <p class="date-line"><span>Среда</span> 26 августа</p>
+          <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
+        </div>
+        <div class="intro-meta">
+          <p>План собран из календаря, задач и последней оценки состояния.</p>
+          <button class="text-action" type="button" data-open-view="checkin">Обновить состояние <span>↗</span></button>
+          <div class="context-links"><button type="button" data-open-view="conflict">Изменение плана</button><button type="button" data-open-view="review">Завершить день</button></div>
+        </div>
+      </div>
+
+      <section class="day-status" aria-label="Состояние дня">
+        <div class="energy-orbit" aria-label="Энергия 68 из 100">
+          <div class="orbit-ring orbit-ring-one"></div>
+          <div class="orbit-ring orbit-ring-two"></div>
+          <div class="orbit-core">
+            <span>энергия</span>
+            <strong>68</strong>
+            <small>устойчивая</small>
+          </div>
+          <span class="orbit-point point-one"></span>
+          <span class="orbit-point point-two"></span>
+        </div>
+
+        <div class="capacity-copy">
+          <span class="section-label">Реалистичность плана</span>
+          <h2>День помещается,<br />если оставить вечер свободным.</h2>
+          <p>После 18:30 энергия, вероятно, снизится. Tempo уже перенёс необязательную задачу на завтра.</p>
+          <div class="capacity-legend">
+            <span><i class="legend-dot coral"></i> 4 ч 20 мин в плане</span>
+            <span><i class="legend-dot pale"></i> 1 ч 40 мин свободно</span>
+          </div>
+        </div>
+
+        <div class="capacity-bars" aria-hidden="true">
+          <div class="capacity-hour"><span>09</span><i style="--load:.42"></i></div>
+          <div class="capacity-hour"><span>11</span><i style="--load:.78"></i></div>
+          <div class="capacity-hour"><span>13</span><i style="--load:.55"></i></div>
+          <div class="capacity-hour"><span>15</span><i style="--load:.88"></i></div>
+          <div class="capacity-hour"><span>17</span><i style="--load:.66"></i></div>
+          <div class="capacity-hour"><span>19</span><i style="--load:.26"></i></div>
+        </div>
+      </section>
+
+      <div class="today-grid">
+        <section class="next-action" aria-labelledby="nextActionTitle">
+          <header class="section-heading">
+            <div>
+              <span class="section-label">Следующее действие</span>
+              <h2 id="nextActionTitle">Сейчас лучше начать<br />с макета главного экрана</h2>
+            </div>
+            <span class="time-window">10:20–11:10</span>
+          </header>
+
+          <div class="recommendation-reason">
+            <span class="reason-index">01</span>
+            <p>До следующей встречи 58 минут. Энергии достаточно для сложной визуальной работы, а задача нужна сегодня.</p>
+          </div>
+
+          <div class="recommendation-actions">
+            <button class="primary-action" type="button" data-focus-start>Начать фокус <span>50 мин</span></button>
+            <button class="secondary-action" type="button" data-alternatives>Другой вариант</button>
+          </div>
+
+          <div class="alternative-stack" aria-hidden="true">
+            <article><span>Альтернатива</span><strong>Разобрать заметки интервью</strong><small>30–40 минут · средняя нагрузка</small></article>
+            <article><span>Альтернатива</span><strong>Ответить на сообщения команды</strong><small>15–20 минут · низкая нагрузка</small></article>
+          </div>
+        </section>
+
+        <aside class="today-timeline" aria-labelledby="timelineTitle">
+          <header>
+            <div><span class="section-label">Сегодня</span><h2 id="timelineTitle">6 событий</h2></div>
+            <button class="icon-text-button" type="button" data-open-view="calendar">Открыть день ↗</button>
+          </header>
+          <ol class="mini-agenda">
+            <li class="done"><time>09:00</time><div><strong>Утренняя проверка</strong><span>завершено</span></div></li>
+            <li class="current"><time>10:20</time><div><strong>Макет главного экрана</strong><span>рекомендация Tempo</span></div></li>
+            <li><time>11:30</time><div><strong>Синхронизация с командой</strong><span>Google Meet · 30 мин</span></div></li>
+            <li><time>13:00</time><div><strong>Обед и прогулка</strong><span>свободный блок · 50 мин</span></div></li>
+            <li><time>15:00</time><div><strong>Проверка прототипа</strong><span>проект Tempo · 1 ч 20 мин</span></div></li>
+            <li class="soft"><time>18:30</time><div><strong>Время без обязательств</strong><span>защищено от планирования</span></div></li>
+          </ol>
+        </aside>
+      </div>
+
+      <section class="focus-overlay" aria-hidden="true">
+        <button class="focus-close" type="button" aria-label="Закрыть режим фокуса">×</button>
+        <div class="focus-progress" style="--progress: .64">
+          <div><span>осталось</span><strong>31:42</strong><small>Макет главного экрана</small></div>
+        </div>
+        <div class="focus-controls">
+          <button type="button" data-focus-pause>Пауза</button>
+          <button type="button" data-focus-complete>Завершить</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="app-view" data-view-panel="projects" aria-labelledby="projectsTitle">
+      <div class="view-intro projects-intro">
+        <div><p class="date-line"><span>Три активных</span> один в фокусе</p><h1 id="projectsTitle">Проекты</h1></div>
+        <div class="projects-intro-copy"><p>Большие результаты собраны из задач, которые уже живут в календаре.</p><button class="primary-compact" type="button" data-new-project>Новый проект</button></div>
+      </div>
+
+      <section class="project-composer" aria-hidden="true" hidden>
+        <label>Название проекта<input type="text" placeholder="Например, подготовить запуск"></label>
+        <label>Желаемый результат<input type="text" placeholder="Что должно измениться после завершения?"></label>
+        <button class="primary-action" type="button" data-close-project>Создать <span>↗</span></button>
+      </section>
+
+      <section class="project-stage" aria-label="Проект Tempo Remake">
+        <div class="project-stage-main">
+          <header class="project-stage-header"><div><span>В фокусе до 18 сентября</span><h2>Tempo Remake</h2></div><button type="button" data-open-view="calendar">Открыть в календаре ↗</button></header>
+          <p class="project-statement">Собрать цельный продукт, который помогает планировать день по реальной энергии, а не только по свободным часам.</p>
+
+          <div class="project-phases" aria-label="Этапы проекта">
+            <article class="done"><span>Основа</span><strong>Сценарии и структура</strong><small>готово</small></article>
+            <article class="current"><span>Сейчас</span><strong>Основные экраны</strong><small>6 из 9 задач</small></article>
+            <article><span>Дальше</span><strong>Связать состояния</strong><small>3 задачи</small></article>
+            <article><span>Финал</span><strong>Проверить прототип</strong><small>до 18 сентября</small></article>
+          </div>
+
+          <div class="project-calendar-bridge">
+            <header><div><span>Ближайший результат</span><h3>Закрыть основной продуктовый контур</h3></div><strong>до 4 сентября</strong></header>
+            <div class="project-task-chain">
+              <article class="complete"><i></i><div><span>ср, 26 августа</span><strong>Главная и календарь</strong></div><b>готово</b></article>
+              <article class="active"><i></i><div><span>чт, 27 августа в 10:00</span><strong>Экран проектов</strong></div><b>1 ч 20 мин</b></article>
+              <article><i></i><div><span>пт, 28 августа в 15:00</span><strong>Связать проект с календарём</strong></div><b>50 мин</b></article>
+              <article class="unplaced"><i></i><div><span>место пока не найдено</span><strong>Проверить полный сценарий</strong></div><button type="button" data-open-view="calendar">Запланировать</button></article>
+            </div>
+          </div>
+        </div>
+
+        <aside class="project-pulse">
+          <header><span>Состояние проекта</span><b>обновлено сегодня</b></header>
+          <div class="project-progress-orbit"><i></i><i></i><div><strong>64</strong><span>процента</span></div></div>
+          <h3>Темп устойчивый</h3><p>До целевой даты остаётся 16 рабочих окон. Для текущего объёма нужно 11.</p>
+          <dl><div><dt>В календаре</dt><dd>7 ч 40 мин</dd></div><div><dt>Осталось</dt><dd>4 ч 50 мин</dd></div><div><dt>Следующая точка</dt><dd>4 сентября</dd></div></dl>
+          <div class="project-health"><span>Риск</span><strong>Низкий</strong><p>Одна задача без времени. Она не влияет на ближайший результат.</p></div>
+        </aside>
+      </section>
+
+      <section class="project-index" aria-label="Все проекты">
+        <header><div><h2>Все проекты</h2><span>крупные обязательства и результаты</span></div><div class="project-filters"><button class="active" type="button" data-project-filter="active">Активные</button><button type="button" data-project-filter="paused">На паузе</button><button type="button" data-project-filter="done">Завершённые</button></div></header>
+        <article class="project-index-row active" data-project-status="active"><div class="project-order">01</div><div><span>Продукт</span><strong>Tempo Remake</strong></div><p>Основной продуктовый контур и интерактивный прототип.</p><div class="project-mini-progress"><i style="--project-progress:64%"></i><span>64%</span></div><div><b>18 сен</b><small>следующая точка 4 сен</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
+        <article class="project-index-row" data-project-status="active"><div class="project-order">02</div><div><span>Учёба</span><strong>Курсовая работа</strong></div><p>Глава о цифровых инструментах личного планирования.</p><div class="project-mini-progress"><i style="--project-progress:38%"></i><span>38%</span></div><div><b>30 сен</b><small>6 задач в календаре</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
+        <article class="project-index-row" data-project-status="active"><div class="project-order">03</div><div><span>Личное</span><strong>Переезд</strong></div><p>Документы, вещи и подготовка новой квартиры.</p><div class="project-mini-progress"><i style="--project-progress:21%"></i><span>21%</span></div><div><b>12 окт</b><small>2 задачи без времени</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
+        <article class="project-index-row hidden" data-project-status="paused"><div class="project-order">04</div><div><span>Личное</span><strong>Архив фотографий</strong></div><p>Разобрать семейные снимки и подготовить печать.</p><div class="project-mini-progress"><i style="--project-progress:46%"></i><span>46%</span></div><div><b>без срока</b><small>на паузе</small></div><button type="button" aria-label="Открыть проект">↗</button></article>
+        <div class="project-filter-empty hidden" role="status"><strong>Завершённых проектов пока нет</strong><span>После завершения здесь останется результат и история календарных блоков.</span></div>
+      </section>
+    </section>
+
+    <section class="app-view" data-view-panel="focus-result" aria-labelledby="focusResultTitle">
+      <div class="focus-result-shell">
+        <header><span class="section-label">Фокус завершён · 11:17</span><button class="text-action" type="button" data-open-view="today">Закрыть</button></header>
+        <section class="focus-result-summary">
+          <div class="result-orbit"><i></i><i></i><strong>50</strong><span>минут</span></div>
+          <p>Макет главного экрана</p>
+          <h1 id="focusResultTitle">Хороший блок.<br />Что получилось?</h1>
+          <div class="outcome-options" role="group" aria-label="Результат фокус-сессии">
+            <button class="active" type="button"><i>✓</i><span><strong>Завершено</strong><small>задача уйдёт из плана</small></span></button>
+            <button type="button"><i>→</i><span><strong>Нужно продолжить</strong><small>оценить остаток времени</small></span></button>
+            <button type="button"><i>≈</i><span><strong>Продвинулся частично</strong><small>сохранить промежуточный итог</small></span></button>
+          </div>
+        </section>
+        <aside class="focus-result-impact">
+          <span class="section-label">Влияние на день</span><h2>Появилось<br />18 свободных минут</h2><p>Tempo не заполняет их автоматически. Следующий созвон остаётся в 12:00.</p>
+          <div class="impact-timeline"><span>11:17</span><i></i><b>Свободно</b><span>11:35</span><i class="meeting"></i><b>Подготовка</b><span>12:00</span></div>
+          <label class="result-note">Заметка к результату<textarea placeholder="Что важно продолжить или передать?"></textarea></label>
+          <button class="primary-action" type="button" data-open-view="today">Сохранить результат <span>↗</span></button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="app-view" data-view-panel="conflict" aria-labelledby="conflictTitle">
+      <div class="view-intro conflict-intro"><div><p class="date-line"><span>План изменился</span> 11:47</p><h1 id="conflictTitle">Новый созвон<br />занял час.</h1></div><div class="intro-meta"><p>Две задачи больше не помещаются. Tempo собрал вариант без уплотнения вечера.</p><button class="text-action" type="button" data-open-view="today">Вернуться без изменений</button></div></div>
+      <div class="conflict-layout">
+        <section class="plan-diff"><header><span class="section-label">До и после</span><h2>Остаток дня</h2></header><div class="diff-axis"><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span></div><div class="diff-row"><b>Было</b><i class="block meeting" style="--x:3%;--w:18%">Созвон</i><i class="block project" style="--x:29%;--w:29%">Прототип</i><i class="block study" style="--x:64%;--w:27%">Курсовая</i></div><div class="diff-row proposed"><b>Стало</b><i class="block meeting" style="--x:3%;--w:31%">Созвон продлён</i><i class="block project" style="--x:42%;--w:29%">Прототип</i><i class="block free" style="--x:76%;--w:17%">Свободно</i></div></section>
+        <aside class="conflict-decisions"><span class="section-label">Tempo предлагает</span><h2>Перенести курсовую<br />на завтра, 10:00</h2><p>Дедлайн останется достижимым: до пятницы есть ещё два подходящих окна.</p><ul><li><i></i><span><b>Созвон</b> до 13:00</span></li><li><i></i><span><b>Прототип</b> без изменений</span></li><li><i></i><span><b>Курсовая</b> завтра утром</span></li></ul><button class="primary-action" type="button" data-open-view="today">Принять изменения <span>3 решения</span></button><button class="secondary-action" type="button">Настроить вручную</button></aside>
+      </div>
+    </section>
+
+    <section class="app-view" data-view-panel="review" aria-labelledby="reviewTitle">
+      <div class="view-intro review-intro"><div><p class="date-line"><span>Итог дня</span> 18:42</p><h1 id="reviewTitle">Рабочий день<br />можно завершить.</h1></div><div class="intro-meta"><p>Главное сделано. Две незавершённые задачи уже получили реалистичное место завтра.</p></div></div>
+      <div class="review-grid"><section class="review-score"><span class="section-label">Сегодня</span><div class="review-ring"><strong>4</strong><span>из 6 действий</span></div><h2>4 ч 37 мин<br />сфокусированной работы</h2><p>На 26 минут больше плана, но вечер остался свободным.</p></section><section class="review-list"><header><span class="section-label">Решения</span><h2>Что переносим</h2></header><article><i class="done-mark"></i><div><strong>Макет главного экрана</strong><span>завершено · 57 мин</span></div><b>готово</b></article><article><i></i><div><strong>Курсовая</strong><span>завтра · 10:00–11:30</span></div><button type="button">Изменить</button></article><article><i></i><div><strong>Ответить команде</strong><span>завтра · лёгкий старт дня</span></div><button type="button">Изменить</button></article><label class="day-note">Короткая заметка<textarea placeholder="Что стоит помнить завтра?"></textarea></label></section><aside class="tomorrow-preview"><span class="section-label">Завтра</span><strong>3 ч 10 мин</strong><p>Предварительная нагрузка</p><div class="tomorrow-bars"><i style="--h:45%"></i><i style="--h:76%"></i><i style="--h:32%"></i><i style="--h:58%"></i></div><h3>Утро подходит для сложного</h3><p>Первая встреча только в 12:30.</p><button class="primary-action" type="button" data-open-view="today">Завершить день <span>↗</span></button></aside></div>
+    </section>
+
+    <section class="app-view" data-view-panel="profile" aria-labelledby="profileTitle">
+      <div class="view-intro profile-intro"><div><p class="date-line"><span>Контекст</span> настройки</p><h1 id="profileTitle">Профиль</h1></div><div class="intro-meta"><p>Здесь Tempo хранит только тот контекст, который нужен для реалистичного планирования.</p><button class="text-action" type="button" data-open-view="onboarding">Повторить настройку ↗</button></div></div>
+      <div class="settings-layout"><nav class="settings-nav" aria-label="Разделы настроек"><button class="active">Роли и границы</button><button>Календари</button><button>Сон и активность</button><button>Уведомления</button><button>Данные и приватность</button></nav><section class="settings-content"><header><span class="section-label">01</span><h2>Роли и границы</h2><p>Tempo использует роли, чтобы не смешивать обязательства и защищать личное время.</p></header><div class="role-row"><i class="role-dot work"></i><div><strong>Работа</strong><span>пн–пт · 09:30–18:30</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot study"></i><div><strong>Учёба</strong><span>до 8 часов в неделю</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot personal"></i><div><strong>Личное</strong><span>вечера и выходные</span></div><button>Изменить</button></div><div class="boundary-card"><span>Защищённое время</span><strong>После 18:30 — без новых обязательств</strong><label><input type="checkbox" checked><i></i></label></div><div class="focus-window"><span>Предпочтительный фокус</span><div><b>09</b><b class="active">10</b><b class="active">11</b><b>12</b><b>13</b><b>14</b><b class="active">15</b><b class="active">16</b><b>17</b></div></div></section><aside class="integration-panel"><span class="section-label">Подключено</span><article><i class="source-mark calendar-source"></i><div><strong>Google Calendar</strong><span>3 календаря · обновлено сейчас</span></div><b>активно</b></article><article><i class="source-mark health-source"></i><div><strong>Apple Health</strong><span>сон, пульс, активность</span></div><b>активно</b></article><article class="muted"><i class="source-mark"></i><div><strong>Oura</strong><span>не подключено</span></div><button>Подключить</button></article><p>Источники состояния опциональны. Без них Tempo продолжит работать с календарём и вашей оценкой.</p></aside></div>
+    </section>
+
+    <section class="app-view" data-view-panel="onboarding" aria-labelledby="onboardingTitle">
+      <div class="onboarding-shell"><header><a class="app-brand" href="#today" data-route="today"><span class="brand-mark"><i></i><i></i></span><span>Tempo</span></a><span>Настройка · 2 из 3</span></header><div class="onboarding-copy"><span class="section-label">Границы вместо жёсткого расписания</span><h1 id="onboardingTitle">Когда у вашего дня<br />есть начало и конец?</h1><p>Tempo не будет ставить задачи за пределами этих часов без явного подтверждения.</p><div class="role-tabs"><button class="active">Работа</button><button>Учёба</button><button>Личное</button></div><div class="time-boundary"><label>Начало<input type="time" value="09:30"></label><div class="boundary-line"><i></i><b></b></div><label>Конец<input type="time" value="18:30"></label></div><label class="protect-evening"><input type="checkbox" checked><span><strong>Защищать время после 18:30</strong><small>Новые задачи останутся без времени или перейдут на другой день.</small></span></label><div class="onboarding-actions"><button class="secondary-action" type="button" data-open-view="profile">Назад</button><button class="primary-action" type="button" data-open-view="profile">Сохранить и продолжить <span>3 / 3</span></button></div></div><aside class="onboarding-visual"><div class="day-boundary-viz"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span><i class="sleep-zone"></i><i class="work-zone"></i><b>9 ч доступно</b></div><p>На основе календаря за последние две недели Tempo видит, что самые устойчивые окна — с 10:00 до 12:00.</p></aside></div>
+    </section>
+
+    <section class="app-view" data-view-panel="calendar" aria-labelledby="calendarTitle">
+      <div class="view-intro calendar-intro">
+        <div>
+          <p class="date-line"><span>План</span> август 2026</p>
+          <h1 id="calendarTitle">Календарь</h1>
+        </div>
+        <div class="calendar-toolbar">
+          <div class="segmented-control" role="tablist" aria-label="Вид календаря">
+            <button class="active" type="button" role="tab" aria-selected="true" data-calendar-mode="day">День</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-mode="week">Неделя</button>
+            <button type="button" role="tab" aria-selected="false" data-calendar-mode="month">Месяц</button>
+          </div>
+          <button class="date-control" type="button">‹</button>
+          <button class="date-control today-control" type="button">Сегодня</button>
+          <button class="date-control" type="button">›</button>
+          <button class="primary-compact" type="button" data-new-task>Добавить</button>
+        </div>
+      </div>
+
+      <div class="calendar-shell">
+        <aside class="calendar-context">
+          <span class="section-label">26 августа</span>
+          <strong class="context-date">26</strong>
+          <p>Среда</p>
+          <div class="day-metric"><span>В плане</span><strong>4 ч 20 мин</strong></div>
+          <div class="day-metric"><span>Свободно</span><strong>1 ч 40 мин</strong></div>
+          <div class="energy-curve" aria-label="Прогноз энергии по времени">
+            <span>энергия</span>
+            <svg viewBox="0 0 230 90" role="img" aria-label="Энергия выше утром и снижается вечером"><path d="M2 68 C36 66, 40 18, 76 22 S126 72, 156 48 S190 24, 228 62"/><line x1="0" y1="76" x2="230" y2="76"/></svg>
+            <div><small>09</small><small>13</small><small>17</small><small>21</small></div>
+          </div>
+        </aside>
+
+        <div class="calendar-stage">
+          <div class="calendar-panel active" data-calendar-panel="day">
+            <header class="calendar-column-head"><span>Среда, 26</span><strong>План на сегодня</strong><small>текущее время 10:20</small></header>
+            <div class="day-grid">
+              <div class="time-labels" aria-hidden="true"><span>08:00</span><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span><span>13:00</span><span>14:00</span><span>15:00</span><span>16:00</span><span>17:00</span><span>18:00</span><span>19:00</span><span>20:00</span></div>
+              <div class="day-track">
+                <i class="now-line" style="--top: 18.7%"><span>10:20</span></i>
+                <article class="calendar-event event-neutral" style="--start:7.7%;--duration:5.8%"><span>09:00</span><strong>Проверка дня</strong><small>15 мин</small></article>
+                <article class="calendar-event event-recommended" style="--start:18.7%;--duration:14.8%"><span>10:20</span><strong>Макет главного экрана</strong><small>Tempo рекомендует · 50 мин</small></article>
+                <article class="calendar-event event-meeting" style="--start:34.6%;--duration:9.2%"><span>11:30</span><strong>Синхронизация</strong><small>Google Meet · команда</small></article>
+                <article class="calendar-event event-rest" style="--start:46.2%;--duration:12.8%"><span>13:00</span><strong>Обед и прогулка</strong><small>восстановление</small></article>
+                <article class="calendar-event event-project" style="--start:61.5%;--duration:19.5%"><span>15:00</span><strong>Проверка прототипа</strong><small>Tempo · глубокая работа</small></article>
+                <article class="calendar-event event-protected" style="--start:88.4%;--duration:9.5%"><span>18:30</span><strong>Без обязательств</strong><small>защищённое время</small></article>
+              </div>
+            </div>
+          </div>
+
+          <div class="calendar-panel" data-calendar-panel="week">
+            <div class="week-head"><span></span><div><small>пн</small><strong>24</strong></div><div><small>вт</small><strong>25</strong></div><div class="active"><small>ср</small><strong>26</strong></div><div><small>чт</small><strong>27</strong></div><div><small>пт</small><strong>28</strong></div><div><small>сб</small><strong>29</strong></div><div><small>вс</small><strong>30</strong></div></div>
+            <div class="week-grid">
+              <div class="week-times"><span>08</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span></div>
+              <div class="week-day"><article class="w-event lilac" style="--y:9%;--h:16%">Исследование</article><article class="w-event gray" style="--y:55%;--h:12%">Созвон</article></div>
+              <div class="week-day"><article class="w-event yellow" style="--y:18%;--h:21%">Прототип</article><article class="w-event blue" style="--y:64%;--h:18%">Учёба</article></div>
+              <div class="week-day active"><article class="w-event coral" style="--y:20%;--h:17%">Главный экран</article><article class="w-event gray" style="--y:40%;--h:10%">Синхронизация</article><article class="w-event blue" style="--y:57%;--h:22%">Проверка</article></div>
+              <div class="week-day"><article class="w-event green" style="--y:11%;--h:12%">Планирование</article><article class="w-event lilac" style="--y:33%;--h:27%">Курсовая</article></div>
+              <div class="week-day"><article class="w-event yellow" style="--y:16%;--h:15%">Команда</article><article class="w-event coral" style="--y:48%;--h:18%">Сборка</article></div>
+              <div class="week-day weekend"><article class="w-event green" style="--y:35%;--h:12%">Прогулка</article></div>
+              <div class="week-day weekend"><article class="w-event gray" style="--y:60%;--h:13%">План недели</article></div>
+            </div>
+          </div>
+
+          <div class="calendar-panel" data-calendar-panel="month">
+            <header class="month-summary"><div><span class="section-label">Август</span><strong>Ритм месяца</strong></div><p>Рабочая нагрузка стабильна. Последняя неделя свободнее предыдущих на 18%.</p></header>
+            <div class="month-weekdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+            <div class="month-grid" aria-label="Август 2026">
+              <button class="outside" type="button"><span>27</span></button><button class="outside" type="button"><span>28</span></button><button class="outside" type="button"><span>29</span></button><button class="outside" type="button"><span>30</span></button><button class="outside" type="button"><span>31</span></button><button type="button"><span>1</span><i class="load low"></i></button><button type="button"><span>2</span></button>
+              <button type="button"><span>3</span><i class="load mid"></i></button><button type="button"><span>4</span><i class="load high"></i></button><button type="button"><span>5</span><i class="load mid"></i></button><button type="button"><span>6</span><i class="load high"></i></button><button type="button"><span>7</span><i class="load low"></i></button><button type="button"><span>8</span></button><button type="button"><span>9</span><i class="load low"></i></button>
+              <button type="button"><span>10</span><i class="load mid"></i></button><button type="button"><span>11</span><i class="load high"></i></button><button type="button"><span>12</span><i class="load high"></i></button><button type="button"><span>13</span><i class="load mid"></i></button><button type="button"><span>14</span><i class="load low"></i></button><button type="button"><span>15</span></button><button type="button"><span>16</span></button>
+              <button type="button"><span>17</span><i class="load high"></i></button><button type="button"><span>18</span><i class="load high"></i></button><button type="button"><span>19</span><i class="load mid"></i></button><button type="button"><span>20</span><i class="load high"></i></button><button type="button"><span>21</span><i class="load low"></i></button><button type="button"><span>22</span></button><button type="button"><span>23</span><i class="load low"></i></button>
+              <button type="button"><span>24</span><i class="load mid"></i></button><button type="button"><span>25</span><i class="load high"></i></button><button class="selected" type="button"><span>26</span><i class="load mid"></i><small>сегодня</small></button><button type="button"><span>27</span><i class="load mid"></i></button><button type="button"><span>28</span><i class="load low"></i></button><button type="button"><span>29</span></button><button type="button"><span>30</span></button>
+              <button type="button"><span>31</span><i class="load low"></i></button><button class="outside" type="button"><span>1</span></button><button class="outside" type="button"><span>2</span></button><button class="outside" type="button"><span>3</span></button><button class="outside" type="button"><span>4</span></button><button class="outside" type="button"><span>5</span></button><button class="outside" type="button"><span>6</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-view" data-view-panel="practices" aria-labelledby="practicesTitle">
+      <div class="view-intro practices-intro">
+        <div>
+          <p class="date-line"><span>Восстановление</span> 18 практик</p>
+          <h1 id="practicesTitle">Практики</h1>
+        </div>
+        <div class="intro-meta">
+          <p>Короткие способы изменить состояние и вернуться к своему дню без давления.</p>
+          <div class="practice-filters" role="group" aria-label="Фильтр практик">
+            <button class="active" type="button" data-practice-filter="all">Все</button>
+            <button type="button" data-practice-filter="focus">Фокус</button>
+            <button type="button" data-practice-filter="calm">Спокойствие</button>
+            <button type="button" data-practice-filter="energy">Энергия</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="featured-practice" data-practice-category="calm">
+        <div class="breath-flower" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="featured-copy">
+          <span class="section-label">Подходит сейчас · 4 минуты</span>
+          <h2>Освободить внимание<br />после нескольких встреч</h2>
+          <p>Спокойный дыхательный ритм без задержек. Поможет переключиться перед глубокой работой.</p>
+          <button class="primary-action" type="button" data-practice-start="Дыхание 4 × 6">Начать практику <span>4 мин</span></button>
+        </div>
+        <div class="practice-fit">
+          <span>Почему сейчас</span>
+          <strong>Нагрузка снижалась<br />последние 23 минуты</strong>
+          <div class="fit-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+
+      <section class="practice-catalog" aria-label="Каталог практик">
+        <article class="practice-card practice-focus" data-practice-category="focus" tabindex="0">
+          <div class="practice-visual orbit-visual"><i></i><i></i><b></b></div>
+          <div class="practice-meta"><span>Фокус · 8 минут</span><strong>Собрать внимание</strong><p>Короткое наблюдение за одной точкой и возвращение к задаче.</p></div>
+          <button type="button" data-practice-start="Собрать внимание">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-energy" data-practice-category="energy" tabindex="0">
+          <div class="practice-visual pulse-visual"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Энергия · 6 минут</span><strong>Разбудить тело</strong><p>Мягкая последовательность движений без спортивной нагрузки.</p></div>
+          <button type="button" data-practice-start="Разбудить тело">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
+          <div class="practice-visual wave-visual"><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Спокойствие · 3 минуты</span><strong>Снизить шум</strong><p>Простая звуковая практика для перехода из перегруженного состояния.</p></div>
+          <button type="button" data-practice-start="Снизить шум">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
+          <div class="practice-visual gradient-visual"><i></i></div>
+          <div class="practice-meta"><span>Спокойствие · 10 минут</span><strong>Оставить день позади</strong><p>Вечерняя практика, которая помогает завершить рабочий режим.</p></div>
+          <button type="button" data-practice-start="Оставить день позади">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-focus" data-practice-category="focus" tabindex="0">
+          <div class="practice-visual steps-visual"><i></i><i></i><i></i><i></i></div>
+          <div class="practice-meta"><span>Фокус · 12 минут</span><strong>Разложить сложное</strong><p>Разделить большую задачу на один понятный следующий шаг.</p></div>
+          <button type="button" data-practice-start="Разложить сложное">Открыть ↗</button>
+        </article>
+        <article class="practice-card practice-energy" data-practice-category="energy" tabindex="0">
+          <div class="practice-visual sun-visual"><i></i><b></b></div>
+          <div class="practice-meta"><span>Энергия · 15 минут</span><strong>Выйти на свет</strong><p>Небольшая прогулка с ориентиром на свет, дыхание и темп шага.</p></div>
+          <button type="button" data-practice-start="Выйти на свет">Открыть ↗</button>
+        </article>
+      </section>
+    </section>
+
+    <section class="app-view" data-view-panel="checkin" aria-labelledby="checkinTitle">
+      <div class="checkin-layout">
+        <section class="checkin-form">
+          <header>
+            <p class="date-line"><span>Быстрая проверка</span> около минуты</p>
+            <h1 id="checkinTitle">Как вы<br />сейчас?</h1>
+            <p>Ответ поможет Tempo предложить реалистичный темп. Здесь нет правильного состояния.</p>
+          </header>
+
+          <form id="stateForm">
+            <fieldset class="state-step active" data-step="1">
+              <legend><span>01</span> Сколько сейчас энергии?</legend>
+              <div class="energy-slider-wrap">
+                <input id="energyRange" type="range" min="0" max="100" value="68" aria-describedby="energyHelp" />
+                <output id="energyOutput" for="energyRange">68</output>
+                <div class="range-labels"><span>почти нет</span><span>много</span></div>
+              </div>
+              <p id="energyHelp" class="field-help">Устойчивая энергия: можно работать, если сохранять паузы.</p>
+            </fieldset>
+
+            <fieldset class="state-step" data-step="2">
+              <legend><span>02</span> Как ощущается внимание?</legend>
+              <div class="choice-grid">
+                <label><input type="radio" name="attention" value="scattered" /><span><i class="choice-shape scattered"></i><strong>Рассеяно</strong><small>сложно удерживать мысль</small></span></label>
+                <label><input type="radio" name="attention" value="switching" checked /><span><i class="choice-shape switching"></i><strong>Переключается</strong><small>нужно время на вход</small></span></label>
+                <label><input type="radio" name="attention" value="steady" /><span><i class="choice-shape steady"></i><strong>Устойчиво</strong><small>легко оставаться в задаче</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="state-step" data-step="3">
+              <legend><span>03</span> Что сильнее всего влияет?</legend>
+              <div class="factor-list">
+                <label><input type="checkbox" name="factor" value="sleep" checked /><span>Сон</span></label>
+                <label><input type="checkbox" name="factor" value="meetings" checked /><span>Встречи</span></label>
+                <label><input type="checkbox" name="factor" value="food" /><span>Голод</span></label>
+                <label><input type="checkbox" name="factor" value="noise" /><span>Шум вокруг</span></label>
+                <label><input type="checkbox" name="factor" value="mood" /><span>Настроение</span></label>
+                <label><input type="checkbox" name="factor" value="unknown" /><span>Не знаю</span></label>
+              </div>
+            </fieldset>
+
+            <div class="form-controls">
+              <button class="secondary-action" type="button" id="stateBack" disabled>Назад</button>
+              <div class="step-progress" aria-label="Шаг 1 из 3"><i class="active"></i><i></i><i></i></div>
+              <button class="primary-action" type="button" id="stateNext">Продолжить <span>1 / 3</span></button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="state-preview" aria-live="polite">
+          <div class="state-orb" style="--energy:68">
+            <i class="orb-layer layer-a"></i><i class="orb-layer layer-b"></i><i class="orb-layer layer-c"></i>
+            <div><span>состояние</span><strong id="statePreviewValue">68</strong><small id="statePreviewLabel">устойчивое</small></div>
+          </div>
+          <div class="state-reading">
+            <span>Предварительная оценка</span>
+            <strong id="stateReading">Темп можно сохранить</strong>
+            <p id="stateReadingCopy">Лучшее окно для сложной задачи — до 13:00. После встречи стоит оставить короткую паузу.</p>
+          </div>
+          <div class="state-sources"><span>Учтено</span><i>сон 7 ч 12 мин</i><i>2 встречи</i><i>пульс в норме</i></div>
+        </aside>
+      </div>
+
+      <section class="checkin-success" aria-hidden="true">
+        <div class="success-mark"><i></i><i></i><i></i></div>
+        <span class="section-label">Состояние обновлено</span>
+        <h2>Tempo скорректировал<br />остаток дня</h2>
+        <p>Вечерняя задача перенесена на завтра. Следующее действие не изменилось.</p>
+        <button class="primary-action" type="button" data-open-view="today">Вернуться к дню <span>↗</span></button>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="task-dialog" id="taskDialog">
+    <form method="dialog">
+      <header><span class="section-label">Новое обязательство</span><button value="cancel" aria-label="Закрыть">×</button></header>
+      <h2>Что нужно сделать?</h2>
+      <label>Название<input type="text" placeholder="Например, подготовить вопросы" /></label>
+      <div class="dialog-row"><label>Длительность<select><option>30 минут</option><option>45 минут</option><option>1 час</option><option>Не знаю</option></select></label><label>Срок<input type="date" value="2026-08-27" /></label></div>
+      <p>Tempo проверит свободное время перед добавлением в план.</p>
+      <button class="primary-action" value="confirm">Найти время <span>↗</span></button>
+    </form>
+  </dialog>
+
+  <div class="practice-player" aria-hidden="true">
+    <button class="player-close" type="button" aria-label="Закрыть практику">×</button>
+    <div class="player-orb"><i></i><i></i><i></i><i></i></div>
+    <span>Практика</span><h2>Дыхание 4 × 6</h2><strong>03:42</strong>
+    <p>Медленный вдох</p>
+    <button class="player-pause" type="button">Пауза</button>
+  </div>
+
+  <script src="tempo-app.js"></script>
+</body>
+</html>
