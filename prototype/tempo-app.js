@@ -33,7 +33,13 @@ document.querySelectorAll('[data-close-header-panel]').forEach((button) => butto
   panel.setAttribute('aria-hidden', 'true');
 }));
 
-const calendarToday = new Date(2026, 7, 26);
+function getMoscowParts() {
+  const parts = new Intl.DateTimeFormat('ru-RU', { timeZone: 'Europe/Moscow', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+  return Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, Number(part.value)]));
+}
+
+const initialMoscowTime = getMoscowParts();
+const calendarToday = new Date(initialMoscowTime.year, initialMoscowTime.month - 1, initialMoscowTime.day);
 let calendarDate = new Date(calendarToday);
 let calendarMode = 'day';
 const monthNames = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
@@ -100,8 +106,6 @@ function renderCalendarPeriod() {
   document.querySelector('[data-context-date]').textContent = `${day} ${monthNamesGenitive[month]}`;
   document.querySelector('[data-context-day]').textContent = day;
   document.querySelector('[data-context-weekday]').textContent = weekdayNames[calendarDate.getDay()];
-  document.querySelector('[data-day-heading]').textContent = `${weekdayNames[calendarDate.getDay()]}, ${day}`;
-  document.querySelector('[data-day-plan-label]').textContent = isSameDate(calendarDate, calendarToday) ? 'План на сегодня' : 'План на день';
   document.querySelector('[data-month-name]').textContent = monthNamesTitle[month];
   const weekStart = getWeekStart(calendarDate);
   const weekHead = document.querySelector('[data-week-head]');
@@ -114,6 +118,7 @@ function renderCalendarPeriod() {
   document.querySelector('[data-calendar-previous]').setAttribute('aria-label', `Предыдущ${calendarMode === 'day' ? 'ий день' : calendarMode === 'week' ? 'ая неделя' : 'ий месяц'}`);
   document.querySelector('[data-calendar-next]').setAttribute('aria-label', `Следующ${calendarMode === 'day' ? 'ий день' : calendarMode === 'week' ? 'ая неделя' : 'ий месяц'}`);
   renderMonthGrid();
+  updateCalendarNow();
   const shell = document.querySelector('.calendar-shell');
   shell.classList.remove('period-shift');
   requestAnimationFrame(() => shell.classList.add('period-shift'));
@@ -141,6 +146,28 @@ document.querySelector('[data-calendar-previous]')?.addEventListener('click', ()
 document.querySelector('[data-calendar-next]')?.addEventListener('click', () => shiftCalendarPeriod(1));
 document.querySelector('[data-calendar-today]')?.addEventListener('click', () => { calendarDate = new Date(calendarToday); renderCalendarPeriod(); });
 renderCalendarPeriod();
+
+function updateCalendarNow() {
+  const now = getMoscowParts();
+  const marker = document.querySelector('[data-calendar-now]');
+  if (!marker) return;
+  const isToday = calendarDate.getFullYear() === now.year && calendarDate.getMonth() === now.month - 1 && calendarDate.getDate() === now.day;
+  const minutesFromStart = (now.hour * 60 + now.minute) - (8 * 60);
+  const isInTimeline = minutesFromStart >= 0 && minutesFromStart <= 13 * 60;
+  marker.hidden = !isToday;
+  marker.classList.toggle('is-outside-range', !isInTimeline);
+  marker.style.setProperty('--now-top', `${Math.max(0, Math.min(100, (minutesFromStart / (13 * 60)) * 100))}%`);
+  marker.querySelector('time').textContent = `${String(now.hour).padStart(2, '0')}:${String(now.minute).padStart(2, '0')}`;
+  const headerDate = document.querySelector('.header-date-button');
+  if (headerDate) {
+    const date = new Date(now.year, now.month - 1, now.day);
+    headerDate.querySelector('strong').textContent = now.day;
+    headerDate.querySelector('small').textContent = weekdayShort[date.getDay()].toUpperCase();
+    headerDate.setAttribute('aria-label', `${weekdayNames[date.getDay()]}, ${now.day} ${monthNamesGenitive[now.month - 1]}, открыть календарь`);
+  }
+}
+updateCalendarNow();
+setInterval(updateCalendarNow, 30000);
 
 const alternativesButton = document.querySelector('[data-alternatives]');
 const alternativesStack = document.querySelector('.alternative-stack');
