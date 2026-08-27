@@ -53,6 +53,7 @@ alternativesButton?.addEventListener('click', () => {
 
 const focusOverlay = document.querySelector('.focus-overlay');
 document.querySelectorAll('[data-focus-start]').forEach((button) => button.addEventListener('click', () => {
+  startPomodoro('Макет главного экрана');
   focusOverlay.classList.add('open');
   focusOverlay.setAttribute('aria-hidden', 'false');
 }));
@@ -66,7 +67,84 @@ document.querySelector('[data-focus-complete]')?.addEventListener('click', () =>
   openView('focus-result');
 });
 document.querySelector('[data-focus-pause]')?.addEventListener('click', (event) => {
-  event.currentTarget.textContent = event.currentTarget.textContent === 'Пауза' ? 'Продолжить' : 'Пауза';
+  togglePomodoro();
+  event.currentTarget.textContent = pomodoroRunning ? 'Пауза' : 'Продолжить';
+});
+
+const pomodoroButton = document.querySelector('[data-pomodoro-toggle]');
+const pomodoroTime = document.querySelector('[data-pomodoro-time]');
+const pomodoroTask = document.querySelector('[data-pomodoro-task]');
+let pomodoroSeconds = 25 * 60;
+let pomodoroRunning = false;
+let pomodoroInterval = null;
+
+function renderPomodoro() {
+  const minutes = Math.floor(pomodoroSeconds / 60).toString().padStart(2, '0');
+  const seconds = (pomodoroSeconds % 60).toString().padStart(2, '0');
+  pomodoroTime.textContent = `${minutes}:${seconds}`;
+  pomodoroButton.classList.toggle('running', pomodoroRunning);
+  pomodoroButton.classList.toggle('paused', !pomodoroRunning && pomodoroSeconds < 25 * 60);
+  pomodoroButton.setAttribute('aria-label', `${pomodoroTask.textContent} — ${minutes}:${seconds}. ${pomodoroRunning ? 'Нажмите, чтобы поставить на паузу' : 'Нажмите, чтобы продолжить'}`);
+}
+
+function tickPomodoro() {
+  if (pomodoroSeconds <= 0) {
+    clearInterval(pomodoroInterval);
+    pomodoroRunning = false;
+    pomodoroTask.textContent = 'Фокус завершён';
+    renderPomodoro();
+    return;
+  }
+  pomodoroSeconds -= 1;
+  renderPomodoro();
+}
+
+function startPomodoro(taskName) {
+  clearInterval(pomodoroInterval);
+  pomodoroSeconds = 25 * 60;
+  pomodoroRunning = true;
+  pomodoroTask.textContent = taskName;
+  pomodoroInterval = setInterval(tickPomodoro, 1000);
+  renderPomodoro();
+}
+
+function togglePomodoro() {
+  if (pomodoroSeconds === 25 * 60 && !pomodoroRunning) return;
+  pomodoroRunning = !pomodoroRunning;
+  clearInterval(pomodoroInterval);
+  if (pomodoroRunning) pomodoroInterval = setInterval(tickPomodoro, 1000);
+  renderPomodoro();
+}
+
+pomodoroButton?.addEventListener('click', togglePomodoro);
+
+function selectPomodoroTask(task) {
+  document.querySelectorAll('.pomodoro-task.selected').forEach((item) => {
+    item.classList.remove('selected');
+    item.querySelector('.event-start-action')?.remove();
+  });
+  task.classList.add('selected');
+  const startButton = document.createElement('button');
+  startButton.type = 'button';
+  startButton.className = 'event-start-action';
+  startButton.textContent = 'Начать · 25:00';
+  startButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    startPomodoro(task.dataset.pomodoroTaskName);
+    task.classList.remove('selected');
+    startButton.remove();
+  });
+  task.append(startButton);
+}
+
+document.querySelectorAll('.pomodoro-task').forEach((task) => {
+  task.addEventListener('click', () => selectPomodoroTask(task));
+  task.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectPomodoroTask(task);
+    }
+  });
 });
 
 document.querySelectorAll('.outcome-options button').forEach((button) => button.addEventListener('click', () => {
