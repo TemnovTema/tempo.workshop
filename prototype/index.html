@@ -235,7 +235,7 @@
     <section class="app-view" data-view-panel="calendar" aria-labelledby="calendarTitle">
       <div class="view-intro calendar-intro">
         <div>
-          <p class="date-line"><span>План</span> август 2026</p>
+          <p class="date-line calendar-period-label" data-calendar-period-label>август 2026</p>
           <h1 id="calendarTitle">Календарь</h1>
         </div>
         <div class="calendar-toolbar">
@@ -244,18 +244,18 @@
             <button type="button" role="tab" aria-selected="false" data-calendar-mode="week">Неделя</button>
             <button type="button" role="tab" aria-selected="false" data-calendar-mode="month">Месяц</button>
           </div>
-          <button class="date-control" type="button">‹</button>
-          <button class="date-control today-control" type="button">Сегодня</button>
-          <button class="date-control" type="button">›</button>
+          <button class="date-control" type="button" data-calendar-previous aria-label="Предыдущий день">‹</button>
+          <button class="date-control today-control" type="button" data-calendar-today>Сегодня</button>
+          <button class="date-control" type="button" data-calendar-next aria-label="Следующий день">›</button>
           <button class="primary-compact" type="button" data-new-task>Добавить</button>
         </div>
       </div>
 
       <div class="calendar-shell">
         <aside class="calendar-context">
-          <span class="section-label">26 августа</span>
-          <strong class="context-date">26</strong>
-          <p>Среда</p>
+          <span class="section-label" data-context-date>26 августа</span>
+          <strong class="context-date" data-context-day>26</strong>
+          <p data-context-weekday>Среда</p>
           <div class="day-metric"><span>В плане</span><strong>4 ч 20 мин</strong></div>
           <div class="day-metric"><span>Свободно</span><strong>1 ч 40 мин</strong></div>
           <div class="energy-curve" aria-label="Прогноз энергии по времени">
@@ -267,7 +267,7 @@
 
         <div class="calendar-stage">
           <div class="calendar-panel active" data-calendar-panel="day">
-            <header class="calendar-column-head"><span>Среда, 26</span><strong>План на сегодня</strong><small>текущее время 10:20</small></header>
+            <header class="calendar-column-head"><span data-day-heading>Среда, 26</span><strong data-day-plan-label>План на сегодня</strong><small>текущее время 10:20</small></header>
             <div class="day-grid">
               <div class="time-labels" aria-hidden="true"><span>08:00</span><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span><span>13:00</span><span>14:00</span><span>15:00</span><span>16:00</span><span>17:00</span><span>18:00</span><span>19:00</span><span>20:00</span></div>
               <div class="day-track">
@@ -283,7 +283,7 @@
           </div>
 
           <div class="calendar-panel" data-calendar-panel="week">
-            <div class="week-head"><span></span><div><small>пн</small><strong>24</strong></div><div><small>вт</small><strong>25</strong></div><div class="active"><small>ср</small><strong>26</strong></div><div><small>чт</small><strong>27</strong></div><div><small>пт</small><strong>28</strong></div><div><small>сб</small><strong>29</strong></div><div><small>вс</small><strong>30</strong></div></div>
+            <div class="week-head" data-week-head><span></span><div><small>пн</small><strong>24</strong></div><div><small>вт</small><strong>25</strong></div><div class="active"><small>ср</small><strong>26</strong></div><div><small>чт</small><strong>27</strong></div><div><small>пт</small><strong>28</strong></div><div><small>сб</small><strong>29</strong></div><div><small>вс</small><strong>30</strong></div></div>
             <div class="week-grid">
               <div class="week-times"><span>08</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span></div>
               <div class="week-day"><article class="w-event lilac pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Исследование" style="--y:9%;--h:16%">Исследование</article><article class="w-event gray pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Созвон" style="--y:55%;--h:12%">Созвон<span class="event-members"><i>М</i><i>К</i></span></article></div>
@@ -297,9 +297,9 @@
           </div>
 
           <div class="calendar-panel" data-calendar-panel="month">
-            <header class="month-summary"><div><span class="section-label">Август</span><strong>Ритм месяца</strong></div><p>Рабочая нагрузка стабильна. Последняя неделя свободнее предыдущих на 18%.</p></header>
+            <header class="month-summary"><div><span class="section-label" data-month-name>Август</span><strong>Ритм месяца</strong></div><div class="month-insight" aria-label="Нагрузка по неделям снизилась на 18 процентов"><div class="month-insight-value"><strong>−18%</strong><span>к первой неделе</span></div><div class="month-load-chart" aria-hidden="true"><i style="--load:82%"><small>1</small></i><i style="--load:74%"><small>2</small></i><i style="--load:78%"><small>3</small></i><i style="--load:66%"><small>4</small></i><i class="current" style="--load:54%"><small>5</small></i><b></b></div><div class="month-insight-key"><span><i></i>нагрузка</span><strong>последняя неделя свободнее</strong></div></div></header>
             <div class="month-weekdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
-            <div class="month-grid" aria-label="Август 2026">
+            <div class="month-grid" data-month-grid aria-label="Август 2026">
               <button class="outside" type="button"><span>27</span></button><button class="outside" type="button"><span>28</span></button><button class="outside" type="button"><span>29</span></button><button class="outside" type="button"><span>30</span></button><button class="outside" type="button"><span>31</span></button><button type="button"><span>1</span><i class="load low"></i></button><button type="button"><span>2</span></button>
               <button type="button"><span>3</span><i class="load mid"></i></button><button type="button"><span>4</span><i class="load high"></i></button><button type="button"><span>5</span><i class="load mid"></i></button><button type="button"><span>6</span><i class="load high"></i></button><button type="button"><span>7</span><i class="load low"></i></button><button type="button"><span>8</span></button><button type="button"><span>9</span><i class="load low"></i></button>
               <button type="button"><span>10</span><i class="load mid"></i></button><button type="button"><span>11</span><i class="load high"></i></button><button type="button"><span>12</span><i class="load high"></i></button><button type="button"><span>13</span><i class="load mid"></i></button><button type="button"><span>14</span><i class="load low"></i></button><button type="button"><span>15</span></button><button type="button"><span>16</span></button>

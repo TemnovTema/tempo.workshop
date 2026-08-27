@@ -33,15 +33,114 @@ document.querySelectorAll('[data-close-header-panel]').forEach((button) => butto
   panel.setAttribute('aria-hidden', 'true');
 }));
 
+const calendarToday = new Date(2026, 7, 26);
+let calendarDate = new Date(calendarToday);
+let calendarMode = 'day';
+const monthNames = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+const monthNamesTitle = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const monthNamesGenitive = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const weekdayNames = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+const weekdayShort = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+
+function isSameDate(a, b) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function getWeekStart(date) {
+  const start = new Date(date);
+  start.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+  return start;
+}
+
+function renderMonthGrid() {
+  const grid = document.querySelector('[data-month-grid]');
+  if (!grid) return;
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  const first = new Date(year, month, 1);
+  const start = new Date(year, month, 1 - ((first.getDay() + 6) % 7));
+  grid.innerHTML = '';
+  for (let index = 0; index < 42; index += 1) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + index);
+    const button = document.createElement('button');
+    button.type = 'button';
+    if (date.getMonth() !== month) button.classList.add('outside');
+    if (isSameDate(date, calendarToday)) button.classList.add('selected');
+    const number = document.createElement('span');
+    number.textContent = date.getDate();
+    button.append(number);
+    if (date.getMonth() === month && date.getDay() !== 0 && date.getDay() !== 6) {
+      const load = document.createElement('i');
+      load.className = `load ${['low', 'mid', 'high'][(date.getDate() * 7 + month) % 3]}`;
+      button.append(load);
+    }
+    if (isSameDate(date, calendarToday)) {
+      const today = document.createElement('small');
+      today.textContent = 'сегодня';
+      button.append(today);
+    }
+    grid.append(button);
+  }
+  grid.setAttribute('aria-label', `${monthNamesTitle[month]} ${year}`);
+}
+
+function renderCalendarPeriod() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  const day = calendarDate.getDate();
+  const periodLabel = document.querySelector('[data-calendar-period-label]');
+  if (calendarMode === 'day') periodLabel.textContent = `${day} ${monthNamesGenitive[month]} ${year}`;
+  if (calendarMode === 'week') {
+    const start = getWeekStart(calendarDate);
+    const end = new Date(start); end.setDate(start.getDate() + 6);
+    periodLabel.textContent = start.getMonth() === end.getMonth() ? `${start.getDate()}–${end.getDate()} ${monthNamesGenitive[end.getMonth()]} ${year}` : `${start.getDate()} ${monthNamesGenitive[start.getMonth()]} – ${end.getDate()} ${monthNamesGenitive[end.getMonth()]}`;
+  }
+  if (calendarMode === 'month') periodLabel.textContent = `${monthNames[month]} ${year}`;
+  document.querySelector('[data-context-date]').textContent = `${day} ${monthNamesGenitive[month]}`;
+  document.querySelector('[data-context-day]').textContent = day;
+  document.querySelector('[data-context-weekday]').textContent = weekdayNames[calendarDate.getDay()];
+  document.querySelector('[data-day-heading]').textContent = `${weekdayNames[calendarDate.getDay()]}, ${day}`;
+  document.querySelector('[data-day-plan-label]').textContent = isSameDate(calendarDate, calendarToday) ? 'План на сегодня' : 'План на день';
+  document.querySelector('[data-month-name]').textContent = monthNamesTitle[month];
+  const weekStart = getWeekStart(calendarDate);
+  const weekHead = document.querySelector('[data-week-head]');
+  [...weekHead.querySelectorAll('div')].forEach((cell, index) => {
+    const date = new Date(weekStart); date.setDate(weekStart.getDate() + index);
+    cell.querySelector('small').textContent = weekdayShort[date.getDay()];
+    cell.querySelector('strong').textContent = date.getDate();
+    cell.classList.toggle('active', isSameDate(date, calendarToday));
+  });
+  document.querySelector('[data-calendar-previous]').setAttribute('aria-label', `Предыдущ${calendarMode === 'day' ? 'ий день' : calendarMode === 'week' ? 'ая неделя' : 'ий месяц'}`);
+  document.querySelector('[data-calendar-next]').setAttribute('aria-label', `Следующ${calendarMode === 'day' ? 'ий день' : calendarMode === 'week' ? 'ая неделя' : 'ий месяц'}`);
+  renderMonthGrid();
+  const shell = document.querySelector('.calendar-shell');
+  shell.classList.remove('period-shift');
+  requestAnimationFrame(() => shell.classList.add('period-shift'));
+}
+
+function shiftCalendarPeriod(direction) {
+  if (calendarMode === 'day') calendarDate.setDate(calendarDate.getDate() + direction);
+  if (calendarMode === 'week') calendarDate.setDate(calendarDate.getDate() + (7 * direction));
+  if (calendarMode === 'month') calendarDate.setMonth(calendarDate.getMonth() + direction, 1);
+  renderCalendarPeriod();
+}
+
 document.querySelectorAll('[data-calendar-mode]').forEach((button) => {
   button.addEventListener('click', () => {
+    calendarMode = button.dataset.calendarMode;
     document.querySelectorAll('[data-calendar-mode]').forEach((item) => {
       item.classList.toggle('active', item === button);
       item.setAttribute('aria-selected', item === button ? 'true' : 'false');
     });
     document.querySelectorAll('[data-calendar-panel]').forEach((panel) => panel.classList.toggle('active', panel.dataset.calendarPanel === button.dataset.calendarMode));
+    renderCalendarPeriod();
   });
 });
+document.querySelector('[data-calendar-previous]')?.addEventListener('click', () => shiftCalendarPeriod(-1));
+document.querySelector('[data-calendar-next]')?.addEventListener('click', () => shiftCalendarPeriod(1));
+document.querySelector('[data-calendar-today]')?.addEventListener('click', () => { calendarDate = new Date(calendarToday); renderCalendarPeriod(); });
+renderCalendarPeriod();
 
 const alternativesButton = document.querySelector('[data-alternatives]');
 const alternativesStack = document.querySelector('.alternative-stack');
