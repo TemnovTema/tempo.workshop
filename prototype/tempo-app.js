@@ -168,6 +168,7 @@ let focusPhase = 'rest';
 let focusSeconds = 0;
 let focusRunning = false;
 let focusInterval = null;
+let focusCardDismissed = false;
 
 function formatFocusTime(seconds) {
   return `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
@@ -187,6 +188,8 @@ function renderFocusPlan() {
   workRestSwitch.classList.toggle('work', focusPhase === 'work');
   workRestSwitch.setAttribute('aria-pressed', focusPhase === 'work' ? 'true' : 'false');
   workRestSwitch.setAttribute('aria-label', focusPhase === 'work' ? 'Переключить на отдых' : 'Переключить на работу');
+  document.querySelector('[data-work-switch-label]').textContent = focusPhase === 'work' && focusTaskName ? formatFocusTime(focusSeconds) : 'Работа';
+  document.querySelector('[data-rest-switch-label]').textContent = focusPhase === 'rest' && focusTaskName ? formatFocusTime(focusSeconds) : 'Отдых';
   focusPlanPause.textContent = focusRunning ? 'Пауза' : 'Продолжить';
 }
 
@@ -219,8 +222,10 @@ function setFocusPhase(phase) {
   focusPhase = phase;
   if (phase === 'rest') focusSeconds = focusBreakMinutes * 60;
   if (phase === 'work') focusSeconds = (focusSprint === 1 ? focusSprintOne : focusSprintTwo) * 60;
-  focusPlan.classList.add('open');
-  focusPlan.setAttribute('aria-hidden', 'false');
+  if (!focusCardDismissed) {
+    focusPlan.classList.add('open');
+    focusPlan.setAttribute('aria-hidden', 'false');
+  }
   runFocusTimer();
 }
 
@@ -231,6 +236,7 @@ function startFocusPlan(taskName, totalMinutes = 50) {
   focusSprintTwo = Math.floor(totalMinutes / 2);
   focusBreakMinutes = totalMinutes > 60 ? 10 : 5;
   focusSprint = 1;
+  focusCardDismissed = false;
   setFocusPhase('work');
 }
 
@@ -254,11 +260,20 @@ focusPlanPause?.addEventListener('click', () => {
   renderFocusPlan();
 });
 document.querySelector('[data-focus-plan-close]')?.addEventListener('click', () => {
+  focusCardDismissed = true;
+  focusPlan.classList.remove('open');
+  focusPlan.setAttribute('aria-hidden', 'true');
+});
+document.addEventListener('click', (event) => {
+  if (!focusPlan.classList.contains('open')) return;
+  if (focusPlan.contains(event.target) || workRestSwitch.contains(event.target)) return;
+  focusCardDismissed = true;
   focusPlan.classList.remove('open');
   focusPlan.setAttribute('aria-hidden', 'true');
 });
 
-document.querySelectorAll('[data-focus-start]').forEach((button) => button.addEventListener('click', () => {
+document.querySelectorAll('[data-focus-start]').forEach((button) => button.addEventListener('click', (event) => {
+  event.stopPropagation();
   startFocusPlan('Макет главного экрана', 50);
   focusOverlay.classList.add('open');
   focusOverlay.setAttribute('aria-hidden', 'false');
