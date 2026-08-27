@@ -414,37 +414,47 @@ document.querySelector('.player-pause')?.addEventListener('click', (event) => {
 
 const energyRange = document.getElementById('energyRange');
 const energyOutput = document.getElementById('energyOutput');
+const energyHelp = document.getElementById('energyHelp');
 const statePreviewLabel = document.getElementById('statePreviewLabel');
 const stateReading = document.getElementById('stateReading');
 const stateReadingCopy = document.getElementById('stateReadingCopy');
-const moodOptions = [...document.querySelectorAll('.mood-option')];
+const moodStage = document.getElementById('moodStage');
+const moodFace = document.getElementById('moodFace');
+const moodLevels = [
+  { value: 10, style: 'angry', label: 'Напряжение', reading: 'Нагрузку лучше снизить', copy: 'Сейчас полезнее оставить только необходимое и создать пространство для восстановления.' },
+  { value: 23, style: 'irritated', label: 'Раздражение', reading: 'Лучше убрать лишние стимулы', copy: 'Tempo сократит переключения и предложит начать с одной короткой понятной задачи.' },
+  { value: 34, style: 'sad', label: 'Грустно', reading: 'Сегодня нужен мягкий темп', copy: 'Tempo предложит знакомые задачи без лишнего давления и сохранит больше пауз.' },
+  { value: 42, style: 'tired', label: 'Усталость', reading: 'Стоит беречь внимание', copy: 'Длинные задачи лучше разделить, а между спринтами оставить полноценное восстановление.' },
+  { value: 52, style: 'surprised', label: 'Удивление', reading: 'Нужна короткая сверка плана', copy: 'Сначала стоит понять, что изменилось, и только потом выбирать следующий фокус.' },
+  { value: 68, style: 'calm', label: 'Спокойно', reading: 'Темп можно сохранить', copy: 'Лучшее окно для сложной задачи - до 13:00. После встречи стоит оставить короткую паузу.' },
+  { value: 82, style: 'energized', label: 'Бодро', reading: 'Есть ресурс для сложного', copy: 'Можно использовать ближайшее длинное окно для глубокой работы, не уплотняя вечер.' },
+  { value: 96, style: 'delighted', label: 'В восторге', reading: 'Энергию можно направить в важное', copy: 'Хороший момент для задачи, которую давно хотелось сдвинуть с места.' }
+];
 
-function selectMood(option, updateRange = true) {
-  if (!option) return;
-  moodOptions.forEach((item) => {
-    const selected = item === option;
-    item.classList.toggle('is-selected', selected);
-    item.setAttribute('aria-selected', String(selected));
-  });
-  statePreviewLabel.textContent = option.dataset.moodLabel;
-  stateReading.textContent = option.dataset.reading;
-  stateReadingCopy.textContent = option.dataset.copy;
-  if (updateRange) {
-    energyRange.value = option.dataset.moodValue;
-    energyOutput.value = option.dataset.moodValue;
-    energyOutput.textContent = option.dataset.moodValue;
-  }
+function renderMood(value) {
+  const mood = moodLevels.reduce((closest, item) => Math.abs(item.value - value) < Math.abs(closest.value - value) ? item : closest);
+  moodStage.className = `mood-stage mood-${mood.style} is-changing`;
+  moodFace.className = `face face-${mood.style}`;
+  statePreviewLabel.textContent = mood.label;
+  stateReading.textContent = mood.reading;
+  stateReadingCopy.textContent = mood.copy;
+  window.clearTimeout(renderMood.timeout);
+  renderMood.timeout = window.setTimeout(() => moodStage.classList.remove('is-changing'), 180);
 }
-
-moodOptions.forEach((option) => option.addEventListener('click', () => selectMood(option)));
 
 energyRange?.addEventListener('input', () => {
   const value = Number(energyRange.value);
   energyOutput.value = value;
   energyOutput.textContent = value;
-  const closest = moodOptions.reduce((best, option) => Math.abs(Number(option.dataset.moodValue) - value) < Math.abs(Number(best.dataset.moodValue) - value) ? option : best);
-  selectMood(closest, false);
+  energyHelp.textContent = value < 35
+    ? 'Энергии мало: лучше уменьшить нагрузку и оставить время на восстановление.'
+    : value < 72
+      ? 'Устойчивая энергия: можно работать, если сохранять паузы.'
+      : 'Энергии много: можно выбрать сложную задачу, не уплотняя весь день.';
+  renderMood(value);
 });
+
+renderMood(Number(energyRange?.value || 68));
 
 let stateStep = 1;
 const stateSteps = document.querySelectorAll('.state-step');
