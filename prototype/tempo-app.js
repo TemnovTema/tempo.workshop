@@ -105,6 +105,7 @@ function renderCalendarPeriod() {
   }
   if (calendarMode === 'month') periodLabel.textContent = `${monthNames[month]} ${year}`;
   document.querySelector('[data-context-day]').textContent = day;
+  document.querySelector('[data-context-month]').textContent = monthNamesGenitive[month];
   document.querySelector('[data-context-weekday]').textContent = weekdayNames[calendarDate.getDay()];
   document.querySelector('[data-month-name]').textContent = monthNamesTitle[month];
   const weekStart = getWeekStart(calendarDate);
