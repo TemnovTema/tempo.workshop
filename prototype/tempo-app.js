@@ -93,17 +93,8 @@ function renderMonthGrid() {
 }
 
 function renderCalendarPeriod() {
-  const year = calendarDate.getFullYear();
   const month = calendarDate.getMonth();
   const day = calendarDate.getDate();
-  const periodLabel = document.querySelector('[data-calendar-period-label]');
-  if (calendarMode === 'day') periodLabel.textContent = `${day} ${monthNamesGenitive[month]} ${year}`;
-  if (calendarMode === 'week') {
-    const start = getWeekStart(calendarDate);
-    const end = new Date(start); end.setDate(start.getDate() + 6);
-    periodLabel.textContent = start.getMonth() === end.getMonth() ? `${start.getDate()}–${end.getDate()} ${monthNamesGenitive[end.getMonth()]} ${year}` : `${start.getDate()} ${monthNamesGenitive[start.getMonth()]} – ${end.getDate()} ${monthNamesGenitive[end.getMonth()]}`;
-  }
-  if (calendarMode === 'month') periodLabel.textContent = `${monthNames[month]} ${year}`;
   document.querySelector('[data-context-day]').textContent = day;
   document.querySelector('[data-context-month]').textContent = monthNamesGenitive[month];
   document.querySelector('[data-context-weekday]').textContent = weekdayNames[calendarDate.getDay()];
