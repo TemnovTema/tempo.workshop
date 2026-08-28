@@ -230,10 +230,7 @@
 
       <div class="calendar-shell">
         <aside class="calendar-context">
-          <strong class="context-date" data-context-day>26</strong>
-          <p data-context-weekday>Среда</p>
-          <div class="day-metric"><span>В плане</span><strong>4 ч 20 мин</strong></div>
-          <div class="day-metric"><span>Свободно</span><strong>1 ч 40 мин</strong></div>
+          <div class="calendar-context-date"><strong class="context-date" data-context-day>26</strong><p data-context-weekday>Среда</p></div>
           <nav class="calendar-projects" aria-label="Проекты календаря">
             <span class="calendar-projects-label">Показывать</span>
             <button class="calendar-project-row active" type="button" data-calendar-project-filter="all"><i class="project-glyph project-glyph-all" aria-hidden="true"></i><strong>Все задачи</strong><small>12</small></button>
@@ -249,6 +246,7 @@
             <div class="project-peek-next"><span>Ближайшие задачи</span><div data-project-peek-tasks></div></div>
             <button class="project-peek-open" type="button" data-project-open-details>Открыть детали</button>
           </section>
+          <div class="calendar-context-metrics"><div class="day-metric"><span>В плане</span><strong>4 ч 20 мин</strong></div><div class="day-metric"><span>Свободно</span><strong>1 ч 40 мин</strong></div></div>
         </aside>
 
         <div class="calendar-stage">
@@ -553,6 +551,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260828-inline-project-1"></script>
+  <script src="tempo-app.js?v=20260828-compact-sidebar-1"></script>
 </body>
 </html>
