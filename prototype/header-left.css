@@ -1,0 +1,4 @@
+.header-left-actions{display:flex;align-items:center;gap:7px}.header-left-actions .workshop-back{margin-left:5px;padding-left:13px}.notifications-popover{left:0;right:auto}
+@media(min-width:1201px){.header-topline{grid-template-columns:220px minmax(0,1fr) 220px}}
+@media(max-width:1200px){.header-left-actions .workshop-back{display:none}}
+@media(max-width:760px){.header-left-actions{grid-column:1;grid-row:1}.header-left-actions .header-profile,.header-left-actions .profile-photo,.header-left-actions .header-icon-button{width:36px;height:36px}.notifications-popover{left:12px;right:12px}}
