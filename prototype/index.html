@@ -14,14 +14,14 @@
   <link rel="stylesheet" href="calendar-projects.css?v=1" />
   <link rel="stylesheet" href="calendar-time.css?v=1" />
   <link rel="stylesheet" href="calendar-project-hub.css?v=2" />
-  <link rel="stylesheet" href="header-left.css?v=1" />
+  <link rel="stylesheet" href="header-left.css?v=2" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
 
   <header class="app-header">
     <div class="header-topline">
-      <div class="header-left-actions"><button class="header-profile" type="button" data-open-view="profile" aria-label="Профиль Артёма Темнова"><span class="profile-photo">AT</span></button><button class="header-icon-button notification-button" type="button" aria-label="Оповещения, 2 новых" data-header-panel="notifications"><span aria-hidden="true">◔</span><i></i></button><a class="workshop-back" href="../">Workshop</a></div>
+      <div class="header-left-actions"><a class="app-brand header-logo" href="#today" data-route="today" aria-label="Tempo, на главную"><img src="assets/tempo-logo.png" width="297" height="73" alt="Tempo" /></a><a class="workshop-back" href="../">Workshop</a></div>
       <div class="header-center">
         <nav class="primary-nav" aria-label="Навигация приложения">
           <button class="nav-item active" type="button" data-view="today">Сегодня</button>
@@ -32,7 +32,9 @@
       </div>
       <div class="header-actions">
         <button class="work-rest-switch" type="button" data-work-rest-toggle aria-label="Переключить в режим работы" aria-pressed="false"><span data-work-switch-label>Работа</span><span data-rest-switch-label>Отдых</span><i aria-hidden="true"></i></button>
-        <button class="header-icon-button header-date-button" type="button" aria-label="Среда, 26 августа — открыть календарь" data-open-view="calendar"><strong>26</strong><small>СР</small></button>
+        <button class="header-icon-button settings-button" type="button" data-open-view="profile" aria-label="Открыть настройки"><span aria-hidden="true">⚙︎</span></button>
+        <button class="header-icon-button notification-button" type="button" aria-label="Оповещения, 2 новых" data-header-panel="notifications"><span aria-hidden="true">🔔︎</span><i></i></button>
+        <button class="header-profile" type="button" data-open-view="profile" aria-label="Профиль Артёма Темнова"><span class="profile-photo"><i class="profile-person" aria-hidden="true"><b></b></i></span></button>
       </div>
     </div>
     <aside class="header-popover notifications-popover" data-header-popover="notifications" aria-hidden="true"><header><strong>Оповещения</strong><button type="button" data-close-header-panel>×</button></header><article><i></i><div><strong>Марина добавила задачу</strong><span>«Проверить сценарий проекта» · 8 минут назад</span></div></article><article><i></i><div><strong>План группы изменился</strong><span>Созвон перенесён на 15:30</span></div></article><button type="button">Посмотреть все</button></aside>
