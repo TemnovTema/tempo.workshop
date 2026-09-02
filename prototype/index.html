@@ -6,6 +6,7 @@
   <meta name="description" content="Tempo — адаптивный план дня с учётом энергии, задач и календаря." />
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
+  <script src="themes.js?v=1"></script>
   <link rel="stylesheet" href="tempo-app.css?v=header-left-1" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
@@ -17,6 +18,7 @@
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
+  <link rel="stylesheet" href="themes.css?v=1" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -184,11 +186,22 @@
       <div class="settings-layout">
         <nav class="settings-nav" aria-label="Разделы настроек">
           <button class="active" type="button" data-settings-tab="roles">Роли и границы</button>
+          <button type="button" data-settings-tab="appearance">Оформление</button>
           <button type="button" data-settings-tab="calendars">Календари</button>
           <button type="button" data-settings-tab="health">Сон и активность</button>
           <button type="button" data-settings-tab="notifications">Уведомления</button>
           <button type="button" data-settings-tab="privacy">Данные и приватность</button>
         </nav>
+        <section class="settings-content settings-panel appearance-panel" data-settings-panel="appearance">
+          <header><h2>Оформление</h2><p>Выберите, каким будет ваш Tempo. Тема меняется сразу на всех экранах.</p></header>
+          <fieldset class="theme-options"><legend>Тема интерфейса</legend>
+            <label class="theme-option"><input type="radio" name="tempo-theme" value="light" checked /><span class="theme-swatch swatch-light" aria-hidden="true"><i class="ph ph-sun"></i><span>Тёплый свет</span></span><span class="theme-option-name">Светлая <i></i></span><small>Привычная, мягкая и светлая</small></label>
+            <label class="theme-option"><input type="radio" name="tempo-theme" value="dark" /><span class="theme-swatch swatch-dark" aria-hidden="true"><i class="ph ph-moon"></i><span>Тихий вечер</span></span><span class="theme-option-name">Тёмная <i></i></span><small>Графит и приглушённые акценты</small></label>
+            <label class="theme-option"><input type="radio" name="tempo-theme" value="glass" /><span class="theme-swatch swatch-glass" aria-hidden="true"><i class="ph ph-drop"></i><span>Цвет и воздух</span></span><span class="theme-option-name">Стеклянная <i></i></span><small>Прозрачность и рассеянный свет</small></label>
+          </fieldset>
+          <p class="theme-save-status" role="status" data-theme-status>Выбор сохраняется в этом браузере.</p>
+        </section>
+        <aside class="integration-panel settings-aside appearance-aside" data-settings-aside="appearance"><i class="ph ph-palette" aria-hidden="true"></i><h3>Ваш привычный ритм</h3><p>Календарь, задачи и практики остаются на своих местах. Меняется только настроение интерфейса.</p><p>Можно вернуться к светлой теме в любой момент.</p></aside>
 
         <section class="settings-content settings-panel active" data-settings-panel="roles"><header><span class="section-label">01</span><h2>Роли и границы</h2><p>Tempo использует роли, чтобы не смешивать обязательства и защищать личное время.</p></header><div class="role-row"><i class="role-dot work"></i><div><strong>Работа</strong><span>пн–пт · 09:30–18:30</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot study"></i><div><strong>Учёба</strong><span>до 8 часов в неделю</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot personal"></i><div><strong>Личное</strong><span>вечера и выходные</span></div><button>Изменить</button></div><div class="boundary-card"><span>Защищённое время</span><strong>После 18:30 — без новых обязательств</strong><label><input type="checkbox" checked><i></i></label></div><div class="focus-window"><span>Предпочтительный фокус</span><div><b>09</b><b class="active">10</b><b class="active">11</b><b>12</b><b>13</b><b>14</b><b class="active">15</b><b class="active">16</b><b>17</b></div></div></section>
 
