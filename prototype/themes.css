@@ -124,8 +124,56 @@
 :root:is([data-theme="dark"],[data-theme="glass"]) .profile-photo { background: transparent; }
 :root:is([data-theme="dark"],[data-theme="glass"]) :is(.project-peek-progress>span,.reflection-progress,.storage-usage>i,.step-progress i:not(.active)) { background: var(--line); }
 :root:is([data-theme="dark"],[data-theme="glass"]) :is(.event-members i,.member-stack i,.task-member-editor i,.project-people i,.project-task-table article b,.person-chip i) { background: #d7d9ca; color: #333a31; }
-/* Pastel artwork and emoji are illustrations, not inverted UI surfaces. */
-:root:is([data-theme="dark"],[data-theme="glass"]) .practice-visual { --yellow:#e7ec68; --coral-soft:#ffd8ca; --coral:#ef6a45; --blue:#bfd0ff; }
+/* Glass keeps the pastel artwork; dark illustrations have their own palette. */
+:root[data-theme="glass"] .practice-visual { --yellow:#e7ec68; --coral-soft:#ffd8ca; --coral:#ef6a45; --blue:#bfd0ff; }
+:root[data-theme="dark"] .practice-visual {
+  --yellow:#b1b778;
+  --coral-soft:#b38a79;
+  --coral:#d28a6e;
+  --blue:#8b9fbd;
+  --art-line:rgba(198,210,205,.42);
+  --art-fill:#929f99;
+  background:#35423d;
+}
+[data-theme="dark"] .energy-orbit .orbit-ring { border-color:#78877b; }
+[data-theme="dark"] .energy-orbit .orbit-ring-two { border-color:#657368; }
+[data-theme="dark"] .energy-orbit .point-two { background:#8b9fbd; }
+:root[data-theme="dark"] .orbit-visual { background:linear-gradient(145deg,#374556,#303b49); }
+[data-theme="dark"] .orbit-visual i { border-color:var(--art-line); }
+[data-theme="dark"] .orbit-visual b { box-shadow:105px -50px 0 -8px var(--yellow),-94px 72px 0 -12px #b2bbb4; }
+:root[data-theme="dark"] .pulse-visual { background:radial-gradient(ellipse at 50% 65%,#4c5140,transparent 65%),#393f32; }
+[data-theme="dark"] .pulse-visual i { background:var(--art-fill); }
+[data-theme="dark"] .pulse-visual i:nth-child(4) { background:var(--coral); }
+[data-theme="dark"] .pulse-visual:after { background:var(--art-line); }
+:root[data-theme="dark"] .wave-visual { background:linear-gradient(145deg,#474153,#383641); }
+[data-theme="dark"] .wave-visual i { border-color:var(--art-line); }
+:root[data-theme="dark"] .gradient-visual { background:radial-gradient(circle at 35% 45%,#966d76,transparent 38%),radial-gradient(circle at 65% 55%,#647693,transparent 40%),#413b43; }
+[data-theme="dark"] .gradient-visual i { border-color:rgba(213,202,210,.32);box-shadow:inset 0 0 35px rgba(213,202,210,.14); }
+:root[data-theme="dark"] .steps-visual { background:linear-gradient(145deg,#3f4b40,#323d35); }
+[data-theme="dark"] .steps-visual i { background:var(--art-fill); }
+[data-theme="dark"] .steps-visual i:nth-child(4) { background:var(--coral-soft); }
+:root[data-theme="dark"] .sun-visual { background:radial-gradient(circle,#55503d,#3f3e32 72%); }
+[data-theme="dark"] .sun-visual i { border-color:rgba(189,188,151,.35); }
+[data-theme="dark"] .sun-visual b { box-shadow:0 0 45px rgba(210,138,110,.2); }
+[data-theme="dark"] .practice-card:is(:hover,:focus) .sun-visual b { box-shadow:0 0 60px rgba(210,138,110,.32); }
+:root[data-theme="dark"] .reflection-visual { background:radial-gradient(circle at 50% 48%,rgba(160,146,174,.12),transparent 50%),linear-gradient(145deg,#443e4d,#443e3b); }
+[data-theme="dark"] .reflection-visual b { color:#bdb1c5; }
+[data-theme="dark"] .practice-card:is(:hover,:focus) .reflection-visual b { color:var(--coral); }
+:root[data-theme="dark"] .thought-visual { background:linear-gradient(145deg,#3b4b42,#323f39); }
+[data-theme="dark"] .thought-visual i { border-color:var(--art-line); }
+[data-theme="dark"] .thought-visual i:nth-child(4) { background:rgba(180,193,178,.12);border-color:var(--coral); }
+:root[data-theme="dark"] .good-things-visual { background:linear-gradient(145deg,#4b4737,#3b3d32); }
+[data-theme="dark"] .good-things-visual i { background:#9aab9a;box-shadow:0 22px 40px rgba(20,27,20,.16); }
+[data-theme="dark"] .good-things-visual i:nth-child(2) { background:var(--coral-soft); }
+[data-theme="dark"] .good-things-visual i:nth-child(3) { background:var(--yellow); }
+:root[data-theme="dark"] .breath-visual { background:linear-gradient(145deg,#354857,#494152); }
+[data-theme="dark"] .breath-visual i { background:rgba(161,184,194,.2); }
+[data-theme="dark"] .breath-visual i:nth-child(3) { background:#a0b7b9; }
+:root[data-theme="dark"] .body-scan-visual { background:linear-gradient(180deg,#4c423d,#344448); }
+[data-theme="dark"] .body-scan-visual i { background:#8b9b98; }
+[data-theme="dark"] .body-scan-visual b { background:linear-gradient(180deg,rgba(210,138,110,.48),rgba(177,183,120,.16),transparent); }
+[data-theme="dark"] .breath-flower { opacity:.55; }
+[data-theme="dark"] .player-meditation .player-orb { opacity:.58; }
 [data-theme="dark"] .header-logo img { filter: brightness(0) invert(.93); }
 [data-theme="dark"] .featured-practice { background: linear-gradient(110deg,#584139,#514438 55%,#454733); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .featured-copy>p { color: var(--muted); }
