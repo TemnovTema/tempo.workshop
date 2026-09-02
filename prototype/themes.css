@@ -1,4 +1,4 @@
-/* Theme surfaces are scoped: the original light palette stays unchanged. */
+/* Shared controls, with distinct light, dark and glass surfaces. */
 :root {
   color-scheme: light;
   --theme-panel: #f8f8f6;
@@ -61,6 +61,34 @@
     radial-gradient(ellipse at 75% 20%, rgba(128,94,120,.4), transparent 48%), #696875;
   background-attachment: fixed;
   min-height: 100dvh;
+}
+:root[data-theme="light"] {
+  --canvas:#d4d1d8;
+  --muted:#66636b;
+  --theme-focus:#7b547e;
+}
+[data-theme="light"] body {
+  background:radial-gradient(ellipse at 10% 0%,#e3dfe9,transparent 55%),linear-gradient(135deg,#d4d1d8,#ceccd1);
+  background-attachment:fixed;
+  min-height:100dvh;
+}
+/* Reuse the glass header material without changing its geometry. */
+[data-theme="light"] .app-header {
+  --ink:#302d39;
+  --muted:#595364;
+  --white:rgba(255,255,255,.54);
+}
+[data-theme="light"] :is(.primary-nav,.work-rest-switch) { background:rgba(255,255,255,.28); }
+[data-theme="light"] :is(.header-profile,.header-icon-button) { background:rgba(255,255,255,.52);border-color:rgba(255,255,255,.56); }
+[data-theme="light"] :is(.profile-photo,.header-icon-button) { color:#302d39; }
+[data-theme="light"] :is(.primary-nav,.header-profile,.header-icon-button,.work-rest-switch) {
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.64),inset 0 0 0 1px rgba(255,255,255,.25);
+}
+:root[data-theme] {
+  --primary-quiet:#6b5e78;
+  --primary-quiet-hover:#5b5066;
 }
 /* Shared semantic surfaces, including the older hard-coded light components. */
 :root:is([data-theme="dark"],[data-theme="glass"]) :is(
@@ -248,10 +276,11 @@
 :root[data-theme="glass"] .event-project { background:linear-gradient(115deg,#d0dffc,#9db7ea); }
 :root[data-theme="glass"] .event-rest { background:linear-gradient(115deg,#eef1b6,#d0dc8d); }
 :root[data-theme="glass"] .event-protected { background:repeating-linear-gradient(135deg,rgba(245,240,249,.2) 0 6px,rgba(77,61,92,.09) 6px 7px);box-shadow:none; }
-[data-theme="glass"] .app-main :is(.primary-action,.primary-compact,.project-peek-open) {
+:root :is(.primary-action,.primary-compact,.project-peek-open,.focus-plan-pause,.header-popover>button,.player-pause,.event-start-action) {
   background:linear-gradient(125deg,#7b547e,#654e80);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 5px 15px rgba(74,38,98,.17);
 }
-[data-theme="glass"] .app-main :is(.primary-action,.primary-compact,.project-peek-open):hover { background:linear-gradient(125deg,#69426c,#54406f); }
+:root :is(.primary-action,.primary-compact,.project-peek-open,.focus-plan-pause,.header-popover>button,.player-pause,.event-start-action):hover { background:linear-gradient(125deg,#69426c,#54406f); }
+:root .primary-action>span { color:#eee7f2; }
 /* Theme selector uses actual material samples, not miniature fake dashboards. */
 .appearance-panel { min-width: 0; }
 .theme-options { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:32px 0 0;padding:0;border:0; }
@@ -261,7 +290,7 @@
 .theme-swatch { display:flex;flex-direction:column;justify-content:space-between;height:170px;padding:20px;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(80,70,80,.08);transition:transform .2s ease; }
 .theme-swatch>.ph { font-size:28px; }
 .theme-swatch>span { font-size:11px; }
-.swatch-light { background:#eeede8;color:#4c5249; }
+.swatch-light { background:linear-gradient(135deg,#e3dfe9,#ceccd1);color:#4d4655; }
 .swatch-dark { background:#292f2b;color:#dde4d8; }
 .swatch-glass { position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 95% 95%,#e6bc81,transparent 65%),radial-gradient(ellipse at 0 0,#c8c1f4,transparent 70%),#dabed4;color:#44394e; }
 .swatch-glass:before { content:"";position:absolute;inset:8px;z-index:-1;border-radius:12px;background:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 0 0 1px rgba(255,255,255,.3); }
@@ -286,6 +315,7 @@
 }
 @media(prefers-reduced-motion:reduce) { .theme-swatch { transition:none; }.theme-option:hover .theme-swatch { transform:none; } }
 @media(prefers-reduced-transparency:reduce) {
+  [data-theme="light"] :is(.primary-nav,.header-profile,.header-icon-button,.work-rest-switch) { background:#eeebf1;backdrop-filter:none;-webkit-backdrop-filter:none; }
   :root[data-theme="glass"], [data-theme="glass"] .app-main { --paper:#e3dce8;--white:#eee9f0;--theme-panel:#e3dce8;--theme-control:#d8cfde;--theme-raised:#eee9f0; }
   [data-theme="glass"] :is(.calendar-shell,.settings-layout,.day-status,.next-action,.today-timeline,.practice-card,.practice-filter-bar,.checkin-layout,.featured-practice,.header-popover,.focus-plan-popover,.task-dialog,.task-detail-dialog,.project-detail-dialog,.reflection-player,.primary-nav,.header-profile,.header-icon-button,.work-rest-switch) { backdrop-filter:none;-webkit-backdrop-filter:none; }
 }

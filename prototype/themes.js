@@ -1,7 +1,7 @@
 /* Runs before styles to avoid a flash of the wrong theme on reload. */
 (() => {
   const key = 'tempo-theme';
-  const themes = { light: ['Светлая', '#efeeec'], dark: ['Тёмная', '#202321'], glass: ['Стеклянная', '#c9c5d7'] };
+  const themes = { light: ['Светлая', '#d4d1d8'], dark: ['Тёмная', '#202321'], glass: ['Стеклянная', '#c9c5d7'] };
   const normalize = value => Object.hasOwn(themes, value) ? value : 'light';
   let current = 'light';
   try { current = normalize(localStorage.getItem(key)); } catch { /* Storage may be unavailable. */ }
