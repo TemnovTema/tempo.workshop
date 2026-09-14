@@ -12,9 +12,9 @@
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
-  <link rel="stylesheet" href="calendar-projects.css?v=1" />
+  <link rel="stylesheet" href="calendar-projects.css?v=2" />
   <link rel="stylesheet" href="calendar-time.css?v=1" />
-  <link rel="stylesheet" href="calendar-project-hub.css?v=2" />
+  <link rel="stylesheet" href="calendar-project-hub.css?v=3" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
@@ -253,9 +253,9 @@
           <nav class="calendar-projects" aria-label="Проекты календаря">
             <span class="calendar-projects-label">Показывать</span>
             <button class="calendar-project-row active" type="button" data-calendar-project-filter="all"><i class="project-glyph project-glyph-all" aria-hidden="true"></i><strong>Все задачи</strong><small>12</small></button>
-            <button class="calendar-project-row" type="button" data-calendar-project-filter="tempo"><i class="project-glyph project-glyph-tempo" aria-hidden="true"></i><strong>Разработка Tempo</strong><span class="project-members" aria-label="Артём, Марина и Кирилл"><i>АТ</i><i>МК</i><i>КС</i></span><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Разработка Tempo" data-project-edit="tempo">✎</span></button>
-            <button class="calendar-project-row" type="button" data-calendar-project-filter="university"><i class="project-glyph project-glyph-study" aria-hidden="true"></i><strong>Универ</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Универ" data-project-edit="university">✎</span></button>
-            <button class="calendar-project-row" type="button" data-calendar-project-filter="personal"><i class="project-glyph project-glyph-personal" aria-hidden="true"></i><strong>Личное</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Личное" data-project-edit="personal">✎</span></button>
+            <button class="calendar-project-row" type="button" data-calendar-project-filter="tempo"><i class="project-glyph project-glyph-icon" data-project-glyph aria-hidden="true"><span class="ph ph-code"></span></i><strong>Разработка Tempo</strong><span class="project-members" aria-label="Артём, Марина и Кирилл"><i>АТ</i><i>МК</i><i>КС</i></span><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Разработка Tempo" data-project-edit="tempo">✎</span></button>
+            <button class="calendar-project-row" type="button" data-calendar-project-filter="university"><i class="project-glyph project-glyph-none" data-project-glyph aria-hidden="true"></i><strong>Универ</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Универ" data-project-edit="university">✎</span></button>
+            <button class="calendar-project-row" type="button" data-calendar-project-filter="personal"><i class="project-glyph project-glyph-image" data-project-glyph aria-hidden="true"><img src="assets/project-covers/personal-flow.png" alt="" /></i><strong>Личное</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Личное" data-project-edit="personal">✎</span></button>
             <button class="calendar-project-add" type="button" data-calendar-project-add><span>+</span> Добавить проект</button>
           </nav>
           <section class="calendar-project-peek" data-project-peek hidden aria-live="polite">
@@ -528,6 +528,11 @@
           <div class="project-materials"><span>Материалы</span><div id="projectMaterials"><a href="#">Figma · рабочий макет</a><a href="#">Notion · требования</a><a href="#">Drive · исследования</a></div><button type="button" data-project-add-link>+ Добавить ссылку</button></div>
         </section>
         <aside class="project-dialog-aside">
+          <fieldset class="project-cover-field"><legend>Обложка</legend>
+            <div class="project-cover-modes" role="group" aria-label="Тип обложки"><button type="button" data-project-cover-mode="none">Без обложки</button><button type="button" data-project-cover-mode="icon">Иконка</button><button type="button" data-project-cover-mode="image">Картинка</button></div>
+            <div class="project-cover-panel" data-project-cover-panel="icon" hidden><div class="project-icon-picker" aria-label="Выберите иконку"><button type="button" data-project-icon="code" aria-label="Код"><i class="ph ph-code"></i></button><button type="button" data-project-icon="graduation-cap" aria-label="Учёба"><i class="ph ph-graduation-cap"></i></button><button type="button" data-project-icon="folder" aria-label="Папка"><i class="ph ph-folder"></i></button><button type="button" data-project-icon="palette" aria-label="Дизайн"><i class="ph ph-palette"></i></button><button type="button" data-project-icon="heart" aria-label="Личное"><i class="ph ph-heart"></i></button><button type="button" data-project-icon="briefcase" aria-label="Работа"><i class="ph ph-briefcase"></i></button></div></div>
+            <div class="project-cover-panel project-image-picker" data-project-cover-panel="image" hidden><img id="projectCoverPreview" src="assets/project-covers/personal-flow.png" alt="Предпросмотр обложки проекта" /><div><strong>Своя картинка</strong><span>PNG или JPG, до 5 МБ</span><label class="project-upload-button">Выбрать файл<input id="projectCoverUpload" type="file" accept="image/png,image/jpeg,image/webp" /></label></div></div>
+          </fieldset>
           <fieldset><legend>Цвет</legend><div class="project-colors"><button class="active" type="button" data-project-color="coral" aria-label="Коралловый"></button><button type="button" data-project-color="blue" aria-label="Голубой"></button><button type="button" data-project-color="green" aria-label="Зелёный"></button><button type="button" data-project-color="lilac" aria-label="Сиреневый"></button></div></fieldset>
           <fieldset><legend>Участники</legend><div class="project-people"><button class="active" type="button" data-project-person="Артём"><i>АТ</i><span>Артём</span></button><button type="button" data-project-person="Марина"><i>МК</i><span>Марина</span></button><button type="button" data-project-person="Кирилл"><i>КС</i><span>Кирилл</span></button><button class="project-person-add" type="button" data-project-add-person><i>+</i><span>Добавить</span></button></div></fieldset>
           <label>Срок проекта<input id="calendarProjectDeadline" type="date" value="2026-09-30" /></label>
@@ -570,6 +575,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260828-compact-calendar-header-1"></script>
+  <script src="tempo-app.js?v=20260914-project-covers-1"></script>
 </body>
 </html>

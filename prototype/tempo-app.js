@@ -318,9 +318,9 @@ let activeCalendarTask;
 const calendarProjectDialog = document.getElementById('calendarProjectDialog');
 const calendarProjectForm = document.getElementById('calendarProjectForm');
 const calendarProjectData = {
-  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','bright','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
-  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
-  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','bright','Бодро']], tasks: [['Разобрать документы','Артём','30 авг','Запланировано'],['Прогулка','Артём','сегодня','В календаре'],['План недели','Артём','31 авг','Запланировано']] }
+  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', coverMode: 'icon', coverIcon: 'code', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','energized','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
+  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', coverMode: 'none', coverIcon: 'graduation-cap', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
+  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green', coverMode: 'image', coverIcon: 'heart', coverImage: 'assets/project-covers/personal-flow.png', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','energized','Бодро']], tasks: [['Разобрать документы','Артём','30 авг','Запланировано'],['Прогулка','Артём','сегодня','В календаре'],['План недели','Артём','31 авг','Запланировано']] }
 };
 let activeProjectKey = null;
 
@@ -343,6 +343,12 @@ function filterCalendarByProject(projectKey) {
   }
 }
 
+function projectMoodMarkup(name, mood, label, withDetails = true) {
+  const tone = mood === 'bright' ? 'energized' : mood;
+  const orb = `<span class="project-mood mood-${tone}" aria-hidden="true"><span class="mood-orb"><i class="face face-${tone}"><b></b><b></b><em></em></i></span></span>`;
+  return withDetails ? `<div>${orb}<small>${name}</small><em>${label}</em></div>` : `<article>${orb}<div><strong>${name}</strong><small>${label}</small></div></article>`;
+}
+
 function renderProjectPeek(projectKey) {
   const peek = document.querySelector('[data-project-peek]');
   const data = calendarProjectData[projectKey];
@@ -353,7 +359,7 @@ function renderProjectPeek(projectKey) {
   peek.querySelector('[data-project-peek-deadline]').textContent = `до ${data.deadline}`;
   peek.querySelector('[data-project-peek-progress]').style.width = `${data.progress}%`;
   peek.querySelector('[data-project-peek-percent]').textContent = `${data.progress}%`;
-  peek.querySelector('[data-project-peek-team]').innerHTML = data.moods.map(([name, mood, label]) => `<div><span class="project-mood project-mood-${mood}"><i></i><b></b></span><small>${name}</small><em>${label}</em></div>`).join('');
+  peek.querySelector('[data-project-peek-team]').innerHTML = data.moods.map(([name, mood, label]) => projectMoodMarkup(name, mood, label)).join('');
   peek.querySelector('[data-project-peek-tasks]').innerHTML = data.tasks.slice(0, 2).map(([task, owner, date]) => `<article><strong>${task}</strong><span>${date} · ${owner}</span></article>`).join('');
 }
 
@@ -380,7 +386,7 @@ function renderInlineProjectDetails(projectKey) {
   document.getElementById('projectInlineDays').textContent = data.days;
   document.getElementById('projectInlineHours').textContent = data.hours;
   document.getElementById('projectInlineHealth').textContent = data.health;
-  document.getElementById('projectInlineTeam').innerHTML = data.moods.map(([name, mood, label]) => `<article><span class="project-mood project-mood-${mood}"><i></i><b></b></span><div><strong>${name}</strong><small>${label}</small></div></article>`).join('');
+  document.getElementById('projectInlineTeam').innerHTML = data.moods.map(([name, mood, label]) => projectMoodMarkup(name, mood, label, false)).join('');
   document.getElementById('projectInlineTasks').innerHTML = data.tasks.map(([task, owner, date, status], index) => `<article><button type="button" class="project-inline-check ${index === 0 ? 'active' : ''}" aria-label="Отметить задачу"></button><div><strong>${task}</strong><span>${owner}</span></div><time>${date}</time><em>${status}</em><button type="button" class="project-inline-more" aria-label="Действия с задачей">•••</button></article>`).join('');
   const peekButton = document.querySelector('[data-project-open-details]');
   peekButton.textContent = 'Открыть в календаре';
@@ -400,7 +406,7 @@ function closeInlineProjectDetails() {
 
 function openProjectDialog(projectKey = null) {
   activeProjectKey = projectKey;
-  const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral' };
+  const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral', coverMode: 'none', coverIcon: 'folder', coverImage: 'assets/project-covers/personal-flow.png' };
   document.getElementById('calendarProjectEyebrow').textContent = projectKey ? 'Проект' : 'Новый проект';
   document.getElementById('calendarProjectDialogTitle').textContent = projectKey ? data.name : 'Собрать задачи в проект';
   document.getElementById('calendarProjectName').value = data.name;
@@ -409,6 +415,12 @@ function openProjectDialog(projectKey = null) {
   document.getElementById('calendarProjectDeadline').value = projectKey === 'tempo' ? '2026-09-18' : projectKey === 'personal' ? '2026-10-12' : '2026-09-30';
   document.querySelectorAll('[data-project-person]').forEach((button) => button.classList.toggle('active', data.members.includes(button.dataset.projectPerson)));
   document.querySelectorAll('[data-project-color]').forEach((button) => button.classList.toggle('active', button.dataset.projectColor === data.color));
+  calendarProjectDialog.dataset.coverMode = data.coverMode || 'none';
+  calendarProjectDialog.dataset.coverIcon = data.coverIcon || 'folder';
+  document.querySelectorAll('[data-project-cover-mode]').forEach((button) => button.classList.toggle('active', button.dataset.projectCoverMode === calendarProjectDialog.dataset.coverMode));
+  document.querySelectorAll('[data-project-cover-panel]').forEach((panel) => { panel.hidden = panel.dataset.projectCoverPanel !== calendarProjectDialog.dataset.coverMode; });
+  document.querySelectorAll('[data-project-icon]').forEach((button) => button.classList.toggle('active', button.dataset.projectIcon === calendarProjectDialog.dataset.coverIcon));
+  document.getElementById('projectCoverPreview').src = data.coverImage || 'assets/project-covers/personal-flow.png';
   document.querySelector('[data-project-delete]').hidden = !projectKey;
   document.querySelector('[data-project-workspace-summary]').hidden = !projectKey;
   document.querySelector('[data-project-task-board]').hidden = !projectKey;
@@ -443,6 +455,22 @@ document.querySelectorAll('[data-project-color], [data-project-person]').forEach
   if (button.hasAttribute('data-project-color')) document.querySelectorAll('[data-project-color]').forEach((item) => item.classList.toggle('active', item === button));
   else button.classList.toggle('active');
 }));
+document.querySelectorAll('[data-project-cover-mode]').forEach((button) => button.addEventListener('click', () => {
+  calendarProjectDialog.dataset.coverMode = button.dataset.projectCoverMode;
+  document.querySelectorAll('[data-project-cover-mode]').forEach((item) => item.classList.toggle('active', item === button));
+  document.querySelectorAll('[data-project-cover-panel]').forEach((panel) => { panel.hidden = panel.dataset.projectCoverPanel !== button.dataset.projectCoverMode; });
+}));
+document.querySelectorAll('[data-project-icon]').forEach((button) => button.addEventListener('click', () => {
+  calendarProjectDialog.dataset.coverIcon = button.dataset.projectIcon;
+  document.querySelectorAll('[data-project-icon]').forEach((item) => item.classList.toggle('active', item === button));
+}));
+document.getElementById('projectCoverUpload')?.addEventListener('change', (event) => {
+  const [file] = event.currentTarget.files;
+  if (!file || file.size > 5 * 1024 * 1024) return;
+  const reader = new FileReader();
+  reader.addEventListener('load', () => { document.getElementById('projectCoverPreview').src = reader.result; });
+  reader.readAsDataURL(file);
+});
 document.querySelector('[data-project-add-person]')?.addEventListener('click', (event) => {
   event.currentTarget.querySelector('span').textContent = 'Нина';
   event.currentTarget.querySelector('i').textContent = 'НГ';
@@ -460,7 +488,15 @@ calendarProjectForm?.addEventListener('submit', () => {
     calendarProjectData[activeProjectKey].name = name;
     calendarProjectData[activeProjectKey].description = document.getElementById('calendarProjectDescription').value;
     calendarProjectData[activeProjectKey].link = document.getElementById('calendarProjectLink').value;
+    calendarProjectData[activeProjectKey].coverMode = calendarProjectDialog.dataset.coverMode;
+    calendarProjectData[activeProjectKey].coverIcon = calendarProjectDialog.dataset.coverIcon;
+    calendarProjectData[activeProjectKey].coverImage = document.getElementById('projectCoverPreview').src;
     document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"] strong`).textContent = name;
+    const glyph = document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"] [data-project-glyph]`);
+    if (glyph) {
+      glyph.className = `project-glyph project-glyph-${calendarProjectDialog.dataset.coverMode}`;
+      glyph.innerHTML = calendarProjectDialog.dataset.coverMode === 'icon' ? `<span class="ph ph-${calendarProjectDialog.dataset.coverIcon}"></span>` : calendarProjectDialog.dataset.coverMode === 'image' ? `<img src="${document.getElementById('projectCoverPreview').src}" alt="" />` : '';
+    }
   }
 });
 document.querySelector('[data-project-delete]')?.addEventListener('click', () => {
