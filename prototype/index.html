@@ -12,9 +12,9 @@
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
-  <link rel="stylesheet" href="calendar-projects.css?v=3" />
+  <link rel="stylesheet" href="calendar-projects.css?v=4" />
   <link rel="stylesheet" href="calendar-time.css?v=1" />
-  <link rel="stylesheet" href="calendar-project-hub.css?v=3" />
+  <link rel="stylesheet" href="calendar-project-hub.css?v=4" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
@@ -252,10 +252,10 @@
           <div class="calendar-context-date"><strong class="context-date" data-context-day>26</strong><span data-context-month>августа</span><i aria-hidden="true"></i><p data-context-weekday>Среда</p></div>
           <nav class="calendar-projects" aria-label="Проекты календаря">
             <span class="calendar-projects-label">Показывать</span>
-            <button class="calendar-project-row active" type="button" data-calendar-project-filter="all"><i class="project-glyph project-glyph-all" aria-hidden="true"></i><strong>Все задачи</strong><small>12</small></button>
+            <button class="calendar-project-row active" type="button" data-calendar-project-filter="all"><i class="project-glyph project-glyph-icon" data-project-icon-name="list-checks" aria-hidden="true"><span class="ph ph-list-checks"></span></i><strong>Все задачи</strong><small>12</small></button>
             <button class="calendar-project-row" type="button" data-calendar-project-filter="tempo"><i class="project-glyph project-glyph-icon" data-project-glyph data-project-icon-name="brackets-curly" aria-hidden="true"><span class="ph ph-brackets-curly"></span></i><strong>Разработка Tempo</strong><span class="project-members" aria-label="Артём, Марина и Кирилл"><i>АТ</i><i>МК</i><i>КС</i></span><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Разработка Tempo" data-project-edit="tempo">✎</span></button>
-            <button class="calendar-project-row" type="button" data-calendar-project-filter="university"><i class="project-glyph project-glyph-default" data-project-glyph aria-hidden="true"><span class="ph ph-folder-notch"></span></i><strong>Универ</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Универ" data-project-edit="university">✎</span></button>
-            <button class="calendar-project-row" type="button" data-calendar-project-filter="personal"><i class="project-glyph project-glyph-image" data-project-glyph aria-hidden="true"><img src="assets/project-covers/personal-flow.png" alt="" /></i><strong>Личное</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Личное" data-project-edit="personal">✎</span></button>
+            <button class="calendar-project-row" type="button" data-calendar-project-filter="university"><i class="project-glyph project-glyph-icon" data-project-glyph data-project-icon-name="books" aria-hidden="true"><span class="ph ph-books"></span></i><strong>Универ</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Универ" data-project-edit="university">✎</span></button>
+            <button class="calendar-project-row" type="button" data-calendar-project-filter="personal"><i class="project-glyph project-glyph-image" data-project-glyph aria-hidden="true"><img src="assets/project-covers/health-pulse.png" alt="" /></i><strong>Здоровье</strong><span class="project-edit" role="button" tabindex="0" aria-label="Редактировать проект Здоровье" data-project-edit="personal">✎</span></button>
             <button class="calendar-project-add" type="button" data-calendar-project-add><span>+</span> Добавить проект</button>
           </nav>
           <section class="calendar-project-peek" data-project-peek hidden aria-live="polite">
@@ -294,7 +294,7 @@
               <div class="week-day"><article class="w-event green pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Планирование" style="--y:11%;--h:12%">Планирование<span class="event-members"><i>М</i><i>А</i></span></article><article class="w-event lilac pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Курсовая" style="--y:33%;--h:27%">Курсовая</article></div>
               <div class="week-day"><article class="w-event yellow pomodoro-task group-event" tabindex="0" role="button" data-pomodoro-task-name="Команда" style="--y:16%;--h:15%">Команда<span class="event-members"><i>К</i><i>А</i></span></article><article class="w-event coral pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Сборка" style="--y:48%;--h:18%">Сборка</article></div>
               <div class="week-day weekend"><article class="w-event green pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Прогулка" style="--y:35%;--h:12%">Прогулка</article></div>
-              <div class="week-day weekend"><article class="w-event gray pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="План недели" style="--y:60%;--h:13%">План недели</article></div>
+              <div class="week-day weekend"><article class="w-event gray pomodoro-task" tabindex="0" role="button" data-pomodoro-task-name="Растяжка и восстановление" style="--y:60%;--h:13%">Растяжка и восстановление</article></div>
             </div>
           </div>
 
@@ -503,7 +503,7 @@
       <h2>Что нужно сделать?</h2>
       <label>Название<input type="text" placeholder="Например, подготовить вопросы к встрече" /></label>
       <div class="dialog-row dialog-row-three"><label>Дата<input type="date" value="2026-08-27" /></label><label>Начало<input type="time" value="14:00" /></label><label>Длительность<select><option>15 минут</option><option selected>30 минут</option><option>45 минут</option><option>1 час</option><option>1 ч 30 мин</option><option>Не знаю</option></select></label></div>
-      <div class="dialog-row"><label>Проект<select><option>Без проекта</option><option selected>Tempo Remake</option><option>Курсовая работа</option><option>Личное</option></select></label><label>Повторение<select><option selected>Не повторять</option><option>Каждый день</option><option>По будням</option><option>Каждую неделю</option></select></label></div>
+      <div class="dialog-row"><label>Проект<select><option>Без проекта</option><option selected>Tempo Remake</option><option>Курсовая работа</option><option>Здоровье</option></select></label><label>Повторение<select><option selected>Не повторять</option><option>Каждый день</option><option>По будням</option><option>Каждую неделю</option></select></label></div>
       <label>Ссылка или место<input type="url" placeholder="Google Meet, Zoom или адрес" /></label>
       <fieldset class="task-people-field"><legend>Участники</legend><div class="task-people"><button type="button" class="person-chip active"><i>АТ</i> Артём</button><button type="button" class="person-chip"><i>МК</i> Марина</button><button type="button" class="person-chip"><i>КС</i> Кирилл</button><button type="button" class="person-add">+ Добавить</button></div></fieldset>
       <label>Заметка<textarea placeholder="Контекст, результат или полезные материалы"></textarea></label>
@@ -551,7 +551,7 @@
       <header><div><span class="task-detail-status"><i></i> Запланировано</span><small id="taskDetailProject">Tempo Remake</small></div><button value="cancel" aria-label="Закрыть">×</button></header>
       <div class="task-detail-title"><div><span id="taskDetailDate">Сегодня, 26 августа</span><h2 id="calendarTaskTitle">Макет главного экрана</h2></div><button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button></div>
       <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
-      <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Личное</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
+      <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Здоровье</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
       <section class="task-detail-section task-resource-grid"><div><h3>Ссылки</h3><div class="task-link-list" id="taskDetailLinks"><a href="https://meet.google.com" target="_blank" rel="noreferrer"><i>G</i><span><strong>Google Meet</strong><small>Видеовстреча команды</small></span></a><button type="button">+ Добавить ссылку</button></div></div><div><h3>Участники</h3><div class="task-member-editor"><button type="button"><i>АТ</i><span>Артём</span></button><button type="button"><i>МК</i><span>Марина</span></button><button type="button"><i>КС</i><span>Кирилл</span></button><button type="button" class="member-add"><i>+</i><span>Добавить</span></button></div></div></section>
       <footer><button class="task-delete" type="button">Удалить задачу</button><div><button class="secondary-action" value="cancel">Закрыть</button><button class="primary-action" value="confirm">Сохранить изменения</button></div></footer>
     </form>
@@ -575,6 +575,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=20260914-project-icons-2"></script>
+  <script src="tempo-app.js?v=20260914-health-project-3"></script>
 </body>
 </html>

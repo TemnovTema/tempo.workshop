@@ -319,15 +319,15 @@ const calendarProjectDialog = document.getElementById('calendarProjectDialog');
 const calendarProjectForm = document.getElementById('calendarProjectForm');
 const calendarProjectData = {
   tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', coverMode: 'icon', coverIcon: 'brackets-curly', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','energized','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
-  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', coverMode: 'none', coverIcon: 'books', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
-  personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green', coverMode: 'image', coverIcon: 'heart', coverImage: 'assets/project-covers/personal-flow.png', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','energized','Бодро']], tasks: [['Разобрать документы','Артём','30 авг','Запланировано'],['Прогулка','Артём','сегодня','В календаре'],['План недели','Артём','31 авг','Запланировано']] }
+  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', coverMode: 'icon', coverIcon: 'books', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
+  personal: { name: 'Здоровье', description: 'Сон, движение и восстановление — небольшие регулярные действия без перегрузки.', link: '', members: ['Артём'], color: 'green', coverMode: 'image', coverIcon: 'plant', coverImage: 'assets/project-covers/health-pulse.png', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','energized','Бодро']], tasks: [['Вечерняя прогулка','Артём','сегодня','В календаре'],['Растяжка и восстановление','Артём','30 авг','Запланировано'],['Подвести итоги сна','Артём','31 авг','Без времени'],['Записаться на чекап','Артём','4 сен','Запланировано']] }
 };
 let activeProjectKey = null;
 
 const weekProjectMap = {
   'Исследование': 'university', 'Созвон': 'tempo', 'Прототип': 'tempo', 'Учёба': 'university',
   'Главный экран': 'tempo', 'Синхронизация': 'tempo', 'Проверка': 'university', 'Планирование': 'tempo',
-  'Курсовая': 'university', 'Команда': 'tempo', 'Сборка': 'tempo', 'Прогулка': 'personal', 'План недели': 'personal'
+  'Курсовая': 'university', 'Команда': 'tempo', 'Сборка': 'tempo', 'Прогулка': 'personal', 'Растяжка и восстановление': 'personal'
 };
 document.querySelectorAll('.w-event[data-pomodoro-task-name]').forEach((task) => {
   task.dataset.calendarProject = weekProjectMap[task.dataset.pomodoroTaskName] || 'personal';
@@ -517,7 +517,7 @@ function openCalendarTask(task) {
   const endTime = `${String(Math.floor(endTotal / 60) % 24).padStart(2, '0')}:${String(endTotal % 60).padStart(2, '0')}`;
   const isMeeting = task.classList.contains('group-event') || name.toLowerCase().includes('созвон') || name.toLowerCase().includes('синхронизац');
   document.getElementById('calendarTaskTitle').textContent = name;
-  const projectName = isMeeting ? 'Команда' : name.includes('Курсов') || name.includes('Учёб') ? 'Курсовая работа' : 'Tempo Remake';
+  const projectName = isMeeting ? 'Команда' : task.dataset.calendarProject === 'personal' ? 'Здоровье' : name.includes('Курсов') || name.includes('Учёб') ? 'Курсовая работа' : 'Tempo Remake';
   document.getElementById('taskDetailProject').textContent = projectName;
   document.getElementById('taskDetailProjectSelect').value = projectName;
   document.getElementById('taskDetailStartTime').value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
