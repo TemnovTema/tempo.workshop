@@ -318,8 +318,8 @@ let activeCalendarTask;
 const calendarProjectDialog = document.getElementById('calendarProjectDialog');
 const calendarProjectForm = document.getElementById('calendarProjectForm');
 const calendarProjectData = {
-  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', coverMode: 'icon', coverIcon: 'code', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','energized','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
-  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', coverMode: 'none', coverIcon: 'graduation-cap', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
+  tempo: { name: 'Разработка Tempo', description: 'Собрать цельный продуктовый прототип Tempo: календарь, состояние, практики и совместная работа.', link: 'https://www.figma.com/design/lBBGerWEOGtd2V0yDqxkpw/Tempo.Remake', members: ['Артём', 'Марина', 'Кирилл'], color: 'coral', coverMode: 'icon', coverIcon: 'brackets-curly', progress: 64, deadline: '18 сентября', days: '21 день', hours: '7 ч 40 мин', health: 'Устойчиво', moods: [['Артём','calm','Спокойно'],['Марина','energized','Бодро'],['Кирилл','tired','Усталость']], tasks: [['Макет календаря','Артём','28 авг','В работе'],['Сценарий практик','Марина','29 авг','На проверке'],['Проверка прототипа','Кирилл','31 авг','Запланировано'],['Профиль и настройки','Артём','2 сен','Запланировано'],['Пользовательский тест','Марина','4 сен','Без времени']] },
+  university: { name: 'Универ', description: 'Учебные задачи, исследования и подготовка курсовой работы.', link: '', members: ['Артём'], color: 'blue', coverMode: 'none', coverIcon: 'books', progress: 38, deadline: '30 сентября', days: '33 дня', hours: '4 ч 20 мин', health: 'Нужен фокус', moods: [['Артём','calm','Спокойно']], tasks: [['Исследование источников','Артём','29 авг','В работе'],['Структура главы','Артём','2 сен','Запланировано'],['Черновик главы','Артём','8 сен','Без времени'],['Встреча с куратором','Артём','11 сен','Запланировано']] },
   personal: { name: 'Личное', description: 'Личные планы, восстановление и небольшие дела вне работы.', link: '', members: ['Артём'], color: 'green', coverMode: 'image', coverIcon: 'heart', coverImage: 'assets/project-covers/personal-flow.png', progress: 52, deadline: 'без жёсткого срока', days: 'свободно', hours: '2 ч 10 мин', health: 'Спокойно', moods: [['Артём','energized','Бодро']], tasks: [['Разобрать документы','Артём','30 авг','Запланировано'],['Прогулка','Артём','сегодня','В календаре'],['План недели','Артём','31 авг','Запланировано']] }
 };
 let activeProjectKey = null;
@@ -406,7 +406,7 @@ function closeInlineProjectDetails() {
 
 function openProjectDialog(projectKey = null) {
   activeProjectKey = projectKey;
-  const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral', coverMode: 'none', coverIcon: 'folder', coverImage: 'assets/project-covers/personal-flow.png' };
+  const data = projectKey ? calendarProjectData[projectKey] : { name: '', description: '', link: '', members: ['Артём'], color: 'coral', coverMode: 'none', coverIcon: 'brackets-curly', coverImage: 'assets/project-covers/personal-flow.png' };
   document.getElementById('calendarProjectEyebrow').textContent = projectKey ? 'Проект' : 'Новый проект';
   document.getElementById('calendarProjectDialogTitle').textContent = projectKey ? data.name : 'Собрать задачи в проект';
   document.getElementById('calendarProjectName').value = data.name;
@@ -416,7 +416,7 @@ function openProjectDialog(projectKey = null) {
   document.querySelectorAll('[data-project-person]').forEach((button) => button.classList.toggle('active', data.members.includes(button.dataset.projectPerson)));
   document.querySelectorAll('[data-project-color]').forEach((button) => button.classList.toggle('active', button.dataset.projectColor === data.color));
   calendarProjectDialog.dataset.coverMode = data.coverMode || 'none';
-  calendarProjectDialog.dataset.coverIcon = data.coverIcon || 'folder';
+  calendarProjectDialog.dataset.coverIcon = data.coverIcon || 'brackets-curly';
   document.querySelectorAll('[data-project-cover-mode]').forEach((button) => button.classList.toggle('active', button.dataset.projectCoverMode === calendarProjectDialog.dataset.coverMode));
   document.querySelectorAll('[data-project-cover-panel]').forEach((panel) => { panel.hidden = panel.dataset.projectCoverPanel !== calendarProjectDialog.dataset.coverMode; });
   document.querySelectorAll('[data-project-icon]').forEach((button) => button.classList.toggle('active', button.dataset.projectIcon === calendarProjectDialog.dataset.coverIcon));
@@ -494,8 +494,9 @@ calendarProjectForm?.addEventListener('submit', () => {
     document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"] strong`).textContent = name;
     const glyph = document.querySelector(`[data-calendar-project-filter="${activeProjectKey}"] [data-project-glyph]`);
     if (glyph) {
-      glyph.className = `project-glyph project-glyph-${calendarProjectDialog.dataset.coverMode}`;
-      glyph.innerHTML = calendarProjectDialog.dataset.coverMode === 'icon' ? `<span class="ph ph-${calendarProjectDialog.dataset.coverIcon}"></span>` : calendarProjectDialog.dataset.coverMode === 'image' ? `<img src="${document.getElementById('projectCoverPreview').src}" alt="" />` : '';
+      glyph.className = `project-glyph project-glyph-${calendarProjectDialog.dataset.coverMode === 'none' ? 'default' : calendarProjectDialog.dataset.coverMode}`;
+      glyph.dataset.projectIconName = calendarProjectDialog.dataset.coverMode === 'icon' ? calendarProjectDialog.dataset.coverIcon : '';
+      glyph.innerHTML = calendarProjectDialog.dataset.coverMode === 'icon' ? `<span class="ph ph-${calendarProjectDialog.dataset.coverIcon}"></span>` : calendarProjectDialog.dataset.coverMode === 'image' ? `<img src="${document.getElementById('projectCoverPreview').src}" alt="" />` : '<span class="ph ph-folder-notch"></span>';
     }
   }
 });
