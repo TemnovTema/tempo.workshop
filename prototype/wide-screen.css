@@ -1,0 +1,30 @@
+/* Large desktop layout: use the monitor without merely scaling the whole UI. */
+@media (min-width:1680px){
+  .app-header,.app-main{width:min(2040px,calc(100% - 96px))}
+  .app-header{margin-top:18px}.header-topline{grid-template-columns:260px minmax(0,1fr) 340px;min-height:80px}
+  .header-logo img{width:124px;height:auto}.primary-nav{padding:5px;border-radius:16px}.nav-item{padding:12px 20px;font-size:13px}
+  .header-actions{gap:10px}.header-icon-button,.header-profile,.profile-photo{width:48px;height:48px}.work-rest-switch{width:154px;height:46px}.work-rest-switch i{width:70px;height:38px}.work-rest-switch:not(.work) i{transform:translateX(72px)}
+  .app-main{margin-top:12px;margin-bottom:110px}
+  .view-intro{min-height:320px;padding:62px 58px 46px}.view-intro h1,.checkin-form h1{font-size:clamp(82px,6vw,124px)}
+  .intro-meta{width:min(520px,100%)}.intro-meta>p{font-size:19px}
+  .calendar-intro{min-height:148px;padding:34px 30px}.calendar-intro h1{height:54px;font-size:50px;line-height:54px}.calendar-toolbar{gap:8px}.segmented-control button,.date-control,.primary-compact{height:44px;padding-inline:17px;font-size:12px}
+  .calendar-shell{grid-template-columns:320px minmax(0,1fr);min-height:960px}.calendar-context{padding:38px 30px}.calendar-context-date{padding-bottom:22px}.calendar-context .context-date{font-size:30px}.calendar-context-date>span,.calendar-context-date>p{font-size:11px}
+  .calendar-project-row,.calendar-project-add{min-height:52px}.calendar-project-row strong{font-size:12px}.project-glyph{width:34px;height:34px;border-radius:11px}.project-glyph-icon .ph{font-size:18px}.project-members i{width:23px;height:23px}
+  .calendar-stage{padding:32px}.day-grid,.week-grid{height:clamp(780px,calc(100dvh - 340px),940px)}.day-grid{grid-template-columns:78px 1fr}.time-labels,.week-times{font-size:10px}.calendar-event{left:26px;right:16px;min-height:54px;padding:12px 17px;border-radius:15px}.calendar-event strong{font-size:15px}.calendar-event span,.calendar-event small{font-size:10px}.event-recommended{right:28%}.event-meeting{left:34%}.event-project{left:17%}
+  .week-head{grid-template-columns:58px repeat(7,1fr);padding-bottom:22px}.week-grid{grid-template-columns:58px repeat(7,1fr)}.week-head small{font-size:10px}.week-head strong{font-size:23px}.w-event{padding:11px;font-size:10px}
+  .month-summary{padding:18px 18px 30px}.month-summary strong{font-size:26px}.month-grid button{height:142px;padding:15px}.month-grid button>span{font-size:15px}.month-weekdays span{padding:12px;font-size:10px}
+  .day-status{grid-template-columns:380px 1fr 470px;min-height:520px;padding:48px 60px}.energy-orbit{width:310px;height:310px}.orbit-core{inset:78px}.capacity-copy h2{font-size:44px}.capacity-copy>p{font-size:15px}.capacity-bars{height:250px}.today-grid{gap:24px;margin-top:24px}.next-action{min-height:610px;padding:50px}.today-timeline{padding:43px}.recommendation-actions{left:50px;bottom:50px}
+  .featured-practice{grid-template-columns:440px minmax(0,1fr) 360px;min-height:560px;padding:60px}.breath-flower{transform:scale(1.14)}.featured-copy h2{font-size:52px}.featured-copy>p{font-size:15px}.practice-filter-bar{padding:21px 24px}.practice-filters button{min-height:44px;padding-inline:20px;font-size:12px}
+  .practice-card{min-height:520px}.practice-card-copy{padding:36px}.practice-card h3{font-size:31px}
+  .checkin-layout{grid-template-columns:minmax(0,1.08fr) minmax(560px,.92fr)}.checkin-form{padding:58px}.state-preview{padding:58px}.mood-stage{height:410px}.mood-stage .mood-orb{width:278px}
+  .settings-layout{grid-template-columns:280px minmax(0,1fr) 430px;min-height:780px}.settings-nav{padding:38px 28px}.settings-nav button{padding:15px;font-size:12px}.settings-content{padding:54px}.integration-panel{padding:54px 36px}
+  .conflict-layout,.review-grid{gap:24px}.plan-diff,.conflict-decisions,.review-grid>section,.review-grid>aside{min-height:680px;padding:50px}
+  .onboarding-copy{padding-left:7vw;padding-right:10vw}.onboarding-visual{padding:70px}.day-boundary-viz{height:520px}
+  .project-detail-dialog{width:min(1360px,calc(100vw - 96px))}.task-detail-dialog{width:min(1080px,calc(100vw - 96px))}
+}
+
+@media (min-width:2200px){
+  .app-header,.app-main{width:min(2240px,calc(100% - 128px))}
+  .calendar-shell{grid-template-columns:350px minmax(0,1fr)}
+  .calendar-stage{padding:38px}.day-grid,.week-grid{height:clamp(840px,calc(100dvh - 350px),1020px)}
+}
