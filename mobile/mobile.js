@@ -11,6 +11,19 @@ function updateStatusTime() {
 updateStatusTime();
 window.setInterval(updateStatusTime, 30000);
 
+function fitDeviceMockup() {
+  const stage = document.querySelector('.device-stage');
+  if (!stage) return;
+  if (window.matchMedia('(min-width: 600px)').matches) {
+    const scale = Math.min(1, (window.innerHeight - 28) / 876, (window.innerWidth - 28) / 424);
+    stage.style.setProperty('--device-scale', String(Math.max(.32, scale)));
+  } else {
+    stage.style.removeProperty('--device-scale');
+  }
+}
+fitDeviceMockup();
+window.addEventListener('resize', fitDeviceMockup);
+
 function showScreen(name) {
   screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === name));
   navButtons.forEach((button) => button.classList.toggle('active', button.dataset.nav === name));
