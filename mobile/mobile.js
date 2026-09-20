@@ -4,6 +4,13 @@ const navButtons = [...document.querySelectorAll('[data-nav]')];
 const backdrop = document.getElementById('sheetBackdrop');
 const sheets = [...document.querySelectorAll('.bottom-sheet')];
 
+function updateStatusTime() {
+  const now = new Date();
+  document.getElementById('statusTime').textContent = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+}
+updateStatusTime();
+window.setInterval(updateStatusTime, 30000);
+
 function showScreen(name) {
   screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === name));
   navButtons.forEach((button) => button.classList.toggle('active', button.dataset.nav === name));
