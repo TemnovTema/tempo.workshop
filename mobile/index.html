@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#dfdce4" />
+  <meta name="description" content="Мобильный прототип Tempo — календарь, состояние и практики в одном ритме." />
+  <title>Tempo — мобильный прототип</title>
+  <link rel="icon" href="../prototype/assets/tempo-logo.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <link rel="stylesheet" href="mobile.css?v=1" />
+</head>
+<body>
+  <a class="skip-link" href="#mobileMain">К содержанию</a>
+  <div class="mobile-app" id="mobileApp">
+    <header class="mobile-header">
+      <a class="tempo-mark" href="../" aria-label="Вернуться в workshop"><img src="../prototype/assets/tempo-logo.png" alt="Tempo" /><span>workshop</span></a>
+      <div class="header-tools">
+        <button class="mode-switch" id="modeSwitch" type="button" aria-label="Переключить режим работы и отдыха"><span>Работа</span><i></i><span>Отдых</span></button>
+        <button class="icon-button" type="button" aria-label="Уведомления"><i class="ph ph-bell"></i><b></b></button>
+        <button class="icon-button" id="profileButton" type="button" aria-label="Профиль и настройки"><i class="ph ph-user"></i></button>
+      </div>
+    </header>
+
+    <main id="mobileMain">
+      <section class="screen active" data-screen="today" aria-labelledby="todayTitle">
+        <header class="hero-copy">
+          <p><span>Воскресенье</span> 20 сентября</p>
+          <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
+          <button class="tiny-action" type="button" data-screen-link="state">Обновить состояние <i class="ph ph-arrow-right"></i></button>
+        </header>
+
+        <article class="energy-card">
+          <div class="energy-orbit" aria-label="Энергия 68, устойчивая"><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i><span class="energy-dot warm"></span><span class="energy-dot cool"></span><div><small>энергия</small><strong>68</strong><em>устойчивая</em></div></div>
+          <div class="energy-copy"><small>реалистичность плана</small><h2>День помещается, если оставить вечер свободным.</h2><p>После 18:30 темп снизится. Необязательную задачу лучше перенести.</p><div class="capacity"><span><i></i>4 ч 20 мин в плане</span><span><i></i>1 ч 40 мин свободно</span></div></div>
+        </article>
+
+        <section class="next-task" aria-labelledby="nextTaskTitle">
+          <header><div><small>следующее действие</small><h2 id="nextTaskTitle">Макет главного экрана</h2></div><time>10:20–11:10</time></header>
+          <p>До встречи 58 минут. Энергии достаточно для сложной визуальной работы.</p>
+          <div class="task-meta"><span><i class="ph ph-brackets-curly"></i> Tempo</span><span><i class="ph ph-clock"></i> 50 мин</span></div>
+          <button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button>
+        </section>
+
+        <section class="day-list" aria-labelledby="dayListTitle"><header><div><small>сегодня</small><h2 id="dayListTitle">6 событий</h2></div><button type="button" data-screen-link="calendar">Открыть день</button></header><button class="day-row done" type="button"><time>09:00</time><span><b>Утренняя проверка</b><small>завершено</small></span></button><button class="day-row current" type="button" data-open-task="Макет главного экрана"><time>10:20</time><span><b>Макет главного экрана</b><small>Tempo рекомендует</small></span></button><button class="day-row" type="button" data-open-task="Синхронизация с командой"><time>11:30</time><span><b>Синхронизация с командой</b><small>Google Meet · 30 мин</small></span><i class="avatar-stack"><em>М</em><em>К</em></i></button></section>
+      </section>
+
+      <section class="screen" data-screen="calendar" aria-labelledby="calendarTitle">
+        <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div><button class="round-add" type="button" id="addTaskButton" aria-label="Добавить задачу"><i class="ph ph-plus"></i></button></header>
+        <div class="calendar-tabs" role="tablist"><button class="active" type="button" data-cal-view="day">День</button><button type="button" data-cal-view="week">Неделя</button><button type="button" data-cal-view="month">Месяц</button></div>
+        <div class="date-strip"><button type="button" aria-label="Предыдущий период"><i class="ph ph-caret-left"></i></button><div><strong id="calendarPeriod">20 сентября</strong><small id="calendarPeriodMeta">воскресенье · сегодня</small></div><button type="button" aria-label="Следующий период"><i class="ph ph-caret-right"></i></button></div>
+        <div class="project-scroller" aria-label="Проекты"><button class="active" type="button"><i class="ph ph-list"></i>Все</button><button type="button"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button"><i class="ph ph-books"></i>Универ</button><button type="button"><i class="ph ph-heart"></i>Здоровье</button></div>
+        <div class="mobile-timeline" id="calendarDay">
+          <span class="now-label">13:37</span><i class="now-mark"></i>
+          <time style="--row:0">09:00</time><time style="--row:2">11:00</time><time style="--row:4">13:00</time><time style="--row:6">15:00</time><time style="--row:8">17:00</time><time style="--row:10">19:00</time>
+          <button class="mobile-event neutral" style="--top:3%;--height:8%" type="button" data-open-task="Проверка дня"><b>Проверка дня</b><small>15 мин</small></button>
+          <button class="mobile-event coral" style="--top:15%;--height:17%" type="button" data-open-task="Макет главного экрана"><b>Макет главного экрана</b><small>Tempo · 50 мин</small></button>
+          <button class="mobile-event violet team" style="--top:35%;--height:12%" type="button" data-open-task="Синхронизация"><b>Синхронизация</b><small>Google Meet</small><i class="avatar-stack"><em>М</em><em>К</em></i></button>
+          <button class="mobile-event lime" style="--top:51%;--height:14%" type="button" data-open-task="Обед и прогулка"><b>Обед и прогулка</b><small>восстановление</small></button>
+          <button class="mobile-event blue" style="--top:69%;--height:20%" type="button" data-open-task="Проверка прототипа"><b>Проверка прототипа</b><small>Tempo · глубокая работа</small></button>
+        </div>
+        <div class="alternate-calendar" id="calendarAlternate" hidden></div>
+      </section>
+
+      <section class="screen" data-screen="practices" aria-labelledby="practicesTitle">
+        <header class="section-head"><div><p>короткая перезагрузка</p><h1 id="practicesTitle">Практики</h1></div><button class="round-add" type="button" aria-label="Сохранённые практики"><i class="ph ph-bookmark-simple"></i></button></header>
+        <article class="featured-practice">
+          <div class="breath-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div><small>подходит сейчас · 4 минуты</small><h2>Освободить внимание после нескольких встреч</h2><p>Спокойный дыхательный ритм без задержек.</p></div>
+          <button class="primary-button" type="button" data-practice="Дыхание 4–6">Начать практику <span>4 мин</span></button>
+        </article>
+        <div class="practice-filters"><button class="active" type="button" data-filter="all">Все</button><button type="button" data-filter="focus">Фокус</button><button type="button" data-filter="calm">Спокойствие</button><button type="button" data-filter="reflection">Рефлексия</button><button type="button" data-filter="meditation">Медитации</button></div>
+        <div class="practice-list">
+          <button class="practice-card focus" type="button" data-category="focus" data-practice="Собрать внимание"><div class="orbit-art"><i></i><i></i><b></b><em></em></div><small>Фокус · 8 минут</small><h3>Собрать внимание</h3><p>Наблюдение за одной точкой и возвращение к задаче.</p></button>
+          <button class="practice-card reflection" type="button" data-category="reflection" data-practice="Что со мной сейчас"><div class="question-art">?</div><small>Рефлексия · 6 минут</small><h3>Что со мной сейчас</h3><p>Четыре вопроса, чтобы заметить состояние без оценки.</p></button>
+          <button class="practice-card meditation" type="button" data-category="meditation" data-practice="Тихое дыхание"><div class="wave-art"><i></i><i></i><i></i></div><small>Медитация · 5 минут</small><h3>Тихое дыхание</h3><p>Мягкий ритм вдоха и выдоха.</p></button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="state" aria-labelledby="stateTitle">
+        <header class="section-head state-head"><div><p>чек-ин · 1 из 3</p><h1 id="stateTitle">Как вы<br />сейчас?</h1></div><span class="state-score" id="stateScore">68</span></header>
+        <div class="mood-panel">
+          <div class="mood-orb mood-energized" id="moodOrb" aria-hidden="true"><i class="face face-energized" id="moodFace"><b></b><b></b><em></em></i></div>
+          <strong id="moodLabel">Бодро</strong><p id="moodCopy">Энергии достаточно, чтобы начать с важного.</p>
+        </div>
+        <label class="energy-slider"><span>меньше энергии</span><span>больше энергии</span><input id="energySlider" type="range" min="0" max="100" value="68" /></label>
+        <section class="factor-card"><small>что влияет</small><h2>Отметьте, что замечаете</h2><div><button type="button"><i class="ph ph-moon"></i>Сон</button><button class="active" type="button"><i class="ph ph-heartbeat"></i>Тело</button><button type="button"><i class="ph ph-brain"></i>Фокус</button><button type="button"><i class="ph ph-users"></i>Люди</button></div></section>
+        <button class="primary-button save-state" type="button">Сохранить состояние <span>готово</span></button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Разделы приложения">
+      <button class="active" type="button" data-nav="today"><i class="ph ph-house"></i><span>Сегодня</span></button>
+      <button type="button" data-nav="calendar"><i class="ph ph-calendar-blank"></i><span>Календарь</span></button>
+      <button type="button" data-nav="practices"><i class="ph ph-sparkle"></i><span>Практики</span></button>
+      <button type="button" data-nav="state"><i class="ph ph-smiley"></i><span>Состояние</span></button>
+    </nav>
+
+    <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
+    <aside class="bottom-sheet practice-sheet" id="practiceSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><div class="practice-breathe"><i></i><span>вдох</span></div><small>практика</small><h2 id="practiceSheetTitle">Дыхание 4–6</h2><p>Следуйте за кругом. Вдох — когда он растёт, выдох — когда уменьшается.</p><button class="primary-button practice-toggle" type="button">Пауза <span id="practiceTime">03:59</span></button></aside>
+    <aside class="bottom-sheet settings-sheet" id="settingsSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>профиль</small><h2>Артём Темнов</h2><div class="profile-line"><span>AT</span><div><b>Состояние синхронизировано</b><small>сегодня в 09:04</small></div></div><h3>Тема</h3><div class="theme-picker"><button class="active" type="button" data-theme="light"><i></i>Светлая</button><button type="button" data-theme="dark"><i></i>Тёмная</button><button type="button" data-theme="glass"><i></i>Стекло</button></div><a href="../">Вернуться в workshop <i class="ph ph-arrow-up-right"></i></a></aside>
+  </div>
+  <script src="mobile.js?v=1"></script>
+</body>
+</html>
