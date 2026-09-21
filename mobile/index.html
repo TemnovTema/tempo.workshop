@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=11" />
+  <link rel="stylesheet" href="mobile.css?v=12" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -69,7 +69,7 @@
 
       <section class="screen" data-screen="practices" aria-labelledby="practicesTitle">
         <div class="top-slide-card practices-top-card">
-          <header class="section-head"><div><p>короткая перезагрузка</p><h1 id="practicesTitle">Практики</h1></div><button class="round-add" type="button" aria-label="Сохранённые практики"><i class="ph ph-bookmark-simple"></i></button></header>
+          <header class="section-head"><div><p>короткая перезагрузка</p><h1 id="practicesTitle">Практики</h1></div><button class="round-add practice-likes" type="button" data-screen-link="liked" aria-label="Понравившиеся практики"><i class="ph ph-heart"></i></button></header>
           <article class="featured-practice">
             <div class="breath-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
             <div><small>подходит сейчас · 4 минуты</small><h2>Освободить внимание после нескольких встреч</h2><p>Спокойный дыхательный ритм без задержек.</p></div>
@@ -96,6 +96,18 @@
         <section class="factor-card"><small>что влияет</small><h2>Отметьте, что замечаете</h2><div><button type="button"><i class="ph ph-moon"></i>Сон</button><button class="active" type="button"><i class="ph ph-heartbeat"></i>Тело</button><button type="button"><i class="ph ph-brain"></i>Фокус</button><button type="button"><i class="ph ph-users"></i>Люди</button></div></section>
         <button class="primary-button save-state" type="button">Сохранить состояние <span>готово</span></button>
       </section>
+
+      <section class="screen liked-screen" data-screen="liked" aria-labelledby="likedTitle">
+        <div class="top-slide-card liked-top-card">
+          <header class="section-head"><button class="liked-back" type="button" data-screen-link="practices" aria-label="Вернуться к практикам"><i class="ph ph-arrow-left"></i></button><div><p>ваша подборка</p><h1 id="likedTitle">Понравилось</h1></div></header>
+        </div>
+        <div class="liked-intro"><strong>3 практики</strong><p>Сохранённые упражнения доступны здесь в один тап.</p></div>
+        <div class="practice-list liked-list">
+          <button class="practice-card focus" type="button" data-practice="Собрать внимание"><div class="orbit-art"><i></i><i></i><b></b><em></em></div><small>Фокус · 8 минут</small><h3>Собрать внимание</h3><p>Вернуться к одной задаче после перегруженного утра.</p><i class="ph-fill ph-heart liked-mark"></i></button>
+          <button class="practice-card reflection" type="button" data-practice="Что со мной сейчас"><div class="question-art">?</div><small>Рефлексия · 6 минут</small><h3>Что со мной сейчас</h3><p>Четыре вопроса, чтобы заметить состояние без оценки.</p><i class="ph-fill ph-heart liked-mark"></i></button>
+          <button class="practice-card meditation" type="button" data-practice="Тихое дыхание"><div class="wave-art"><i></i><i></i><i></i></div><small>Медитация · 5 минут</small><h3>Тихое дыхание</h3><p>Мягкий ритм вдоха и выдоха перед сложной задачей.</p><i class="ph-fill ph-heart liked-mark"></i></button>
+        </div>
+      </section>
     </main>
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
@@ -105,12 +117,12 @@
       <div class="bottom-nav-main">
         <button class="active" type="button" data-nav="today" aria-label="Сегодня"><img src="assets/nav-home.svg" alt="" /></button>
         <button type="button" data-nav="calendar" aria-label="Календарь"><img src="assets/nav-calendar.svg" alt="" /></button>
-        <button type="button" data-nav="practices" aria-label="Практики"><img src="assets/nav-practices.svg" alt="" /></button>
-        <button type="button" data-nav="state" aria-label="Состояние"><img src="assets/nav-state.svg" alt="" /></button>
+        <button type="button" data-nav="practices" aria-label="Практики"><img src="assets/nav-state.svg" alt="" /></button>
+        <button type="button" data-nav="state" aria-label="Состояние"><img src="assets/nav-practices.svg" alt="" /></button>
       </div>
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=7"></script>
+  <script src="mobile.js?v=8"></script>
 </body>
 </html>

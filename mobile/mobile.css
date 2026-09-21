@@ -140,3 +140,37 @@ body:before{display:none!important}
 .task-color-picker button{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
 .task-color-picker [data-task-color="coral"]{background:#ff8b6c}.task-color-picker [data-task-color="violet"]{background:#ad91dc}.task-color-picker [data-task-color="blue"]{background:#94b3ef}.task-color-picker [data-task-color="lime"]{background:#cadf66}
 .task-color-picker button.active{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
+
+/* Cross-screen density, legibility and complete card silhouettes. */
+.screen:not([data-screen="calendar"]),.bottom-sheet{font-size:14px}
+.hero-copy p,.tiny-action,.energy-copy small,.energy-copy p,.capacity span,.next-task small,.next-task>p,.task-meta span,.day-list small,.day-list header button,.day-row time,.day-row b,.day-row small,
+.section-head p,.featured-practice small,.featured-practice p,.practice-filters button,.practice-card small,.practice-card p,.mood-panel p,.energy-slider,.factor-card small,.factor-card button,
+.sheet-time b,.sheet-time small,.sheet-team,.bottom-sheet>small,.bottom-sheet label,.bottom-sheet textarea,.practice-breathe span,.practice-sheet>p,.profile-line b,.profile-line small,.theme-picker button,.settings-sheet>a,
+.energy-orbit small,.energy-orbit em,.primary-button,.next-task time{font-size:14px}
+.hero-copy p,.section-head p,.featured-practice small,.practice-card small,.factor-card small{letter-spacing:.01em}
+
+.screen[data-screen="today"] .energy-card{min-height:226px;padding-top:22px;padding-bottom:26px}
+.screen[data-screen="today"] .next-task,.screen[data-screen="today"] .day-list{border-radius:32px}
+.screen[data-screen="today"] .next-task{min-height:258px;padding-top:26px;padding-bottom:28px}
+.screen[data-screen="today"] .next-task>p{margin-top:24px;line-height:1.5}
+.screen[data-screen="today"] .day-list{margin-bottom:24px}
+
+.screen[data-screen="practices"] .featured-practice{min-height:390px;border-radius:0 0 34px 34px}
+.screen[data-screen="practices"] .practice-list,.liked-list{display:grid;gap:12px;padding:0 0 28px}
+.screen[data-screen="practices"] .practice-card,.liked-list .practice-card{position:relative;min-height:164px;margin:0;border:0;border-radius:28px;padding:22px 24px;background:var(--surface)}
+.screen[data-screen="practices"] .practice-card:first-child{border-radius:28px}
+.practice-likes{border:1px solid rgba(117,85,138,.18);background:rgba(255,255,255,.34);color:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.practice-likes i{font-size:23px}
+.mobile-app[data-active-screen="practices"] .ios-statusbar{background:transparent}
+
+.screen[data-screen="state"] .mood-panel{border-radius:0 0 34px 34px}
+.screen[data-screen="state"] .factor-card{margin:0 0 18px;border-radius:32px}
+.screen[data-screen="state"] .save-state{margin-bottom:28px}
+
+.liked-top-card{padding-bottom:20px;background:radial-gradient(circle at 84% 12%,rgba(223,162,178,.34),transparent 42%),linear-gradient(180deg,var(--surface),#f4ebee)}
+.liked-top-card .section-head{display:flex;align-items:flex-end;gap:16px}
+.liked-back{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:16px;background:rgba(255,255,255,.6);font-size:22px}
+.liked-intro{margin:12px 0;padding:25px 24px;border-radius:30px;background:var(--surface)}
+.liked-intro strong{font-size:24px;font-weight:500}.liked-intro p{max-width:28ch;margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+.liked-mark{position:absolute;right:22px;top:22px;color:#b7657c;font-size:22px}
+.mobile-app[data-active-screen="liked"] .ios-statusbar{background:transparent}

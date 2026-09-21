@@ -232,10 +232,11 @@ function applyTheme(theme) {
 document.querySelectorAll('[data-theme]').forEach((button) => button.addEventListener('click', () => applyTheme(button.dataset.theme)));
 applyTheme(localStorage.getItem('tempo-mobile-theme') || 'light');
 
+const availableScreens = ['today','calendar','practices','state','liked'];
 const initialScreen = location.hash.slice(1);
-showScreen(['today','calendar','practices','state'].includes(initialScreen) ? initialScreen : 'today');
+showScreen(availableScreens.includes(initialScreen) ? initialScreen : 'today');
 window.addEventListener('hashchange', () => {
   const screen = location.hash.slice(1);
-  showScreen(['today','calendar','practices','state'].includes(screen) ? screen : 'today');
+  showScreen(availableScreens.includes(screen) ? screen : 'today');
 });
 window.addEventListener('pageshow', () => closeSheets({ immediate: true, restoreFocus: false }));
