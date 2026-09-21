@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=10" />
+  <link rel="stylesheet" href="mobile.css?v=11" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -53,16 +53,16 @@
           <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div></header>
           <div class="calendar-tabs" role="tablist"><button class="active" type="button" data-cal-view="day">День</button><button type="button" data-cal-view="week">Неделя</button><button type="button" data-cal-view="month">Месяц</button></div>
           <div class="date-strip"><button type="button" aria-label="Предыдущий период"><i class="ph ph-caret-left"></i></button><div><strong id="calendarPeriod">20 сентября</strong><small id="calendarPeriodMeta">воскресенье · сегодня</small></div><button type="button" aria-label="Следующий период"><i class="ph ph-caret-right"></i></button></div>
-          <div class="project-scroller" aria-label="Проекты"><button class="active" type="button"><i class="ph ph-list"></i>Все</button><button type="button"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button"><i class="ph ph-books"></i>Универ</button><button type="button"><i class="ph ph-heart"></i>Здоровье</button></div>
+          <div class="project-scroller" aria-label="Проекты"><button class="active" type="button" data-project="all"><i class="ph ph-list"></i>Все</button><button type="button" data-project="tempo"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button" data-project="univer"><i class="ph ph-books"></i>Универ</button><button type="button" data-project="health"><i class="ph ph-heart"></i>Здоровье</button></div>
         </div>
         <div class="mobile-timeline" id="calendarDay">
           <span class="now-label">13:37</span><i class="now-mark"></i>
           <time style="--row:0">09:00</time><time style="--row:2">11:00</time><time style="--row:4">13:00</time><time style="--row:6">15:00</time><time style="--row:8">17:00</time><time style="--row:10">19:00</time>
-          <button class="mobile-event neutral" style="--top:3%;--height:8%" type="button" data-open-task="Проверка дня"><b>Проверка дня</b><small>15 мин</small></button>
-          <button class="mobile-event coral" style="--top:15%;--height:17%" type="button" data-open-task="Макет главного экрана"><b>Макет главного экрана</b><small>Tempo · 50 мин</small></button>
-          <button class="mobile-event violet team" style="--top:35%;--height:12%" type="button" data-open-task="Синхронизация"><b>Синхронизация</b><small>Google Meet</small><i class="avatar-stack"><em>М</em><em>К</em></i></button>
-          <button class="mobile-event lime" style="--top:51%;--height:14%" type="button" data-open-task="Обед и прогулка"><b>Обед и прогулка</b><small>восстановление</small></button>
-          <button class="mobile-event blue" style="--top:69%;--height:20%" type="button" data-open-task="Проверка прототипа"><b>Проверка прототипа</b><small>Tempo · глубокая работа</small></button>
+          <button class="mobile-event neutral" style="--top:3%;--height:8%" type="button" data-project="health" data-open-task="Проверка дня"><b>Проверка дня</b><small>15 мин</small></button>
+          <button class="mobile-event coral" style="--top:15%;--height:17%" type="button" data-project="tempo" data-open-task="Макет главного экрана"><b>Макет главного экрана</b><small>Tempo · 50 мин</small></button>
+          <button class="mobile-event violet team" style="--top:35%;--height:12%" type="button" data-project="tempo" data-open-task="Синхронизация"><b>Синхронизация</b><small>Google Meet</small><i class="avatar-stack"><em>М</em><em>К</em></i></button>
+          <button class="mobile-event lime" style="--top:51%;--height:14%" type="button" data-project="health" data-open-task="Обед и прогулка"><b>Обед и прогулка</b><small>восстановление</small></button>
+          <button class="mobile-event blue" style="--top:69%;--height:20%" type="button" data-project="univer" data-open-task="Проверка прототипа"><b>Проверка прототипа</b><small>Универ · глубокая работа</small></button>
         </div>
         <div class="alternate-calendar" id="calendarAlternate" hidden></div>
       </section>
@@ -111,6 +111,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=6"></script>
+  <script src="mobile.js?v=7"></script>
 </body>
 </html>

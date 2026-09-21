@@ -119,20 +119,26 @@ const calendarDay = document.getElementById('calendarDay');
 const calendarAlternate = document.getElementById('calendarAlternate');
 const calendarPeriod = document.getElementById('calendarPeriod');
 const calendarPeriodMeta = document.getElementById('calendarPeriodMeta');
+const projectButtons = [...document.querySelectorAll('.project-scroller [data-project]')];
+let activeCalendarProject = 'all';
+let currentCalendarView = 'day';
 const calendarTasks = {
-  14: [['09:30','Лекция по экономике','blue'],['16:00','Подготовить конспект','violet']],
-  15: [['10:20','Макет главного экрана','coral'],['14:00','Синхронизация','violet'],['18:30','Прогулка','lime']],
-  16: [['11:00','Исследование источников','blue']],
-  17: [['09:00','Проверка дня','neutral'],['13:00','Обед и прогулка','lime'],['15:30','Проверка прототипа','blue']],
-  18: [['12:00','Практика внимания','violet'],['17:00','Тренировка','coral']],
-  19: [['11:30','Разобрать материалы','blue']],
-  20: [['10:20','Макет главного экрана','coral'],['11:30','Синхронизация','violet'],['13:00','Обед и прогулка','lime'],['15:00','Проверка прототипа','blue']],
-  24: [['09:00','Утренняя проверка','neutral'],['12:30','Проект Tempo','coral'],['18:00','Практика дыхания','violet']]
+  14: [['09:30','Лекция по экономике','blue','univer'],['16:00','Подготовить конспект','violet','univer']],
+  15: [['10:20','Макет главного экрана','coral','tempo'],['14:00','Синхронизация','violet','tempo'],['18:30','Прогулка','lime','health']],
+  16: [['11:00','Исследование источников','blue','univer']],
+  17: [['09:00','Проверка дня','neutral','health'],['13:00','Обед и прогулка','lime','health'],['15:30','Проверка прототипа','blue','tempo']],
+  18: [['12:00','Практика внимания','violet','health'],['17:00','Тренировка','coral','health']],
+  19: [['11:30','Разобрать материалы','blue','univer']],
+  20: [['10:20','Макет главного экрана','coral','tempo'],['11:30','Синхронизация','violet','tempo'],['13:00','Обед и прогулка','lime','health'],['15:00','Проверка прототипа','blue','univer']],
+  24: [['09:00','Утренняя проверка','neutral','health'],['12:30','Проект Tempo','coral','tempo'],['18:00','Практика дыхания','violet','health']]
 };
 
+const visibleCalendarTasks = (day) => (calendarTasks[day] || []).filter((task) => activeCalendarProject === 'all' || task[3] === activeCalendarProject);
+
 function selectedDayTasks(day) {
-  const tasks = calendarTasks[day] || [['10:00','Свободный день','neutral']];
-  return `<section class="selected-day-tasks"><header><span>Задачи</span><strong>${day} сентября</strong></header>${tasks.map(([time,title,color]) => `<button type="button" data-dynamic-task="${title}"><i class="task-color ${color}"></i><time>${time}</time><b>${title}</b><span>Открыть</span></button>`).join('')}</section>`;
+  const tasks = visibleCalendarTasks(day);
+  const content = tasks.length ? tasks.map(([time,title,color]) => `<button type="button" data-dynamic-task="${title}"><i class="task-color ${color}"></i><time>${time}</time><b>${title}</b><span>Открыть</span></button>`).join('') : '<p class="calendar-empty">В этом проекте задач нет</p>';
+  return `<section class="selected-day-tasks"><header><span>Задачи</span><strong>${day} сентября</strong></header>${content}</section>`;
 }
 
 function bindCalendarSelection(defaultDay) {
@@ -154,18 +160,22 @@ function bindCalendarSelection(defaultDay) {
 }
 
 function renderCalendar(view) {
+  currentCalendarView = view;
   calendarButtons.forEach((button) => button.classList.toggle('active', button.dataset.calView === view));
   calendarDay.hidden = view !== 'day';
   calendarAlternate.hidden = view === 'day';
+  calendarDay.querySelectorAll('.mobile-event[data-project]').forEach((event) => {
+    event.hidden = activeCalendarProject !== 'all' && event.dataset.project !== activeCalendarProject;
+  });
   if (view === 'week') {
     calendarPeriod.textContent = '14–20 сентября';
     calendarPeriodMeta.textContent = 'эта неделя';
-    calendarAlternate.innerHTML = `<div class="mobile-week">${['Пн 14','Вт 15','Ср 16','Чт 17','Пт 18','Сб 19','Вс 20'].map((label) => { const day=Number(label.split(' ')[1]); const tasks=calendarTasks[day]||[]; return `<button type="button" data-calendar-day="${day}"><span>${label.split(' ')[0]}</span><b>${day}</b><i class="week-task-stack">${tasks.map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
+    calendarAlternate.innerHTML = `<div class="mobile-week">${['Пн 14','Вт 15','Ср 16','Чт 17','Пт 18','Сб 19','Вс 20'].map((label) => { const day=Number(label.split(' ')[1]); const tasks=visibleCalendarTasks(day); return `<button type="button" data-calendar-day="${day}"><span>${label.split(' ')[0]}</span><b>${day}</b><i class="week-task-stack">${tasks.map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
     bindCalendarSelection(20);
   } else if (view === 'month') {
     calendarPeriod.textContent = 'Сентябрь 2026';
     calendarPeriodMeta.textContent = '12 задач · 8 практик';
-    calendarAlternate.innerHTML = `<div class="mobile-month">${Array.from({length:35},(_,i)=>{ const day=i<2||i>31?0:i-1; const tasks=calendarTasks[day]||[]; return `<button type="button" ${day?`data-calendar-day="${day}"`: 'disabled'}>${day||''}<i>${tasks.slice(0,3).map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
+    calendarAlternate.innerHTML = `<div class="mobile-month">${Array.from({length:35},(_,i)=>{ const day=i<2||i>31?0:i-1; const tasks=visibleCalendarTasks(day); return `<button type="button" ${day?`data-calendar-day="${day}"`: 'disabled'}>${day||''}<i>${tasks.slice(0,3).map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
     bindCalendarSelection(24);
   } else {
     calendarPeriod.textContent = '20 сентября';
@@ -173,6 +183,11 @@ function renderCalendar(view) {
   }
 }
 calendarButtons.forEach((button) => button.addEventListener('click', () => renderCalendar(button.dataset.calView)));
+projectButtons.forEach((button) => button.addEventListener('click', () => {
+  activeCalendarProject = button.dataset.project;
+  projectButtons.forEach((item) => item.classList.toggle('active', item === button));
+  renderCalendar(currentCalendarView);
+}));
 
 document.querySelectorAll('[data-task-color]').forEach((button) => button.addEventListener('click', () => {
   document.querySelectorAll('[data-task-color]').forEach((item) => item.classList.toggle('active', item === button));
