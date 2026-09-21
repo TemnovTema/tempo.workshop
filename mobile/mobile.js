@@ -111,6 +111,9 @@ document.querySelectorAll('[data-add-task]').forEach((button) => button.addEvent
   taskSheet.querySelector('textarea').value = '';
   openSheet(taskSheet, button);
 }));
+document.querySelectorAll('[data-open-sheet]').forEach((button) => button.addEventListener('click', () => {
+  openSheet(document.getElementById(button.dataset.openSheet), button);
+}));
 
 let timerId;
 let secondsLeft = 0;

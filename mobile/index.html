@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=25" />
+  <link rel="stylesheet" href="mobile.css?v=26" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -28,7 +28,7 @@
       <section class="screen active" data-screen="today" aria-labelledby="todayTitle">
         <div class="top-slide-card top-summary-card">
           <header class="hero-copy">
-            <p><span>Воскресенье</span> 20 сентября</p>
+            <div class="eyebrow-row"><p><span>Воскресенье</span> 20 сентября</p><button class="header-mini-action" type="button" data-open-sheet="profileSheet" aria-label="Открыть профиль"><i class="ph ph-user"></i></button></div>
             <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
             <button class="tiny-action" type="button" data-screen-link="state">Обновить состояние <i class="ph ph-arrow-right"></i></button>
           </header>
@@ -52,7 +52,7 @@
 
       <section class="screen" data-screen="calendar" aria-labelledby="calendarTitle">
         <div class="top-slide-card calendar-top-card">
-          <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div></header>
+          <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div><button class="header-mini-action" type="button" data-add-task aria-label="Добавить задачу"><i class="ph ph-plus"></i></button></header>
           <div class="calendar-tabs" role="tablist"><button class="active" type="button" data-cal-view="day">День</button><button type="button" data-cal-view="week">Неделя</button><button type="button" data-cal-view="month">Месяц</button></div>
           <div class="date-strip"><button type="button" aria-label="Предыдущий период"><i class="ph ph-caret-left"></i></button><div><strong id="calendarPeriod">20 сентября</strong><small id="calendarPeriodMeta">воскресенье · сегодня</small></div><button type="button" aria-label="Следующий период"><i class="ph ph-caret-right"></i></button></div>
           <div class="project-scroller" aria-label="Проекты"><button class="active" type="button" data-project="all"><i class="ph ph-list"></i>Все</button><button type="button" data-project="tempo"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button" data-project="univer"><i class="ph ph-books"></i>Универ</button><button type="button" data-project="health"><i class="ph ph-heart"></i>Здоровье</button></div>
@@ -71,7 +71,7 @@
 
       <section class="screen" data-screen="practices" aria-labelledby="practicesTitle">
         <div class="top-slide-card practices-top-card">
-          <header class="section-head"><div><p>короткая перезагрузка</p><h1 id="practicesTitle">Практики</h1></div><button class="round-add practice-likes" type="button" data-screen-link="liked" aria-label="Понравившиеся практики"><i class="ph ph-heart"></i></button></header>
+          <header class="section-head"><div><p>короткая перезагрузка</p><h1 id="practicesTitle">Практики</h1></div><button class="header-mini-action practice-likes" type="button" data-screen-link="liked" aria-label="Понравившиеся практики"><i class="ph ph-heart"></i></button></header>
           <article class="featured-practice">
             <div class="breath-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
             <div><small>подходит сейчас · 4 минуты</small><h2>Освободить внимание</h2></div>
@@ -96,7 +96,7 @@
 
       <section class="screen" data-screen="state" aria-labelledby="stateTitle">
         <div class="top-slide-card state-top-card">
-          <header class="section-head state-head"><div><p>чек-ин · 1 из 3</p><h1 id="stateTitle">Как вы<br />сейчас?</h1></div><span class="state-score" id="stateScore">68</span></header>
+          <header class="section-head state-head"><div><p>чек-ин · 1 из 3</p><h1 id="stateTitle">Как вы<br />сейчас?</h1></div><div class="state-head-side"><button class="header-mini-action" type="button" data-open-sheet="stateStatsSheet" aria-label="Статистика состояния"><i class="ph ph-chart-line-up"></i></button><span class="state-score" id="stateScore">68</span></div></header>
           <div class="mood-panel">
             <div class="mood-orb mood-energized" id="moodOrb" aria-hidden="true"><i class="face face-energized" id="moodFace"><b></b><b></b><em></em></i></div>
             <strong id="moodLabel">Бодро</strong><p id="moodCopy">Энергии достаточно, чтобы начать с важного.</p>
@@ -133,6 +133,8 @@
       </div>
       <section class="practice-feedback" id="practiceFeedback" hidden><h2>Как вам практика?</h2><p>Можно выбрать несколько вариантов.</p><div class="feedback-options"><button type="button">Стало тише</button><button type="button">Дышать легче</button><button type="button">Фокус вернулся</button><button type="button">Не помогло</button></div><textarea placeholder="Напишите пару слов…" aria-label="Комментарий о практике"></textarea><button class="primary-button" type="button" id="practiceFeedbackSave">Записать и продолжить</button><button class="feedback-skip" type="button" id="practiceFeedbackSkip">Пропустить</button></section>
     </aside>
+    <aside class="bottom-sheet compact-info-sheet" id="profileSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>Профиль</small><h2>Артём Темнов</h2><div class="profile-summary"><span>АТ</span><div><strong>Ритм синхронизирован</strong><small>сегодня в 09:04</small></div></div><button class="info-sheet-action" type="button">Настройки профиля <i class="ph ph-arrow-right"></i></button></aside>
+    <aside class="bottom-sheet compact-info-sheet" id="stateStatsSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>Последние 7 дней</small><h2>Динамика состояния</h2><div class="state-mini-chart" aria-label="Состояние за семь дней"><i style="--v:48%"></i><i style="--v:62%"></i><i style="--v:55%"></i><i style="--v:74%"></i><i style="--v:68%"></i><i style="--v:79%"></i><i class="active" style="--v:68%"></i></div><div class="stats-summary"><span><b>68</b><small>сегодня</small></span><span><b>+6</b><small>за неделю</small></span><span><b>74</b><small>среднее</small></span></div></aside>
   </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
       <div class="bottom-nav-main">
@@ -144,6 +146,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=13"></script>
+  <script src="mobile.js?v=14"></script>
 </body>
 </html>
