@@ -243,3 +243,7 @@ body:before{display:none!important}
 .screen[data-screen="practices"] .practice-card h3{align-self:start;margin:6px 0 0}
 .screen[data-screen="practices"] .orbit-art i{inset:19px 7px}.screen[data-screen="practices"] .orbit-art i:nth-child(2){inset:30px 16px}.screen[data-screen="practices"] .orbit-art b{left:31px;top:40px}.screen[data-screen="practices"] .orbit-art em{right:12px;top:24px}
 .screen[data-screen="practices"] .wave-art i:nth-child(1){top:7px}.screen[data-screen="practices"] .wave-art i:nth-child(2){top:26px}.screen[data-screen="practices"] .wave-art i:nth-child(3){top:45px}
+.screen[data-screen="practices"] .practice-glyph{display:grid;place-items:center}
+.screen[data-screen="practices"] .practice-glyph>i{font-size:38px}
+.energy-glyph{background:#ffd8c9;color:#e76845}.sunset-glyph{background:#ead9ef;color:#75558a}.steps-glyph{background:#dce5fc;color:#5878b7}.sun-glyph{background:#f5eca7;color:#d88731}.thought-glyph{background:#d9eadf;color:#4f8b69}.moments-glyph{background:#f3dbe4;color:#b7657c}.breath-glyph{background:#d8e8f0;color:#48788e}.scan-glyph{background:#ddd0f2;color:#75558a}
+.practice-card[hidden]{display:none!important}
