@@ -211,11 +211,11 @@ body:before{display:none!important}
 .energy-track,.energy-segment{fill:none;stroke-width:14}
 .energy-track{stroke:#e8e9e7}
 .energy-segment{stroke-linecap:round}
-.segment-pink{stroke:#fb5a8b;stroke-dasharray:10 90;stroke-dashoffset:0}
-.segment-orange{stroke:#ff9a3f;stroke-dasharray:5 95;stroke-dashoffset:-12.5}
-.segment-blue{stroke:#278df5;stroke-dasharray:19 81;stroke-dashoffset:-20}
-.segment-green{stroke:#78ce4a;stroke-dasharray:10 90;stroke-dashoffset:-43}
-.segment-purple{stroke:#9d62e8;stroke-dasharray:18 82;stroke-dashoffset:-57}
+.segment-pink{stroke:#fb5a8b;stroke-dasharray:8.5 91.5;stroke-dashoffset:0}
+.segment-orange{stroke:#ff9a3f;stroke-dasharray:3.5 96.5;stroke-dashoffset:-13}
+.segment-blue{stroke:#278df5;stroke-dasharray:16.5 83.5;stroke-dashoffset:-21}
+.segment-green{stroke:#78ce4a;stroke-dasharray:8 92;stroke-dashoffset:-44.5}
+.segment-purple{stroke:#9d62e8;stroke-dasharray:15 85;stroke-dashoffset:-59}
 .screen[data-screen="today"] .energy-orbit>div{inset:34px;background:transparent;box-shadow:none}
 .screen[data-screen="today"] .energy-orbit strong{font-size:36px}
 .screen[data-screen="today"] .energy-summary{align-self:center;display:grid;gap:5px}
