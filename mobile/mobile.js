@@ -119,6 +119,40 @@ const calendarDay = document.getElementById('calendarDay');
 const calendarAlternate = document.getElementById('calendarAlternate');
 const calendarPeriod = document.getElementById('calendarPeriod');
 const calendarPeriodMeta = document.getElementById('calendarPeriodMeta');
+const calendarTasks = {
+  14: [['09:30','Лекция по экономике','blue'],['16:00','Подготовить конспект','violet']],
+  15: [['10:20','Макет главного экрана','coral'],['14:00','Синхронизация','violet'],['18:30','Прогулка','lime']],
+  16: [['11:00','Исследование источников','blue']],
+  17: [['09:00','Проверка дня','neutral'],['13:00','Обед и прогулка','lime'],['15:30','Проверка прототипа','blue']],
+  18: [['12:00','Практика внимания','violet'],['17:00','Тренировка','coral']],
+  19: [['11:30','Разобрать материалы','blue']],
+  20: [['10:20','Макет главного экрана','coral'],['11:30','Синхронизация','violet'],['13:00','Обед и прогулка','lime'],['15:00','Проверка прототипа','blue']],
+  24: [['09:00','Утренняя проверка','neutral'],['12:30','Проект Tempo','coral'],['18:00','Практика дыхания','violet']]
+};
+
+function selectedDayTasks(day) {
+  const tasks = calendarTasks[day] || [['10:00','Свободный день','neutral']];
+  return `<section class="selected-day-tasks"><header><span>Задачи</span><strong>${day} сентября</strong></header>${tasks.map(([time,title,color]) => `<button type="button" data-dynamic-task="${title}"><i class="task-color ${color}"></i><time>${time}</time><b>${title}</b><span>Открыть</span></button>`).join('')}</section>`;
+}
+
+function bindCalendarSelection(defaultDay) {
+  const output = calendarAlternate.querySelector('[data-selected-tasks]');
+  const selectDay = (button) => {
+    calendarAlternate.querySelectorAll('[data-calendar-day]').forEach((item) => item.classList.toggle('active', item === button));
+    output.innerHTML = selectedDayTasks(Number(button.dataset.calendarDay));
+  };
+  calendarAlternate.querySelectorAll('[data-calendar-day]').forEach((button) => button.addEventListener('click', () => selectDay(button)));
+  const initial = calendarAlternate.querySelector(`[data-calendar-day="${defaultDay}"]`) || calendarAlternate.querySelector('[data-calendar-day]');
+  if (initial) selectDay(initial);
+  output.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-dynamic-task]');
+    if (!button) return;
+    sheetTaskTitle.textContent = button.dataset.dynamicTask;
+    taskSheet.querySelector('[data-start-task]').dataset.startTask = button.dataset.dynamicTask;
+    openSheet(taskSheet, button);
+  });
+}
+
 function renderCalendar(view) {
   calendarButtons.forEach((button) => button.classList.toggle('active', button.dataset.calView === view));
   calendarDay.hidden = view !== 'day';
@@ -126,17 +160,24 @@ function renderCalendar(view) {
   if (view === 'week') {
     calendarPeriod.textContent = '14–20 сентября';
     calendarPeriodMeta.textContent = 'эта неделя';
-    calendarAlternate.innerHTML = `<div class="mobile-week">${['Пн 14','Вт 15','Ср 16','Чт 17','Пт 18','Сб 19','Вс 20'].map((day,index)=>`<button class="${index===6?'active':''}"><span>${day.split(' ')[0]}</span><b>${day.split(' ')[1]}</b><i style="--load:${[42,68,54,77,63,28,51][index]}%"></i></button>`).join('')}</div><h3>Неделя устойчивая</h3><p>Четверг плотнее остальных. В воскресенье остаётся 1 ч 40 мин свободного времени.</p>`;
+    calendarAlternate.innerHTML = `<div class="mobile-week">${['Пн 14','Вт 15','Ср 16','Чт 17','Пт 18','Сб 19','Вс 20'].map((label) => { const day=Number(label.split(' ')[1]); const tasks=calendarTasks[day]||[]; return `<button type="button" data-calendar-day="${day}"><span>${label.split(' ')[0]}</span><b>${day}</b><i class="week-task-stack">${tasks.map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
+    bindCalendarSelection(20);
   } else if (view === 'month') {
     calendarPeriod.textContent = 'Сентябрь 2026';
     calendarPeriodMeta.textContent = '12 задач · 8 практик';
-    calendarAlternate.innerHTML = `<div class="mobile-month">${Array.from({length:35},(_,i)=>`<button class="${i===25?'active':''}">${i<2||i>31?'':i-1}<i></i></button>`).join('')}</div><h3>Ритм месяца</h3><p>Самая высокая нагрузка приходится на третью неделю. Два вечера сохранены свободными.</p>`;
+    calendarAlternate.innerHTML = `<div class="mobile-month">${Array.from({length:35},(_,i)=>{ const day=i<2||i>31?0:i-1; const tasks=calendarTasks[day]||[]; return `<button type="button" ${day?`data-calendar-day="${day}"`: 'disabled'}>${day||''}<i>${tasks.slice(0,3).map((task)=>`<em class="${task[2]}"></em>`).join('')}</i></button>`; }).join('')}</div><div data-selected-tasks></div>`;
+    bindCalendarSelection(24);
   } else {
     calendarPeriod.textContent = '20 сентября';
     calendarPeriodMeta.textContent = 'воскресенье · сегодня';
   }
 }
 calendarButtons.forEach((button) => button.addEventListener('click', () => renderCalendar(button.dataset.calView)));
+
+document.querySelectorAll('[data-task-color]').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll('[data-task-color]').forEach((item) => item.classList.toggle('active', item === button));
+  taskSheet.dataset.taskColor = button.dataset.taskColor;
+}));
 
 const moodLevels = [
   [8,'angry','Напряжение','Лучше снять нагрузку и дать телу паузу.'],

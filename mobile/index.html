@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=9" />
+  <link rel="stylesheet" href="mobile.css?v=10" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -50,7 +50,7 @@
 
       <section class="screen" data-screen="calendar" aria-labelledby="calendarTitle">
         <div class="top-slide-card calendar-top-card">
-          <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div><button class="round-add" type="button" id="addTaskButton" data-add-task aria-label="Добавить задачу"><i class="ph ph-plus"></i></button></header>
+          <header class="section-head"><div><p>20 сентября 2026</p><h1 id="calendarTitle">Календарь</h1></div></header>
           <div class="calendar-tabs" role="tablist"><button class="active" type="button" data-cal-view="day">День</button><button type="button" data-cal-view="week">Неделя</button><button type="button" data-cal-view="month">Месяц</button></div>
           <div class="date-strip"><button type="button" aria-label="Предыдущий период"><i class="ph ph-caret-left"></i></button><div><strong id="calendarPeriod">20 сентября</strong><small id="calendarPeriodMeta">воскресенье · сегодня</small></div><button type="button" aria-label="Следующий период"><i class="ph ph-caret-right"></i></button></div>
           <div class="project-scroller" aria-label="Проекты"><button class="active" type="button"><i class="ph ph-list"></i>Все</button><button type="button"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button"><i class="ph ph-books"></i>Универ</button><button type="button"><i class="ph ph-heart"></i>Здоровье</button></div>
@@ -99,7 +99,7 @@
     </main>
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
-    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
+    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><fieldset class="task-color-picker"><legend>Цвет задачи</legend><button class="active" type="button" data-task-color="coral" aria-label="Коралловый"></button><button type="button" data-task-color="violet" aria-label="Фиолетовый"></button><button type="button" data-task-color="blue" aria-label="Синий"></button><button type="button" data-task-color="lime" aria-label="Лаймовый"></button></fieldset><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
   </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
       <div class="bottom-nav-main">
@@ -111,6 +111,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=5"></script>
+  <script src="mobile.js?v=6"></script>
 </body>
 </html>
