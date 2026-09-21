@@ -78,6 +78,7 @@ function openSheet(sheet, trigger = document.activeElement) {
 function closeSheets({ immediate = false, restoreFocus = true } = {}) {
   window.clearTimeout(sheetCloseTimer);
   if (typeof practiceTimerId !== 'undefined') window.clearInterval(practiceTimerId);
+  document.getElementById('practiceSheet')?.classList.remove('running-session');
   sheets.forEach((sheet) => setSheetState(sheet, false));
   activeSheet = null;
   app.classList.remove('sheet-open');
@@ -125,7 +126,6 @@ document.querySelectorAll('[data-start-task]').forEach((button) => button.addEve
 
 const filters = [...document.querySelectorAll('[data-filter]')];
 const practiceCatalogCards = [...document.querySelectorAll('.screen[data-screen="practices"] .practice-card')];
-const practiceResultCount = document.getElementById('practiceResultCount');
 filters.forEach((button) => button.addEventListener('click', () => {
   filters.forEach((item) => {
     const isActive = item === button;
@@ -135,8 +135,6 @@ filters.forEach((button) => button.addEventListener('click', () => {
   practiceCatalogCards.forEach((card) => {
     card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
   });
-  const visibleCount = practiceCatalogCards.filter((card) => !card.hidden).length;
-  practiceResultCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'практика' : visibleCount < 5 ? 'практики' : 'практик'}`;
 }));
 
 const practiceLibrary = {
@@ -160,20 +158,39 @@ const practiceSheetMeta = document.getElementById('practiceSheetMeta');
 const practiceInstruction = document.getElementById('practiceInstruction');
 const practiceTimer = document.getElementById('practiceTimer');
 const practicePlayerVisual = document.getElementById('practicePlayerVisual');
+const practiceStages = document.getElementById('practiceStages');
 const practiceStartButton = document.getElementById('practiceStartButton');
 let selectedPracticeMinutes = 4;
+let selectedPracticeStages = ['Настройка','Практика','Завершение'];
 let practiceTimerId;
+
+const stagesForPractice = (name, category) => {
+  if (name === 'Дыхание 4 × 6' || name === 'Освободить внимание' || name === 'Тихое дыхание') return ['Вдох','Выдох','Повтор'];
+  if (category === 'Рефлексия') return ['Заметьте','Назовите','Выберите'];
+  if (category === 'Энергия') return ['Разминка','Движение','Пауза'];
+  if (category === 'Спокойствие') return ['Настройка','Замедление','Тишина'];
+  if (category === 'Медитация') return ['Настройка','Сканирование','Завершение'];
+  return ['Настройка','Наблюдение','Возврат'];
+};
+
+function renderPracticeStages(activeIndex = 0) {
+  practiceStages.innerHTML = selectedPracticeStages.map((stage, index) => `<span class="${index === activeIndex ? 'active' : ''}">${stage}</span>`).join('');
+}
 
 document.querySelectorAll('[data-practice]').forEach((button) => button.addEventListener('click', () => {
   const name = button.dataset.practice;
   const [category, minutes, icon, instruction] = practiceLibrary[name] || ['Практика',5,'sparkle','Устройтесь удобно и следуйте подсказкам на экране.'];
   selectedPracticeMinutes = minutes;
+  selectedPracticeStages = stagesForPractice(name, category);
   window.clearInterval(practiceTimerId);
   practiceSheetTitle.textContent = name;
   practiceSheetMeta.textContent = `${category} · ${minutes} минут`;
   practiceInstruction.textContent = instruction;
   practiceTimer.textContent = `${String(minutes).padStart(2,'0')}:00`;
   practicePlayerVisual.querySelector('i').className = `ph ph-${icon}`;
+  practicePlayerVisual.dataset.category = category.toLowerCase();
+  practiceSheet.classList.remove('running-session');
+  renderPracticeStages();
   practiceStartButton.classList.remove('running');
   practiceStartButton.firstChild.textContent = 'Начать практику ';
   practiceStartButton.querySelector('span').textContent = `${minutes} мин`;
@@ -183,9 +200,13 @@ document.querySelectorAll('[data-practice]').forEach((button) => button.addEvent
 practiceStartButton.addEventListener('click', () => {
   window.clearInterval(practiceTimerId);
   let remaining = selectedPracticeMinutes * 60;
+  const totalSeconds = remaining;
+  practiceSheet.classList.add('running-session');
   practiceStartButton.classList.add('running');
   practiceStartButton.firstChild.textContent = 'Практика идёт ';
   const renderPracticeTime = () => {
+    const elapsed = totalSeconds - remaining;
+    renderPracticeStages(Math.min(2, Math.floor(elapsed / Math.max(1, totalSeconds / 3))));
     practiceTimer.textContent = `${String(Math.floor(remaining / 60)).padStart(2,'0')}:${String(remaining % 60).padStart(2,'0')}`;
     if (remaining === 0) {
       window.clearInterval(practiceTimerId);
