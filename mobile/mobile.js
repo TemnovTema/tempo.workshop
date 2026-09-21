@@ -95,18 +95,6 @@ modeSwitch.addEventListener('click', () => {
   }
 });
 
-const practiceSheet = document.getElementById('practiceSheet');
-document.querySelectorAll('[data-practice]').forEach((button) => button.addEventListener('click', () => {
-  document.getElementById('practiceSheetTitle').textContent = button.dataset.practice;
-  openSheet(practiceSheet);
-}));
-let practiceRunning = true;
-practiceSheet.querySelector('.practice-toggle').addEventListener('click', (event) => {
-  practiceRunning = !practiceRunning;
-  event.currentTarget.firstChild.textContent = practiceRunning ? 'Пауза ' : 'Продолжить ';
-  practiceSheet.querySelector('.practice-breathe i').style.animationPlayState = practiceRunning ? 'running' : 'paused';
-});
-
 const filters = [...document.querySelectorAll('[data-filter]')];
 filters.forEach((button) => button.addEventListener('click', () => {
   filters.forEach((item) => item.classList.toggle('active', item === button));
