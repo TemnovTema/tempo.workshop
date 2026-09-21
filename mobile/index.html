@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=6" />
+  <link rel="stylesheet" href="mobile.css?v=7" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -33,16 +33,18 @@
 
     <main id="mobileMain">
       <section class="screen active" data-screen="today" aria-labelledby="todayTitle">
-        <header class="hero-copy">
-          <p><span>Воскресенье</span> 20 сентября</p>
-          <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
-          <button class="tiny-action" type="button" data-screen-link="state">Обновить состояние <i class="ph ph-arrow-right"></i></button>
-        </header>
+        <div class="top-summary-card">
+          <header class="hero-copy">
+            <p><span>Воскресенье</span> 20 сентября</p>
+            <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
+            <button class="tiny-action" type="button" data-screen-link="state">Обновить состояние <i class="ph ph-arrow-right"></i></button>
+          </header>
 
-        <article class="energy-card">
-          <div class="energy-orbit" aria-label="Энергия 68, устойчивая"><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i><span class="energy-dot warm"></span><span class="energy-dot cool"></span><div><small>энергия</small><strong>68</strong><em>устойчивая</em></div></div>
-          <div class="energy-copy"><small>реалистичность плана</small><h2>День помещается, если оставить вечер свободным.</h2><p>После 18:30 темп снизится. Необязательную задачу лучше перенести.</p><div class="capacity"><span><i></i>4 ч 20 мин в плане</span><span><i></i>1 ч 40 мин свободно</span></div></div>
-        </article>
+          <article class="energy-card">
+            <div class="energy-orbit" aria-label="Энергия 68, устойчивая"><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i><span class="energy-dot warm"></span><span class="energy-dot cool"></span><div><small>энергия</small><strong>68</strong><em>устойчивая</em></div></div>
+            <div class="energy-copy"><small>реалистичность плана</small><h2>День помещается, если оставить вечер свободным.</h2><p>После 18:30 темп снизится. Необязательную задачу лучше перенести.</p><div class="capacity"><span><i></i>4 ч 20 мин в плане</span><span><i></i>1 ч 40 мин свободно</span></div></div>
+          </article>
+        </div>
 
         <section class="next-task" aria-labelledby="nextTaskTitle">
           <header><div><small>следующее действие</small><h2 id="nextTaskTitle">Макет главного экрана</h2></div><time>10:20–11:10</time></header>

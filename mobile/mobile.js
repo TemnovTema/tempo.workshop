@@ -3,6 +3,7 @@ const screens = [...document.querySelectorAll('[data-screen]')];
 const navButtons = [...document.querySelectorAll('[data-nav]')];
 const backdrop = document.getElementById('sheetBackdrop');
 const sheets = [...document.querySelectorAll('.bottom-sheet')];
+const summaryCard = document.querySelector('.top-summary-card');
 let activeSheet = null;
 let sheetCloseTimer = null;
 let sheetTrigger = null;
@@ -29,8 +30,13 @@ window.addEventListener('resize', fitDeviceMockup);
 
 function showScreen(name) {
   closeSheets({ immediate: true, restoreFocus: false });
+  app.dataset.activeScreen = name;
   screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === name));
   navButtons.forEach((button) => button.classList.toggle('active', button.dataset.nav === name));
+  if (name === 'today' && summaryCard) {
+    summaryCard.classList.remove('entering');
+    requestAnimationFrame(() => summaryCard.classList.add('entering'));
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
   history.replaceState(null, '', `#${name}`);
 }
