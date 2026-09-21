@@ -177,3 +177,6 @@ body:before{display:none!important}
 
 /* The system status area is transparent and inherits the surface beneath it. */
 .mobile-app .ios-statusbar,.mobile-app[data-active-screen] .ios-statusbar{background:transparent!important;box-shadow:none!important;backdrop-filter:none!important}
+.mobile-app .ios-statusbar time{color:#111!important;mix-blend-mode:normal!important}
+.mobile-app .status-icons{mix-blend-mode:normal!important}
+.mobile-app .status-icons img{filter:invert(1)}
