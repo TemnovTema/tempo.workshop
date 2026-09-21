@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=22" />
+  <link rel="stylesheet" href="mobile.css?v=23" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -75,10 +75,11 @@
           <article class="featured-practice">
             <div class="breath-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
             <div><small>подходит сейчас · 4 минуты</small><h2>Освободить внимание</h2></div>
-            <button class="primary-button" type="button" data-practice="Дыхание 4–6">Начать практику <span>4 мин</span></button>
+            <button class="primary-button" type="button" data-practice="Освободить внимание">Начать практику <span>4 мин</span></button>
           </article>
         </div>
-        <div class="practice-filters"><button class="active" type="button" data-filter="all">Все</button><button type="button" data-filter="focus">Фокус</button><button type="button" data-filter="calm">Спокойствие</button><button type="button" data-filter="energy">Энергия</button><button type="button" data-filter="reflection">Рефлексия</button><button type="button" data-filter="meditation">Медитации</button></div>
+        <div class="practice-filters"><button class="active" type="button" data-filter="all" aria-pressed="true">Все</button><button type="button" data-filter="focus" aria-pressed="false">Фокус</button><button type="button" data-filter="calm" aria-pressed="false">Спокойствие</button><button type="button" data-filter="energy" aria-pressed="false">Энергия</button><button type="button" data-filter="reflection" aria-pressed="false">Рефлексия</button><button type="button" data-filter="meditation" aria-pressed="false">Медитации</button></div>
+        <p class="practice-result-count" id="practiceResultCount" aria-live="polite">11 практик</p>
         <div class="practice-list">
           <button class="practice-card focus" type="button" data-category="focus" data-practice="Собрать внимание"><div class="orbit-art"><i></i><i></i><b></b><em></em></div><small>Фокус · 8 минут</small><h3>Собрать внимание</h3></button>
           <button class="practice-card energy" type="button" data-category="energy" data-practice="Разбудить тело"><div class="practice-glyph energy-glyph"><i class="ph ph-person-simple-run"></i></div><small>Энергия · 6 минут</small><h3>Разбудить тело</h3></button>
@@ -122,6 +123,7 @@
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
     <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><fieldset class="task-color-picker"><legend>Цвет задачи</legend><button class="active" type="button" data-task-color="coral" aria-label="Коралловый"></button><button type="button" data-task-color="violet" aria-label="Фиолетовый"></button><button type="button" data-task-color="blue" aria-label="Синий"></button><button type="button" data-task-color="lime" aria-label="Лаймовый"></button></fieldset><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
+    <aside class="bottom-sheet practice-player" id="practiceSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small id="practiceSheetMeta">Фокус · 8 минут</small><h2 id="practiceSheetTitle">Собрать внимание</h2><div class="practice-player-visual" id="practicePlayerVisual"><i class="ph ph-eye"></i><strong id="practiceTimer">08:00</strong></div><section class="practice-instruction"><span>Как выполнять</span><p id="practiceInstruction">Выберите одну точку перед собой и мягко возвращайте к ней внимание.</p></section><button class="primary-button" type="button" id="practiceStartButton">Начать практику <span>8 мин</span></button></aside>
   </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
       <div class="bottom-nav-main">
@@ -133,6 +135,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=10"></script>
+  <script src="mobile.js?v=11"></script>
 </body>
 </html>

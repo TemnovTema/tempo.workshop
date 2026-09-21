@@ -77,6 +77,7 @@ function openSheet(sheet, trigger = document.activeElement) {
 }
 function closeSheets({ immediate = false, restoreFocus = true } = {}) {
   window.clearTimeout(sheetCloseTimer);
+  if (typeof practiceTimerId !== 'undefined') window.clearInterval(practiceTimerId);
   sheets.forEach((sheet) => setSheetState(sheet, false));
   activeSheet = null;
   app.classList.remove('sheet-open');
@@ -123,12 +124,80 @@ function startTask(minutes) {
 document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.minutes)));
 
 const filters = [...document.querySelectorAll('[data-filter]')];
+const practiceCatalogCards = [...document.querySelectorAll('.screen[data-screen="practices"] .practice-card')];
+const practiceResultCount = document.getElementById('practiceResultCount');
 filters.forEach((button) => button.addEventListener('click', () => {
-  filters.forEach((item) => item.classList.toggle('active', item === button));
-  document.querySelectorAll('.practice-card').forEach((card) => {
+  filters.forEach((item) => {
+    const isActive = item === button;
+    item.classList.toggle('active', isActive);
+    item.setAttribute('aria-pressed', String(isActive));
+  });
+  practiceCatalogCards.forEach((card) => {
     card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
   });
+  const visibleCount = practiceCatalogCards.filter((card) => !card.hidden).length;
+  practiceResultCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'практика' : visibleCount < 5 ? 'практики' : 'практик'}`;
 }));
+
+const practiceLibrary = {
+  'Освободить внимание': ['Спокойствие',4,'wind','Следуйте за спокойным вдохом и более длинным выдохом.'],
+  'Собрать внимание': ['Фокус',8,'eye','Выберите одну точку перед собой и мягко возвращайте к ней внимание.'],
+  'Разбудить тело': ['Энергия',6,'person-simple-run','Медленно разомните плечи, спину и ноги без спортивного усилия.'],
+  'Снизить шум': ['Спокойствие',3,'speaker-simple-slash','Заметьте звуки вокруг и постепенно отпускайте каждый из них.'],
+  'Оставить день позади': ['Спокойствие',10,'sunset','Назовите завершённые дела и разрешите остальному остаться до завтра.'],
+  'Разложить сложное': ['Фокус',12,'stairs','Разделите задачу и выберите только один следующий выполнимый шаг.'],
+  'Выйти на свет': ['Энергия',15,'sun-horizon','Пройдитесь в ровном темпе, замечая свет, дыхание и шаги.'],
+  'Что со мной сейчас': ['Рефлексия',8,'question','Ответьте: что я чувствую, чего хочу и что поможет прямо сейчас?'],
+  'Распутать мысль': ['Рефлексия',10,'path','Отделите наблюдаемый факт от своей интерпретации и следующего действия.'],
+  'Три хороших момента': ['Рефлексия',10,'sparkle','Вспомните три момента дня и коротко отметьте, почему они важны.'],
+  'Дыхание 4 × 6': ['Медитация',4,'wind','Вдыхайте на четыре счёта и выдыхайте на шесть без задержки.'],
+  'Сканирование тела': ['Медитация',7,'person-simple','Переводите внимание от лица к стопам, ничего не оценивая.'],
+  'Тихое дыхание': ['Медитация',5,'wind','Наблюдайте естественный ритм дыхания, не меняя его.']
+};
+const practiceSheet = document.getElementById('practiceSheet');
+const practiceSheetTitle = document.getElementById('practiceSheetTitle');
+const practiceSheetMeta = document.getElementById('practiceSheetMeta');
+const practiceInstruction = document.getElementById('practiceInstruction');
+const practiceTimer = document.getElementById('practiceTimer');
+const practicePlayerVisual = document.getElementById('practicePlayerVisual');
+const practiceStartButton = document.getElementById('practiceStartButton');
+let selectedPracticeMinutes = 4;
+let practiceTimerId;
+
+document.querySelectorAll('[data-practice]').forEach((button) => button.addEventListener('click', () => {
+  const name = button.dataset.practice;
+  const [category, minutes, icon, instruction] = practiceLibrary[name] || ['Практика',5,'sparkle','Устройтесь удобно и следуйте подсказкам на экране.'];
+  selectedPracticeMinutes = minutes;
+  window.clearInterval(practiceTimerId);
+  practiceSheetTitle.textContent = name;
+  practiceSheetMeta.textContent = `${category} · ${minutes} минут`;
+  practiceInstruction.textContent = instruction;
+  practiceTimer.textContent = `${String(minutes).padStart(2,'0')}:00`;
+  practicePlayerVisual.querySelector('i').className = `ph ph-${icon}`;
+  practiceStartButton.classList.remove('running');
+  practiceStartButton.firstChild.textContent = 'Начать практику ';
+  practiceStartButton.querySelector('span').textContent = `${minutes} мин`;
+  openSheet(practiceSheet, button);
+}));
+
+practiceStartButton.addEventListener('click', () => {
+  window.clearInterval(practiceTimerId);
+  let remaining = selectedPracticeMinutes * 60;
+  practiceStartButton.classList.add('running');
+  practiceStartButton.firstChild.textContent = 'Практика идёт ';
+  const renderPracticeTime = () => {
+    practiceTimer.textContent = `${String(Math.floor(remaining / 60)).padStart(2,'0')}:${String(remaining % 60).padStart(2,'0')}`;
+    if (remaining === 0) {
+      window.clearInterval(practiceTimerId);
+      practiceStartButton.firstChild.textContent = 'Практика завершена ';
+      practiceStartButton.querySelector('span').textContent = 'готово';
+      return;
+    }
+    remaining -= 1;
+  };
+  renderPracticeTime();
+  practiceTimerId = window.setInterval(renderPracticeTime, 1000);
+});
 
 const calendarButtons = [...document.querySelectorAll('[data-cal-view]')];
 const calendarDay = document.getElementById('calendarDay');
