@@ -29,3 +29,7 @@ body:before{display:none!important}
   .sheet-backdrop{position:absolute;inset:0;width:auto;height:auto;border-radius:52px;transform:none}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.sheet-backdrop[hidden]{display:none!important}
+.bottom-sheet{visibility:hidden;pointer-events:none;transition:transform .42s cubic-bezier(.16,1,.3,1),visibility 0s linear .42s}
+.bottom-sheet.open[aria-hidden="false"]{visibility:visible;pointer-events:auto;transition-delay:0s}
+.bottom-sheet[aria-hidden="true"]{transform:translate(-50%,105%)!important}

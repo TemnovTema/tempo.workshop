@@ -3,6 +3,9 @@ const screens = [...document.querySelectorAll('[data-screen]')];
 const navButtons = [...document.querySelectorAll('[data-nav]')];
 const backdrop = document.getElementById('sheetBackdrop');
 const sheets = [...document.querySelectorAll('.bottom-sheet')];
+let activeSheet = null;
+let sheetCloseTimer = null;
+let sheetTrigger = null;
 
 function updateStatusTime() {
   const now = new Date();
@@ -25,6 +28,7 @@ fitDeviceMockup();
 window.addEventListener('resize', fitDeviceMockup);
 
 function showScreen(name) {
+  closeSheets({ immediate: true, restoreFocus: false });
   screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === name));
   navButtons.forEach((button) => button.classList.toggle('active', button.dataset.nav === name));
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -34,29 +38,54 @@ function showScreen(name) {
 navButtons.forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.nav)));
 document.querySelectorAll('[data-screen-link]').forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.screenLink)));
 
-function openSheet(sheet) {
-  sheets.forEach((item) => { item.classList.remove('open'); item.setAttribute('aria-hidden', 'true'); });
-  backdrop.hidden = false;
-  requestAnimationFrame(() => { sheet.classList.add('open'); sheet.setAttribute('aria-hidden', 'false'); });
+function setSheetState(sheet, isOpen) {
+  sheet.classList.toggle('open', isOpen);
+  sheet.setAttribute('aria-hidden', String(!isOpen));
+  sheet.inert = !isOpen;
 }
-function closeSheets() {
-  sheets.forEach((sheet) => { sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); });
-  window.setTimeout(() => { backdrop.hidden = true; }, 380);
+
+function openSheet(sheet, trigger = document.activeElement) {
+  if (!sheet) return;
+  window.clearTimeout(sheetCloseTimer);
+  sheets.forEach((item) => setSheetState(item, false));
+  activeSheet = sheet;
+  sheetTrigger = trigger instanceof HTMLElement ? trigger : null;
+  backdrop.hidden = false;
+  app.classList.add('sheet-open');
+  requestAnimationFrame(() => setSheetState(sheet, true));
+}
+function closeSheets({ immediate = false, restoreFocus = true } = {}) {
+  window.clearTimeout(sheetCloseTimer);
+  sheets.forEach((sheet) => setSheetState(sheet, false));
+  activeSheet = null;
+  app.classList.remove('sheet-open');
+  const finishClose = () => {
+    backdrop.hidden = true;
+    if (restoreFocus && sheetTrigger?.isConnected) sheetTrigger.focus();
+    sheetTrigger = null;
+  };
+  if (immediate) finishClose();
+  else sheetCloseTimer = window.setTimeout(finishClose, 420);
 }
 backdrop.addEventListener('click', closeSheets);
 document.querySelectorAll('.sheet-close').forEach((button) => button.addEventListener('click', closeSheets));
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && activeSheet) closeSheets();
+});
+sheets.forEach((sheet) => setSheetState(sheet, false));
+backdrop.hidden = true;
 
 const taskSheet = document.getElementById('taskSheet');
 const sheetTaskTitle = document.getElementById('sheetTaskTitle');
 document.querySelectorAll('[data-open-task]').forEach((button) => button.addEventListener('click', () => {
   sheetTaskTitle.textContent = button.dataset.openTask;
   taskSheet.querySelector('[data-start-task]').dataset.startTask = button.dataset.openTask;
-  openSheet(taskSheet);
+  openSheet(taskSheet, button);
 }));
 document.querySelectorAll('[data-add-task]').forEach((button) => button.addEventListener('click', () => {
   sheetTaskTitle.textContent = 'Новая задача';
   taskSheet.querySelector('textarea').value = '';
-  openSheet(taskSheet);
+  openSheet(taskSheet, button);
 }));
 
 const modeSwitch = document.getElementById('modeSwitch');
@@ -91,7 +120,7 @@ modeSwitch.addEventListener('click', () => {
     if (timerPaused) modeSwitch.innerHTML = '<span>Работа</span><i></i><span>Пауза</span>';
     else timerLabel();
   } else {
-    openSheet(taskSheet);
+    openSheet(taskSheet, modeSwitch);
   }
 });
 
@@ -167,3 +196,8 @@ applyTheme(localStorage.getItem('tempo-mobile-theme') || 'light');
 
 const initialScreen = location.hash.slice(1);
 showScreen(['today','calendar','practices','state'].includes(initialScreen) ? initialScreen : 'today');
+window.addEventListener('hashchange', () => {
+  const screen = location.hash.slice(1);
+  showScreen(['today','calendar','practices','state'].includes(screen) ? screen : 'today');
+});
+window.addEventListener('pageshow', () => closeSheets({ immediate: true, restoreFocus: false }));
