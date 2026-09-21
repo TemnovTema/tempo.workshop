@@ -93,41 +93,18 @@ document.querySelectorAll('[data-add-task]').forEach((button) => button.addEvent
   openSheet(taskSheet, button);
 }));
 
-const modeSwitch = document.getElementById('modeSwitch');
 let timerId;
 let secondsLeft = 0;
-let timerPaused = false;
-function timerLabel() {
-  const minutes = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
-  const seconds = String(secondsLeft % 60).padStart(2, '0');
-  modeSwitch.innerHTML = `<span>Фокус</span><i></i><span>${minutes}:${seconds}</span>`;
-}
-function startTask(name, minutes) {
+function startTask(minutes) {
   closeSheets();
-  modeSwitch.classList.add('work');
-  timerPaused = false;
   secondsLeft = Number(minutes || 25) * 60;
-  timerLabel();
   clearInterval(timerId);
   timerId = window.setInterval(() => {
-    if (timerPaused) return;
     secondsLeft = Math.max(0, secondsLeft - 1);
-    timerLabel();
     if (!secondsLeft) clearInterval(timerId);
   }, 1000);
-  modeSwitch.setAttribute('aria-label', `${name}: идёт рабочий спринт`);
 }
-document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.startTask, button.dataset.minutes)));
-modeSwitch.addEventListener('click', () => {
-  if (secondsLeft) {
-    modeSwitch.classList.toggle('work');
-    timerPaused = !modeSwitch.classList.contains('work');
-    if (timerPaused) modeSwitch.innerHTML = '<span>Работа</span><i></i><span>Пауза</span>';
-    else timerLabel();
-  } else {
-    openSheet(taskSheet, modeSwitch);
-  }
-});
+document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.minutes)));
 
 const filters = [...document.querySelectorAll('[data-filter]')];
 filters.forEach((button) => button.addEventListener('click', () => {
