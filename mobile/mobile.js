@@ -169,13 +169,14 @@ document.querySelector('.save-state').addEventListener('click', (event) => {
 });
 
 document.getElementById('profileButton').addEventListener('click', () => openSheet(document.getElementById('settingsSheet')));
-document.querySelectorAll('[data-theme]').forEach((button) => button.addEventListener('click', () => {
-  app.dataset.theme = button.dataset.theme;
-  document.querySelectorAll('[data-theme]').forEach((item) => item.classList.toggle('active', item === button));
-  localStorage.setItem('tempo-mobile-theme', button.dataset.theme);
-}));
-app.dataset.theme = localStorage.getItem('tempo-mobile-theme') || 'light';
-document.querySelectorAll('[data-theme]').forEach((button) => button.classList.toggle('active', button.dataset.theme === app.dataset.theme));
+function applyTheme(theme) {
+  app.dataset.theme = theme;
+  document.body.dataset.appTheme = theme;
+  document.querySelectorAll('[data-theme]').forEach((item) => item.classList.toggle('active', item.dataset.theme === theme));
+  localStorage.setItem('tempo-mobile-theme', theme);
+}
+document.querySelectorAll('[data-theme]').forEach((button) => button.addEventListener('click', () => applyTheme(button.dataset.theme)));
+applyTheme(localStorage.getItem('tempo-mobile-theme') || 'light');
 
 const initialScreen = location.hash.slice(1);
 showScreen(['today','calendar','practices','state'].includes(initialScreen) ? initialScreen : 'today');
