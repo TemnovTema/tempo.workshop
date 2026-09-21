@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=15" />
+  <link rel="stylesheet" href="mobile.css?v=17" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -33,10 +33,11 @@
             <button class="tiny-action" type="button" data-screen-link="state">Обновить состояние <i class="ph ph-arrow-right"></i></button>
           </header>
 
-          <article class="energy-card">
-            <div class="energy-orbit" aria-label="Энергия 68, устойчивая"><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i><span class="energy-dot warm"></span><span class="energy-dot cool"></span><div><small>энергия</small><strong>68</strong><em>устойчивая</em></div></div>
-            <div class="energy-copy"><small>реалистичность плана</small><h2>День помещается, если оставить вечер свободным.</h2><p>После 18:30 темп снизится. Необязательную задачу лучше перенести.</p><div class="capacity"><span><i></i>4 ч 20 мин в плане</span><span><i></i>1 ч 40 мин свободно</span></div></div>
-          </article>
+          <button class="energy-card energy-overview" type="button" aria-label="Энергия 68, устойчивый ритм. Открыть подробности">
+            <div class="energy-orbit"><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i><div><small>энергия</small><strong>68</strong><em>устойчиво</em></div></div>
+            <div class="energy-summary"><span>Ритм дня</span><strong>Устойчивый</strong><div class="energy-indicators"><span><b>74%</b><small>баланс</small></span><span><b>82%</b><small>фокус</small></span></div></div>
+            <div class="energy-legend"><span><i></i><b>4 ч 20 мин</b><small>в плане</small></span><span><i></i><b>1 ч 40 мин</b><small>свободно</small></span></div>
+          </button>
         </div>
 
         <section class="next-task" aria-labelledby="nextTaskTitle">
@@ -124,6 +125,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=9"></script>
+  <script src="mobile.js?v=10"></script>
 </body>
 </html>
