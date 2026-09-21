@@ -33,3 +33,46 @@ body:before{display:none!important}
 .bottom-sheet{visibility:hidden;pointer-events:none;transition:transform .42s cubic-bezier(.16,1,.3,1),visibility 0s linear .42s}
 .bottom-sheet.open[aria-hidden="false"]{visibility:visible;pointer-events:auto;transition-delay:0s}
 .bottom-sheet[aria-hidden="true"]{transform:translate(-50%,105%)!important}
+
+/* Edge-to-edge mobile composition: chrome and content read as one continuous canvas. */
+.screen{padding:0 0 42px}
+.screen>.section-head{padding:38px 24px 24px}
+.screen[data-screen="today"] .hero-copy{padding:44px 24px 30px}
+.screen[data-screen="today"] .energy-card{min-height:268px;padding:28px 24px 34px;border-radius:0 0 34px 34px;background:radial-gradient(circle at 88% 12%,rgba(255,148,108,.26),transparent 36%),linear-gradient(180deg,color-mix(in srgb,var(--bg) 72%,#fff 28%),var(--surface));box-shadow:0 18px 45px rgba(70,60,76,.09)}
+.screen[data-screen="today"] .energy-orbit{width:132px;height:132px}
+.screen[data-screen="today"] .energy-copy h2{font-size:21px;max-width:19ch}
+.screen[data-screen="today"] .next-task,.screen[data-screen="today"] .day-list{margin:12px 0 0;border-radius:32px 32px 0 0;box-shadow:none}
+.screen[data-screen="today"] .next-task{min-height:330px;padding:31px 24px 36px}
+.screen[data-screen="today"] .next-task h2{max-width:12ch;font-size:31px}
+.screen[data-screen="today"] .next-task>p{max-width:34ch;margin-top:52px;font-size:11px}
+.screen[data-screen="today"] .day-list{padding:30px 24px 38px}
+.screen[data-screen="today"] .day-row{min-height:72px}
+
+.screen[data-screen="calendar"]{background:linear-gradient(180deg,var(--bg) 0 315px,var(--surface) 315px)}
+.screen[data-screen="calendar"] .section-head{padding-bottom:20px}
+.screen[data-screen="calendar"] .calendar-tabs{margin:0 20px;padding:5px;border-radius:17px}
+.screen[data-screen="calendar"] .calendar-tabs button{height:42px;border-radius:13px}
+.screen[data-screen="calendar"] .date-strip{padding:24px 24px 20px}
+.screen[data-screen="calendar"] .project-scroller{margin:0;padding:0 20px 20px}
+.screen[data-screen="calendar"] .mobile-timeline,.screen[data-screen="calendar"] .alternate-calendar{margin:0;border-radius:32px 32px 0 0}
+.screen[data-screen="calendar"] .mobile-timeline{height:690px;padding-left:49px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 56px,rgba(30,29,28,.07) 57px),var(--surface)}
+.screen[data-screen="calendar"] .mobile-event{left:58px;right:18px;padding:13px 15px;border-radius:15px}
+.screen[data-screen="calendar"] .mobile-event.coral{right:18%}
+.screen[data-screen="calendar"] .mobile-event.violet{left:31%}
+.screen[data-screen="calendar"] .mobile-event.blue{left:18%}
+
+.screen[data-screen="practices"] .featured-practice{min-height:450px;border-radius:32px 32px 0 0;box-shadow:none}
+.screen[data-screen="practices"] .practice-filters{margin:0;padding:18px 20px}
+.screen[data-screen="practices"] .practice-list{gap:0}
+.screen[data-screen="practices"] .practice-card{min-height:170px;border-radius:0;padding:22px 24px;border-top:1px solid var(--line)}
+.screen[data-screen="practices"] .practice-card:first-child{border-radius:32px 32px 0 0}
+
+.screen[data-screen="state"] .mood-panel{padding:28px 24px 30px;border-radius:0 0 34px 34px;background:color-mix(in srgb,var(--bg) 72%,#fff 28%)}
+.screen[data-screen="state"] .energy-slider{margin:24px 24px 30px}
+.screen[data-screen="state"] .factor-card{border-radius:32px 32px 0 0;padding:30px 24px 34px}
+.screen[data-screen="state"] .save-state{width:calc(100% - 48px);margin:16px 24px 0}
+
+@media(max-width:360px){
+  .screen[data-screen="today"] .energy-card{grid-template-columns:108px 1fr;padding-inline:18px}
+  .screen[data-screen="today"] .energy-orbit{width:108px;height:108px}
+}
