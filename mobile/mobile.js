@@ -53,11 +53,11 @@ document.querySelectorAll('[data-open-task]').forEach((button) => button.addEven
   taskSheet.querySelector('[data-start-task]').dataset.startTask = button.dataset.openTask;
   openSheet(taskSheet);
 }));
-document.getElementById('addTaskButton').addEventListener('click', () => {
+document.querySelectorAll('[data-add-task]').forEach((button) => button.addEventListener('click', () => {
   sheetTaskTitle.textContent = 'Новая задача';
   taskSheet.querySelector('textarea').value = '';
   openSheet(taskSheet);
-});
+}));
 
 const modeSwitch = document.getElementById('modeSwitch');
 let timerId;
