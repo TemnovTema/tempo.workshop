@@ -79,6 +79,7 @@ function closeSheets({ immediate = false, restoreFocus = true } = {}) {
   window.clearTimeout(sheetCloseTimer);
   if (typeof practiceTimerId !== 'undefined') window.clearInterval(practiceTimerId);
   document.getElementById('practiceSheet')?.classList.remove('running-session');
+  document.body.classList.remove('practice-mode');
   sheets.forEach((sheet) => setSheetState(sheet, false));
   activeSheet = null;
   app.classList.remove('sheet-open');
@@ -160,6 +161,11 @@ const practiceTimer = document.getElementById('practiceTimer');
 const practicePlayerVisual = document.getElementById('practicePlayerVisual');
 const practiceStages = document.getElementById('practiceStages');
 const practiceStartButton = document.getElementById('practiceStartButton');
+const practiceStageLabel = document.getElementById('practiceStageLabel');
+const practiceSession = document.getElementById('practiceSession');
+const practiceFeedback = document.getElementById('practiceFeedback');
+const practiceStep = document.getElementById('practiceStep');
+const practiceFinishEarly = document.getElementById('practiceFinishEarly');
 let selectedPracticeMinutes = 4;
 let selectedPracticeStages = ['Настройка','Практика','Завершение'];
 let practiceTimerId;
@@ -175,6 +181,15 @@ const stagesForPractice = (name, category) => {
 
 function renderPracticeStages(activeIndex = 0) {
   practiceStages.innerHTML = selectedPracticeStages.map((stage, index) => `<span class="${index === activeIndex ? 'active' : ''}">${stage}</span>`).join('');
+  practiceStageLabel.textContent = selectedPracticeStages[activeIndex];
+}
+
+function showPracticeFeedback() {
+  window.clearInterval(practiceTimerId);
+  practiceSheet.classList.remove('running-session');
+  practiceSession.hidden = true;
+  practiceFeedback.hidden = false;
+  practiceStep.textContent = '2 из 2';
 }
 
 document.querySelectorAll('[data-practice]').forEach((button) => button.addEventListener('click', () => {
@@ -190,10 +205,13 @@ document.querySelectorAll('[data-practice]').forEach((button) => button.addEvent
   practicePlayerVisual.querySelector('i').className = `ph ph-${icon}`;
   practicePlayerVisual.dataset.category = category.toLowerCase();
   practiceSheet.classList.remove('running-session');
+  practiceSession.hidden = false;
+  practiceFeedback.hidden = true;
+  practiceStep.textContent = '1 из 2';
   renderPracticeStages();
   practiceStartButton.classList.remove('running');
-  practiceStartButton.firstChild.textContent = 'Начать практику ';
-  practiceStartButton.querySelector('span').textContent = `${minutes} мин`;
+  practiceStartButton.querySelector('i').className = 'ph ph-play';
+  document.body.classList.add('practice-mode');
   openSheet(practiceSheet, button);
 }));
 
@@ -203,15 +221,13 @@ practiceStartButton.addEventListener('click', () => {
   const totalSeconds = remaining;
   practiceSheet.classList.add('running-session');
   practiceStartButton.classList.add('running');
-  practiceStartButton.firstChild.textContent = 'Практика идёт ';
+  practiceStartButton.querySelector('i').className = 'ph ph-pause';
   const renderPracticeTime = () => {
     const elapsed = totalSeconds - remaining;
     renderPracticeStages(Math.min(2, Math.floor(elapsed / Math.max(1, totalSeconds / 3))));
     practiceTimer.textContent = `${String(Math.floor(remaining / 60)).padStart(2,'0')}:${String(remaining % 60).padStart(2,'0')}`;
     if (remaining === 0) {
-      window.clearInterval(practiceTimerId);
-      practiceStartButton.firstChild.textContent = 'Практика завершена ';
-      practiceStartButton.querySelector('span').textContent = 'готово';
+      showPracticeFeedback();
       return;
     }
     remaining -= 1;
@@ -219,6 +235,14 @@ practiceStartButton.addEventListener('click', () => {
   renderPracticeTime();
   practiceTimerId = window.setInterval(renderPracticeTime, 1000);
 });
+
+practiceFinishEarly.addEventListener('click', showPracticeFeedback);
+document.querySelectorAll('.soundscape-picker button').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll('.soundscape-picker button').forEach((item) => item.classList.toggle('active', item === button));
+}));
+document.querySelectorAll('.feedback-options button').forEach((button) => button.addEventListener('click', () => button.classList.toggle('active')));
+document.getElementById('practiceFeedbackSave').addEventListener('click', closeSheets);
+document.getElementById('practiceFeedbackSkip').addEventListener('click', closeSheets);
 
 const calendarButtons = [...document.querySelectorAll('[data-cal-view]')];
 const calendarDay = document.getElementById('calendarDay');

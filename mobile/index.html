@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=24" />
+  <link rel="stylesheet" href="mobile.css?v=25" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -122,7 +122,17 @@
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
     <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><fieldset class="task-color-picker"><legend>Цвет задачи</legend><button class="active" type="button" data-task-color="coral" aria-label="Коралловый"></button><button type="button" data-task-color="violet" aria-label="Фиолетовый"></button><button type="button" data-task-color="blue" aria-label="Синий"></button><button type="button" data-task-color="lime" aria-label="Лаймовый"></button></fieldset><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
-    <aside class="bottom-sheet practice-player" id="practiceSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small id="practiceSheetMeta">Фокус · 8 минут</small><h2 id="practiceSheetTitle">Собрать внимание</h2><div class="practice-player-visual" id="practicePlayerVisual"><b class="visual-ring ring-one"></b><b class="visual-ring ring-two"></b><i class="ph ph-eye"></i><strong id="practiceTimer">08:00</strong></div><div class="practice-stages" id="practiceStages" aria-label="Этапы практики"><span class="active">Настройка</span><span>Наблюдение</span><span>Возврат</span></div><section class="practice-instruction"><span>Как выполнять</span><p id="practiceInstruction">Выберите одну точку перед собой и мягко возвращайте к ней внимание.</p></section><button class="primary-button" type="button" id="practiceStartButton">Начать практику <span>8 мин</span></button></aside>
+    <aside class="bottom-sheet practice-player" id="practiceSheet" aria-hidden="true">
+      <header class="practice-page-head"><button class="sheet-close practice-back" type="button" aria-label="Вернуться к практикам"><i class="ph ph-caret-left"></i></button><small id="practiceSheetMeta">Фокус · 8 минут</small><span id="practiceStep">1 из 2</span></header>
+      <div class="practice-session" id="practiceSession">
+        <h2 id="practiceSheetTitle">Собрать внимание</h2>
+        <div class="practice-player-visual" id="practicePlayerVisual"><b class="visual-ring ring-one"></b><b class="visual-ring ring-two"></b><i class="ph ph-eye"></i><em id="practiceStageLabel">Настройка</em><strong id="practiceTimer">08:00</strong></div>
+        <div class="practice-stages" id="practiceStages" aria-label="Этапы практики"><span class="active">Настройка</span><span>Наблюдение</span><span>Возврат</span></div>
+        <section class="practice-instruction"><span>Как выполнять</span><p id="practiceInstruction">Выберите одну точку перед собой и мягко возвращайте к ней внимание.</p></section>
+        <section class="practice-controls"><div><button type="button" aria-label="Звук"><i class="ph ph-speaker-high"></i></button><button class="practice-play" type="button" id="practiceStartButton" aria-label="Начать практику"><i class="ph ph-play"></i></button><button type="button" id="practiceFinishEarly">Завершить</button></div><div class="soundscape-picker"><button class="active" type="button">Нейтральная музыка</button><button type="button">Космос</button><button type="button">Тихий шум</button></div></section>
+      </div>
+      <section class="practice-feedback" id="practiceFeedback" hidden><h2>Как вам практика?</h2><p>Можно выбрать несколько вариантов.</p><div class="feedback-options"><button type="button">Стало тише</button><button type="button">Дышать легче</button><button type="button">Фокус вернулся</button><button type="button">Не помогло</button></div><textarea placeholder="Напишите пару слов…" aria-label="Комментарий о практике"></textarea><button class="primary-button" type="button" id="practiceFeedbackSave">Записать и продолжить</button><button class="feedback-skip" type="button" id="practiceFeedbackSkip">Пропустить</button></section>
+    </aside>
   </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
       <div class="bottom-nav-main">
@@ -134,6 +144,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=12"></script>
+  <script src="mobile.js?v=13"></script>
 </body>
 </html>
