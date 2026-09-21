@@ -300,3 +300,14 @@ body:before{display:none!important}
 .state-mini-chart{display:flex;align-items:end;gap:8px;height:190px;padding:20px;border-radius:24px;background:var(--surface-2)}
 .state-mini-chart i{flex:1;height:var(--v);border-radius:10px 10px 5px 5px;background:#cfcbd2}.state-mini-chart i.active{background:linear-gradient(180deg,#9c7caf,var(--accent))}
 .stats-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.stats-summary span{display:grid;gap:3px;padding:14px;border-radius:17px;background:var(--surface-2)}.stats-summary b{font-size:20px}.stats-summary small{color:var(--muted);font-size:12px}
+
+/* Header utilities align with the eyebrow, not the much taller title block. */
+.screen[data-screen="calendar"] .section-head,
+.screen[data-screen="practices"] .section-head,
+.screen[data-screen="state"] .section-head{align-items:flex-start}
+.screen[data-screen="calendar"] .header-mini-action,
+.screen[data-screen="practices"] .header-mini-action,
+.screen[data-screen="state"] .header-mini-action{transform:translateY(-1px)}
+.screen[data-screen="calendar"] .header-mini-action:active,
+.screen[data-screen="practices"] .header-mini-action:active,
+.screen[data-screen="state"] .header-mini-action:active{transform:translateY(-1px) scale(.94)}
