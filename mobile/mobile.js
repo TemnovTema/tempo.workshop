@@ -4,6 +4,7 @@ const navButtons = [...document.querySelectorAll('[data-nav]')];
 const backdrop = document.getElementById('sheetBackdrop');
 const sheets = [...document.querySelectorAll('.bottom-sheet')];
 const topSlideCards = [...document.querySelectorAll('.top-slide-card')];
+const devicePicker = document.getElementById('prototypeDevice');
 let activeSheet = null;
 let sheetCloseTimer = null;
 let sheetTrigger = null;
@@ -19,7 +20,12 @@ function fitDeviceMockup() {
   const stage = document.querySelector('.device-stage');
   if (!stage) return;
   if (window.matchMedia('(min-width: 600px)').matches) {
-    const scale = Math.min(1, (window.innerHeight - 28) / 876, (window.innerWidth - 28) / 424);
+    const isProMax = document.body.dataset.device === 'iphone17promax';
+    const deviceWidth = isProMax ? 474 : 424;
+    const deviceHeight = isProMax ? 960 : 876;
+    stage.style.setProperty('--device-width', `${deviceWidth}px`);
+    stage.style.setProperty('--device-height', `${deviceHeight}px`);
+    const scale = Math.min(1, (window.innerHeight - 28) / deviceHeight, (window.innerWidth - 28) / deviceWidth);
     stage.style.setProperty('--device-scale', String(Math.max(.32, scale)));
   } else {
     stage.style.removeProperty('--device-scale');
@@ -27,6 +33,16 @@ function fitDeviceMockup() {
 }
 fitDeviceMockup();
 window.addEventListener('resize', fitDeviceMockup);
+
+const savedDevice = window.localStorage.getItem('tempo-prototype-device') || 'iphone17';
+document.body.dataset.device = savedDevice;
+devicePicker.value = savedDevice;
+fitDeviceMockup();
+devicePicker.addEventListener('change', () => {
+  document.body.dataset.device = devicePicker.value;
+  window.localStorage.setItem('tempo-prototype-device', devicePicker.value);
+  fitDeviceMockup();
+});
 
 function showScreen(name) {
   closeSheets({ immediate: true, restoreFocus: false });

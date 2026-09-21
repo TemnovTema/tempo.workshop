@@ -180,3 +180,21 @@ body:before{display:none!important}
 .mobile-app .ios-statusbar time{color:#111!important;mix-blend-mode:normal!important}
 .mobile-app .status-icons{mix-blend-mode:normal!important}
 .mobile-app .status-icons img{filter:invert(1)}
+
+/* Prototype-only device switcher; it never enters the app canvas. */
+.prototype-device-picker{display:none}
+@media(min-width:600px){
+  .prototype-device-picker{position:fixed;z-index:80;right:24px;top:22px;display:grid;grid-template-columns:auto auto 16px;align-items:center;gap:10px;padding:8px 10px 8px 14px;border:1px solid rgba(35,31,38,.1);border-radius:16px;background:rgba(248,248,245,.76);box-shadow:0 12px 34px rgba(57,50,63,.1),inset 0 1px 0 rgba(255,255,255,.72);backdrop-filter:blur(18px) saturate(1.1);color:#1b1b1a}
+  .prototype-device-picker span{color:#74726f;font-size:12px;font-weight:500}
+  .prototype-device-picker select{appearance:none;min-width:142px;padding:6px 22px 6px 8px;border:0;outline:0;background:transparent;color:#1b1b1a;font:600 13px/1.2 Manrope,Arial,sans-serif;cursor:pointer}
+  .prototype-device-picker>i{margin-left:-28px;font-size:14px;pointer-events:none}
+  .device-stage{width:var(--device-width,424px);height:var(--device-height,876px)}
+  .mobile-app{inset:12px 13px 14px}
+  .bottom-nav{width:calc(var(--device-width,424px) - 67px)}
+  .bottom-sheet{width:calc(var(--device-width,424px) - 26px)}
+  .sheet-backdrop{width:calc(var(--device-width,424px) - 26px);height:calc(var(--device-height,876px) - 26px)}
+}
+@media(min-width:600px) and (max-width:899px){
+  .prototype-device-picker{grid-template-columns:auto 16px;gap:4px;padding-left:9px}
+  .prototype-device-picker span{display:none}
+}
