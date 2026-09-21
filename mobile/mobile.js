@@ -168,7 +168,6 @@ document.querySelector('.save-state').addEventListener('click', (event) => {
   window.setTimeout(() => { event.currentTarget.firstChild.textContent = 'Сохранить состояние '; }, 1600);
 });
 
-document.getElementById('profileButton').addEventListener('click', () => openSheet(document.getElementById('settingsSheet')));
 function applyTheme(theme) {
   app.dataset.theme = theme;
   document.body.dataset.appTheme = theme;

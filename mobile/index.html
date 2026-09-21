@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=2" />
+  <link rel="stylesheet" href="mobile.css?v=3" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -98,6 +98,10 @@
       </section>
     </main>
 
+    <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
+    <aside class="bottom-sheet practice-sheet" id="practiceSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><div class="practice-breathe"><i></i><span>вдох</span></div><small>практика</small><h2 id="practiceSheetTitle">Дыхание 4–6</h2><p>Следуйте за кругом. Вдох — когда он растёт, выдох — когда уменьшается.</p><button class="primary-button practice-toggle" type="button">Пауза <span id="practiceTime">03:59</span></button></aside>
+  </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
       <div class="bottom-nav-main">
         <button class="active" type="button" data-nav="today" aria-label="Сегодня"><img src="assets/nav-home.svg" alt="" /></button>
@@ -107,13 +111,7 @@
       </div>
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
-
-    <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
-    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
-    <aside class="bottom-sheet practice-sheet" id="practiceSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><div class="practice-breathe"><i></i><span>вдох</span></div><small>практика</small><h2 id="practiceSheetTitle">Дыхание 4–6</h2><p>Следуйте за кругом. Вдох — когда он растёт, выдох — когда уменьшается.</p><button class="primary-button practice-toggle" type="button">Пауза <span id="practiceTime">03:59</span></button></aside>
-    <aside class="bottom-sheet settings-sheet" id="settingsSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>профиль</small><h2>Артём Темнов</h2><div class="profile-line"><span>AT</span><div><b>Состояние синхронизировано</b><small>сегодня в 09:04</small></div></div><h3>Тема</h3><div class="theme-picker"><button class="active" type="button" data-theme="light"><i></i>Светлая</button><button type="button" data-theme="dark"><i></i>Тёмная</button><button type="button" data-theme="glass"><i></i>Стекло</button></div><a href="../">Вернуться в workshop <i class="ph ph-arrow-up-right"></i></a></aside>
   </div>
-  </div>
-  <script src="mobile.js?v=2"></script>
+  <script src="mobile.js?v=3"></script>
 </body>
 </html>
