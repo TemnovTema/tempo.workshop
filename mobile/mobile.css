@@ -344,12 +344,12 @@ body:before{display:none!important}
 .dynamic-island{z-index:70;padding:0;border:0;color:#fff;cursor:pointer;overflow:hidden;transition:width .42s cubic-bezier(.16,1,.3,1),height .42s cubic-bezier(.16,1,.3,1),border-radius .42s cubic-bezier(.16,1,.3,1),box-shadow .3s ease}
 .dynamic-island .island-camera{display:block;position:absolute;right:10px;top:8px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 38% 36%,#24417b 0,#101a31 28%,#030303 62%);box-shadow:inset 0 0 0 4px #020202,0 0 8px rgba(33,72,145,.18);transition:opacity .2s ease}
 .island-live{display:none;color:#fff;font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-.01em}
-.dynamic-island.live{width:174px;height:36px;background:#050505;box-shadow:0 7px 20px rgba(0,0,0,.24),inset 0 1px 1px rgba(255,255,255,.07)}
+.dynamic-island.live{width:142px;height:36px;background:#050505;box-shadow:0 7px 20px rgba(0,0,0,.24),inset 0 1px 1px rgba(255,255,255,.07)}
 .dynamic-island.live .island-camera{opacity:0}
 .dynamic-island.live .island-live{display:block}
-.island-compact{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 13px}
-.island-compact em{width:8px;height:8px;border-radius:50%;background:#a785be;box-shadow:0 0 10px rgba(167,133,190,.74);animation:island-pulse 1.8s ease-in-out infinite}
-.island-compact b{font-size:14px;font-variant-numeric:tabular-nums;font-weight:600}
+.island-compact{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 11px}
+.island-compact em{width:7px;height:7px;border-radius:50%;background:#a785be;box-shadow:0 0 9px rgba(167,133,190,.74);animation:island-pulse 1.8s ease-in-out infinite}
+.island-compact b{font-size:13px;font-variant-numeric:tabular-nums;font-weight:600}
 .island-expanded{display:none}
 .dynamic-island.expanded{width:310px;height:116px;border-radius:29px;box-shadow:0 18px 45px rgba(0,0,0,.34),inset 0 1px 1px rgba(255,255,255,.08)}
 .dynamic-island.expanded .island-compact{left:auto;right:9px;top:7px;bottom:auto;width:74px;height:28px;padding:0 5px}.dynamic-island.expanded .island-compact em{display:none}
