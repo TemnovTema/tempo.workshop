@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=28" />
+  <link rel="stylesheet" href="mobile.css?v=29" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -21,7 +21,7 @@
   <div class="mobile-app" id="mobileApp">
     <div class="ios-statusbar">
       <time id="statusTime">9:41</time>
-      <div class="dynamic-island" aria-hidden="true"><i></i></div>
+      <button class="dynamic-island" id="dynamicIsland" type="button" aria-label="Таймер задачи не запущен" aria-expanded="false"><i class="island-camera" aria-hidden="true"></i><span class="island-live" aria-hidden="true"><span class="island-compact"><em></em><b id="islandTimer">25:00</b></span><span class="island-expanded"><small id="islandStage">Фокус · 1 из 3</small><strong id="islandTask">Макет главного экрана</strong><span class="island-progress"><i id="islandProgress"></i></span><span class="island-controls"><span data-island-toggle><i class="ph ph-pause"></i><b>Пауза</b></span><span data-island-skip><i class="ph ph-skip-forward"></i><b>Дальше</b></span></span></span></span></button>
       <div class="status-icons" aria-label="Сеть Wi-Fi, заряд 100 процентов"><img src="assets/ios-status-icons.svg" alt="" /></div>
     </div>
     <main id="mobileMain">
@@ -146,6 +146,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=15"></script>
+  <script src="mobile.js?v=16"></script>
 </body>
 </html>

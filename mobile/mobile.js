@@ -137,6 +137,7 @@ function prepareTaskSheet(mode, title, source = null) {
   sheetTaskTitle.textContent = title;
   taskSaveButton.firstChild.textContent = mode === 'create' ? 'Создать задачу ' : 'Сохранить изменения ';
   taskSaveButton.querySelector('span').textContent = mode === 'create' ? 'добавить' : 'готово';
+  if (typeof editorStartButton !== 'undefined') editorStartButton.hidden = mode === 'create';
   taskDeleteButton.hidden = mode === 'create';
   taskDeleteButton.dataset.confirm = 'false';
   taskDeleteButton.innerHTML = '<i class="ph ph-trash"></i>Удалить задачу';
@@ -191,16 +192,95 @@ document.querySelectorAll('[data-open-sheet]').forEach((button) => button.addEve
 
 let timerId;
 let secondsLeft = 0;
-function startTask(minutes) {
+const dynamicIsland = document.getElementById('dynamicIsland');
+const islandTimer = document.getElementById('islandTimer');
+const islandStage = document.getElementById('islandStage');
+const islandTask = document.getElementById('islandTask');
+const islandProgress = document.getElementById('islandProgress');
+const islandToggle = dynamicIsland.querySelector('[data-island-toggle]');
+const islandSkip = dynamicIsland.querySelector('[data-island-skip]');
+const editorStartButton = document.createElement('button');
+let sprintStages = [];
+let sprintIndex = 0;
+let stageDuration = 0;
+let timerPaused = false;
+
+editorStartButton.className = 'task-start-secondary';
+editorStartButton.type = 'button';
+editorStartButton.dataset.startEditor = '';
+editorStartButton.innerHTML = '<i class="ph ph-play"></i>Начать задачу';
+taskSaveButton.insertAdjacentElement('afterend', editorStartButton);
+
+function formatTimer(value) {
+  const minutes = Math.floor(value / 60);
+  const seconds = value % 60;
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function renderIsland() {
+  const stage = sprintStages[sprintIndex];
+  if (!stage) return;
+  islandTimer.textContent = formatTimer(secondsLeft);
+  islandStage.textContent = `${stage.label} · ${sprintIndex + 1} из ${sprintStages.length}`;
+  islandProgress.style.width = `${Math.max(0, Math.min(100, (1 - secondsLeft / stageDuration) * 100))}%`;
+  islandToggle.querySelector('i').className = timerPaused ? 'ph ph-play' : 'ph ph-pause';
+  islandToggle.querySelector('b').textContent = timerPaused ? 'Продолжить' : 'Пауза';
+  dynamicIsland.classList.toggle('resting', stage.type === 'rest');
+  dynamicIsland.setAttribute('aria-label', `${islandTask.textContent}. ${stage.label}. Осталось ${formatTimer(secondsLeft)}`);
+}
+
+function beginStage(index) {
+  sprintIndex = index;
+  if (sprintIndex >= sprintStages.length) {
+    clearInterval(timerId);
+    dynamicIsland.classList.add('complete');
+    dynamicIsland.classList.remove('expanded');
+    islandTimer.textContent = 'Готово';
+    dynamicIsland.setAttribute('aria-label', `${islandTask.textContent}. Задача завершена`);
+    return;
+  }
+  stageDuration = sprintStages[sprintIndex].seconds;
+  secondsLeft = stageDuration;
+  timerPaused = false;
+  renderIsland();
+}
+
+function startTask(minutes, title = 'Текущая задача') {
   closeSheets();
-  secondsLeft = Number(minutes || 25) * 60;
+  const workMinutes = Math.max(1, Math.round(Number(minutes || 50) / 2));
+  sprintStages = [
+    { type: 'work', label: 'Фокус', seconds: workMinutes * 60 },
+    { type: 'rest', label: 'Перерыв', seconds: 5 * 60 },
+    { type: 'work', label: 'Фокус', seconds: workMinutes * 60 }
+  ];
+  islandTask.textContent = title;
+  dynamicIsland.classList.add('live');
+  dynamicIsland.classList.remove('complete');
+  beginStage(0);
   clearInterval(timerId);
   timerId = window.setInterval(() => {
+    if (timerPaused) return;
     secondsLeft = Math.max(0, secondsLeft - 1);
-    if (!secondsLeft) clearInterval(timerId);
+    if (!secondsLeft) beginStage(sprintIndex + 1);
+    else renderIsland();
   }, 1000);
 }
-document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.minutes)));
+document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.minutes, button.dataset.startTask)));
+editorStartButton.addEventListener('click', () => startTask(50, sheetTaskTitle.textContent.trim() || 'Текущая задача'));
+dynamicIsland.addEventListener('click', (event) => {
+  if (!dynamicIsland.classList.contains('live')) return;
+  if (event.target.closest('[data-island-toggle]')) {
+    timerPaused = !timerPaused;
+    renderIsland();
+    return;
+  }
+  if (event.target.closest('[data-island-skip]')) {
+    beginStage(sprintIndex + 1);
+    return;
+  }
+  const expanded = dynamicIsland.classList.toggle('expanded');
+  dynamicIsland.setAttribute('aria-expanded', String(expanded));
+});
 
 const filters = [...document.querySelectorAll('[data-filter]')];
 const practiceCatalogCards = [...document.querySelectorAll('.screen[data-screen="practices"] .practice-card')];
