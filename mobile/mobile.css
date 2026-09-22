@@ -361,3 +361,13 @@ body:before{display:none!important}
 .dynamic-island.complete .island-compact em{background:#7eca68;animation:none}.dynamic-island.complete .island-compact b{color:#bde4b3}
 .task-start-secondary{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;border:1px solid rgba(117,85,138,.2);border-radius:14px;background:#eee7f1;color:var(--accent);font-size:14px;font-weight:600}.task-start-secondary[hidden]{display:none}
 @keyframes island-pulse{50%{opacity:.45;transform:scale(.72)}}
+
+/* Task surfaces mirror the active sprint shown in Dynamic Island. */
+.next-task,.day-row,.mobile-event{transition:background .3s ease,box-shadow .3s ease,transform .3s ease}
+.next-task.task-running{position:relative;background:linear-gradient(145deg,#fff 0,#f5eef7 100%);box-shadow:inset 0 0 0 1px rgba(117,85,138,.18),0 16px 38px rgba(86,65,99,.12)!important}
+.next-task.task-running:before{content:attr(data-live-status);position:absolute;right:24px;top:70px;padding:6px 9px;border-radius:10px;background:#ece2f0;color:var(--accent);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.next-task.task-running .primary-button{background:#262329;box-shadow:0 10px 22px rgba(38,35,41,.2)}
+.day-row.task-running{padding-right:104px;background:linear-gradient(90deg,rgba(169,133,190,.12),transparent);box-shadow:inset 3px 0 0 var(--accent)}
+.day-row.task-running:after{content:attr(data-live-status);position:absolute;right:0;padding:6px 8px;border-radius:9px;background:#ece2f0;color:var(--accent);font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.mobile-event.task-running{z-index:3;box-shadow:0 0 0 2px var(--accent),0 10px 24px rgba(117,85,138,.2);transform:translateY(-2px)}
+.mobile-event.task-running:after{content:attr(data-live-status);position:absolute;right:9px;bottom:8px;padding:4px 6px;border-radius:7px;background:rgba(255,255,255,.68);color:var(--accent);font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}

@@ -204,6 +204,7 @@ let sprintStages = [];
 let sprintIndex = 0;
 let stageDuration = 0;
 let timerPaused = false;
+let activeTaskTitle = '';
 
 editorStartButton.className = 'task-start-secondary';
 editorStartButton.type = 'button';
@@ -217,6 +218,42 @@ function formatTimer(value) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
+function setButtonLabel(button, label, meta) {
+  if (!button) return;
+  const textNode = [...button.childNodes].find((node) => node.nodeType === Node.TEXT_NODE);
+  if (textNode) textNode.textContent = `${label} `;
+  const detail = button.querySelector(':scope > span');
+  if (detail) detail.textContent = meta;
+}
+
+function syncTaskSurfaces() {
+  const stage = sprintStages[sprintIndex];
+  const complete = dynamicIsland.classList.contains('complete');
+  const status = complete ? 'Готово' : timerPaused ? 'На паузе' : stage?.type === 'rest' ? 'Перерыв' : `Фокус ${sprintIndex === 2 ? 2 : 1}`;
+  const time = complete ? 'завершено' : formatTimer(secondsLeft);
+  const homeStart = document.querySelector('[data-start-task]');
+  const homeCard = homeStart?.closest('.next-task');
+  const isHomeTask = homeStart?.dataset.startTask === activeTaskTitle;
+
+  homeCard?.classList.toggle('task-running', Boolean(isHomeTask && !complete));
+  if (isHomeTask) {
+    homeCard.dataset.liveStatus = `${status} · ${time}`;
+    if (complete) setButtonLabel(homeStart, 'Задача завершена', 'готово');
+    else if (stage?.type === 'rest') setButtonLabel(homeStart, 'Завершить перерыв', time);
+    else setButtonLabel(homeStart, timerPaused ? 'Продолжить задачу' : 'Поставить на паузу', `${status} · ${time}`);
+  } else if (homeCard) {
+    delete homeCard.dataset.liveStatus;
+    setButtonLabel(homeStart, 'Начать задачу', '2 × 25 мин');
+  }
+
+  document.querySelectorAll('[data-open-task]').forEach((card) => {
+    const active = card.dataset.openTask === activeTaskTitle && !complete;
+    card.classList.toggle('task-running', active);
+    if (active) card.dataset.liveStatus = `${status} · ${time}`;
+    else delete card.dataset.liveStatus;
+  });
+}
+
 function renderIsland() {
   const stage = sprintStages[sprintIndex];
   if (!stage) return;
@@ -227,6 +264,7 @@ function renderIsland() {
   islandToggle.querySelector('b').textContent = timerPaused ? 'Продолжить' : 'Пауза';
   dynamicIsland.classList.toggle('resting', stage.type === 'rest');
   dynamicIsland.setAttribute('aria-label', `${islandTask.textContent}. ${stage.label}. Осталось ${formatTimer(secondsLeft)}`);
+  syncTaskSurfaces();
 }
 
 function beginStage(index) {
@@ -237,6 +275,7 @@ function beginStage(index) {
     dynamicIsland.classList.remove('expanded');
     islandTimer.textContent = 'Готово';
     dynamicIsland.setAttribute('aria-label', `${islandTask.textContent}. Задача завершена`);
+    syncTaskSurfaces();
     return;
   }
   stageDuration = sprintStages[sprintIndex].seconds;
@@ -254,6 +293,7 @@ function startTask(minutes, title = 'Текущая задача') {
     { type: 'work', label: 'Фокус', seconds: workMinutes * 60 }
   ];
   islandTask.textContent = title;
+  activeTaskTitle = title;
   dynamicIsland.classList.add('live');
   dynamicIsland.classList.remove('complete');
   beginStage(0);
@@ -265,8 +305,26 @@ function startTask(minutes, title = 'Текущая задача') {
     else renderIsland();
   }, 1000);
 }
-document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => startTask(button.dataset.minutes, button.dataset.startTask)));
+document.querySelectorAll('[data-start-task]').forEach((button) => button.addEventListener('click', () => {
+  if (dynamicIsland.classList.contains('live') && button.dataset.startTask === activeTaskTitle && !dynamicIsland.classList.contains('complete')) {
+    if (sprintStages[sprintIndex]?.type === 'rest') beginStage(sprintIndex + 1);
+    else {
+      timerPaused = !timerPaused;
+      renderIsland();
+    }
+    return;
+  }
+  startTask(button.dataset.minutes, button.dataset.startTask);
+}));
 editorStartButton.addEventListener('click', () => startTask(50, sheetTaskTitle.textContent.trim() || 'Текущая задача'));
+document.addEventListener('click', (event) => {
+  const card = event.target.closest('[data-open-task]');
+  if (!card || card.dataset.openTask !== activeTaskTitle || !dynamicIsland.classList.contains('live')) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  dynamicIsland.classList.add('expanded');
+  dynamicIsland.setAttribute('aria-expanded', 'true');
+}, true);
 dynamicIsland.addEventListener('click', (event) => {
   if (!dynamicIsland.classList.contains('live')) return;
   if (event.target.closest('[data-island-toggle]')) {
