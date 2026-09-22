@@ -101,16 +101,90 @@ backdrop.hidden = true;
 
 const taskSheet = document.getElementById('taskSheet');
 const sheetTaskTitle = document.getElementById('sheetTaskTitle');
+const taskSheetEyebrow = document.getElementById('taskSheetEyebrow');
+const taskSaveButton = taskSheet.querySelector('[data-save-task]');
+const taskDeleteButton = taskSheet.querySelector('[data-delete-task]');
+const participantButtons = [...taskSheet.querySelectorAll('[data-participant]')];
+const selectedParticipants = taskSheet.querySelector('.selected-participants');
+let taskSource = null;
+
+sheetTaskTitle.contentEditable = 'true';
+sheetTaskTitle.setAttribute('role', 'textbox');
+sheetTaskTitle.setAttribute('aria-label', 'Название задачи');
+
+function resetParticipants(initials = []) {
+  participantButtons.forEach((button) => {
+    const selected = initials.includes(button.dataset.participant);
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+  const active = participantButtons.filter((button) => button.classList.contains('active'));
+  selectedParticipants.innerHTML = active.length
+    ? active.map((button) => `<em>${button.dataset.participant}</em>`).join('')
+    : '<span>Пока никого</span>';
+}
+
+function setTaskProject(project = 'tempo') {
+  taskSheet.querySelectorAll('[data-task-project]').forEach((button) => button.classList.toggle('active', button.dataset.taskProject === project));
+  const projectName = { tempo: 'Tempo', univer: 'Универ', health: 'Здоровье' }[project] || 'Tempo';
+  taskSheet.dataset.taskProject = project;
+  taskSheetEyebrow.textContent = `задача · ${projectName}`;
+}
+
+function prepareTaskSheet(mode, title, source = null) {
+  taskSheet.dataset.mode = mode;
+  taskSource = source;
+  sheetTaskTitle.textContent = title;
+  taskSaveButton.firstChild.textContent = mode === 'create' ? 'Создать задачу ' : 'Сохранить изменения ';
+  taskSaveButton.querySelector('span').textContent = mode === 'create' ? 'добавить' : 'готово';
+  taskDeleteButton.hidden = mode === 'create';
+  taskDeleteButton.dataset.confirm = 'false';
+  taskDeleteButton.innerHTML = '<i class="ph ph-trash"></i>Удалить задачу';
+  resetParticipants();
+  setTaskProject(source?.dataset.project || 'tempo');
+  const projectColor = { tempo: 'violet', univer: 'blue', health: 'lime' }[taskSheet.dataset.taskProject] || 'coral';
+  taskSheet.querySelectorAll('[data-task-color]').forEach((button) => button.classList.toggle('active', button.dataset.taskColor === projectColor));
+}
+
 document.querySelectorAll('[data-open-task]').forEach((button) => button.addEventListener('click', () => {
-  sheetTaskTitle.textContent = button.dataset.openTask;
-  taskSheet.querySelector('[data-start-task]').dataset.startTask = button.dataset.openTask;
+  prepareTaskSheet('edit', button.dataset.openTask, button);
   openSheet(taskSheet, button);
 }));
 document.querySelectorAll('[data-add-task]').forEach((button) => button.addEventListener('click', () => {
-  sheetTaskTitle.textContent = 'Новая задача';
+  prepareTaskSheet('create', 'Новая задача');
   taskSheet.querySelector('textarea').value = '';
   openSheet(taskSheet, button);
 }));
+
+taskSheet.querySelectorAll('[data-task-project]').forEach((button) => button.addEventListener('click', () => setTaskProject(button.dataset.taskProject)));
+participantButtons.forEach((button) => button.addEventListener('click', () => {
+  button.classList.toggle('active');
+  button.setAttribute('aria-pressed', String(button.classList.contains('active')));
+  resetParticipants(participantButtons.filter((item) => item.classList.contains('active')).map((item) => item.dataset.participant));
+}));
+taskSheet.querySelector('[data-add-participant]').addEventListener('click', () => {
+  taskSheet.querySelector('.participant-options').classList.toggle('open');
+});
+taskSaveButton.addEventListener('click', () => {
+  const title = sheetTaskTitle.textContent.trim() || 'Без названия';
+  sheetTaskTitle.textContent = title;
+  if (taskSource) {
+    taskSource.dataset.openTask = title;
+    const label = taskSource.querySelector('b');
+    if (label) label.textContent = title;
+    taskSource.dataset.project = taskSheet.dataset.taskProject;
+  }
+  closeSheets();
+});
+taskDeleteButton.addEventListener('click', () => {
+  if (taskDeleteButton.dataset.confirm !== 'true') {
+    taskDeleteButton.dataset.confirm = 'true';
+    taskDeleteButton.innerHTML = '<i class="ph ph-warning"></i>Нажмите ещё раз для удаления';
+    return;
+  }
+  taskSource?.remove();
+  closeSheets();
+});
 document.querySelectorAll('[data-open-sheet]').forEach((button) => button.addEventListener('click', () => {
   openSheet(document.getElementById(button.dataset.openSheet), button);
 }));
@@ -286,8 +360,7 @@ function bindCalendarSelection(defaultDay) {
   output.addEventListener('click', (event) => {
     const button = event.target.closest('[data-dynamic-task]');
     if (!button) return;
-    sheetTaskTitle.textContent = button.dataset.dynamicTask;
-    taskSheet.querySelector('[data-start-task]').dataset.startTask = button.dataset.dynamicTask;
+    prepareTaskSheet('edit', button.dataset.dynamicTask, button);
     openSheet(taskSheet, button);
   });
 }

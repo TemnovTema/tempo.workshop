@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=27" />
+  <link rel="stylesheet" href="mobile.css?v=28" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -121,7 +121,7 @@
     </main>
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
-    <aside class="bottom-sheet" id="taskSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><div class="sheet-team"><span>Команда</span><i class="avatar-stack"><em>А</em><em>М</em><em>К</em></i></div><fieldset class="task-color-picker"><legend>Цвет задачи</legend><button class="active" type="button" data-task-color="coral" aria-label="Коралловый"></button><button type="button" data-task-color="violet" aria-label="Фиолетовый"></button><button type="button" data-task-color="blue" aria-label="Синий"></button><button type="button" data-task-color="lime" aria-label="Лаймовый"></button></fieldset><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><button class="primary-button" type="button" data-start-task="Макет главного экрана" data-minutes="50">Начать задачу <span>2 × 25 мин</span></button></aside>
+    <aside class="bottom-sheet task-editor" id="taskSheet" aria-hidden="true" data-mode="edit"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small id="taskSheetEyebrow">задача · Tempo</small><h2 id="sheetTaskTitle">Макет главного экрана</h2><div class="sheet-time"><i class="ph ph-calendar-blank"></i><span><b>Сегодня, 10:20–11:10</b><small>50 минут · 2 спринта</small></span></div><fieldset class="task-project-picker"><legend>Проект</legend><button class="active" type="button" data-task-project="tempo"><i class="ph ph-brackets-curly"></i>Tempo</button><button type="button" data-task-project="univer"><i class="ph ph-books"></i>Универ</button><button type="button" data-task-project="health"><i class="ph ph-heart"></i>Здоровье</button></fieldset><section class="task-participants" aria-labelledby="taskParticipantsTitle"><header><span id="taskParticipantsTitle">Участники</span><button type="button" data-add-participant><i class="ph ph-plus"></i> Добавить</button></header><div class="participant-options"><button type="button" data-participant="А" aria-pressed="false"><em>А</em>Артём</button><button type="button" data-participant="М" aria-pressed="false"><em>М</em>Мария</button><button type="button" data-participant="К" aria-pressed="false"><em>К</em>Кирилл</button></div><div class="selected-participants" aria-live="polite"><span>Пока никого</span></div></section><fieldset class="task-color-picker"><legend>Цвет задачи</legend><button class="active" type="button" data-task-color="coral" aria-label="Коралловый"></button><button type="button" data-task-color="violet" aria-label="Фиолетовый"></button><button type="button" data-task-color="blue" aria-label="Синий"></button><button type="button" data-task-color="lime" aria-label="Лаймовый"></button></fieldset><label>Заметка<textarea>Сверить состояния карточек и проверить иерархию на мобильном.</textarea></label><div class="task-editor-actions"><button class="primary-button" type="button" data-save-task>Сохранить изменения <span>готово</span></button><button class="task-delete" type="button" data-delete-task><i class="ph ph-trash"></i>Удалить задачу</button></div></aside>
     <aside class="bottom-sheet practice-player" id="practiceSheet" aria-hidden="true">
       <header class="practice-page-head"><button class="sheet-close practice-back" type="button" aria-label="Вернуться к практикам"><i class="ph ph-caret-left"></i></button><small id="practiceSheetMeta">Фокус · 8 минут</small><span id="practiceStep">1 из 2</span></header>
       <div class="practice-session" id="practiceSession">
@@ -146,6 +146,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=14"></script>
+  <script src="mobile.js?v=15"></script>
 </body>
 </html>

@@ -311,3 +311,31 @@ body:before{display:none!important}
 .screen[data-screen="calendar"] .header-mini-action:active,
 .screen[data-screen="practices"] .header-mini-action:active,
 .screen[data-screen="state"] .header-mini-action:active{transform:translateY(-1px) scale(.94)}
+
+/* Task editor: project, participants and destructive edit flow. */
+.task-editor{padding-bottom:24px}
+.task-editor #sheetTaskTitle{min-height:1em;border-radius:8px;outline:none}
+.task-editor #sheetTaskTitle:focus{background:var(--surface-2);box-shadow:0 0 0 6px var(--surface-2)}
+.task-project-picker{display:flex;gap:7px;margin:18px 0 16px;padding:0;border:0}
+.task-project-picker legend{margin-bottom:9px;color:var(--muted);font-size:14px}
+.task-project-picker button{display:flex;align-items:center;gap:6px;min-height:40px;padding:0 11px;border:1px solid transparent;border-radius:13px;background:var(--surface-2);font-size:14px}
+.task-project-picker button.active{border-color:rgba(117,85,138,.32);background:#ebe3ef;color:var(--accent);box-shadow:inset 0 0 0 1px rgba(117,85,138,.12)}
+.task-participants{margin:0 0 18px}
+.task-participants header{display:flex;align-items:center;justify-content:space-between;min-height:38px}
+.task-participants header>span{font-size:14px}
+.task-participants header button{display:flex;align-items:center;gap:4px;padding:8px 10px;border-radius:11px;background:var(--surface-2);font-size:14px}
+.participant-options{display:none;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
+.participant-options.open{display:grid}
+.participant-options button{display:flex;align-items:center;gap:6px;padding:8px;border-radius:12px;background:var(--surface-2);font-size:13px;text-align:left}
+.participant-options button.active{background:#ebe3ef;color:var(--accent)}
+.participant-options em,.selected-participants em{display:grid;place-items:center;width:26px;height:26px;border-radius:9px;background:#eadfdb;font-size:12px;font-style:normal}
+.participant-options button:nth-child(2) em,.selected-participants em:nth-child(2){background:#dce6c8}.participant-options button:nth-child(3) em,.selected-participants em:nth-child(3){background:#dfd4ef}
+.selected-participants{display:flex;align-items:center;gap:5px;min-height:30px;margin-top:5px}
+.selected-participants span{color:var(--muted);font-size:14px}
+.task-editor .task-color-picker{margin-bottom:16px}
+.task-editor label{margin-bottom:14px}
+.task-editor textarea{min-height:70px}
+.task-editor-actions{display:grid;gap:8px}
+.task-delete{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;border-radius:14px;background:#f2e9e7;color:#a24f44;font-size:14px;font-weight:600}
+.task-delete[hidden]{display:none}
+.task-delete[data-confirm="true"]{background:#a24f44;color:#fff}
