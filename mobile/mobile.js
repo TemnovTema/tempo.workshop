@@ -581,12 +581,35 @@ function updateMood() {
   document.getElementById('moodLabel').textContent = mood[2];
   document.getElementById('moodCopy').textContent = mood[3];
   document.getElementById('stateScore').textContent = value;
+  document.querySelectorAll('.state-score-small').forEach((score) => { score.textContent = value; });
 }
 energySlider.addEventListener('input', updateMood);
-document.querySelectorAll('.factor-card button').forEach((button) => button.addEventListener('click', () => button.classList.toggle('active')));
+const stateSteps = [...document.querySelectorAll('[data-state-step]')];
+function showStateStep(step) {
+  stateSteps.forEach((panel) => {
+    const isActive = Number(panel.dataset.stateStep) === Number(step);
+    panel.hidden = !isActive;
+    panel.classList.toggle('active', isActive);
+  });
+  document.querySelector('[data-screen="state"]')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+document.querySelectorAll('[data-state-next]').forEach((button) => button.addEventListener('click', () => showStateStep(button.dataset.stateNext)));
+document.querySelectorAll('[data-state-back]').forEach((button) => button.addEventListener('click', () => showStateStep(button.dataset.stateBack)));
+document.querySelectorAll('.state-factor-grid button').forEach((button) => button.addEventListener('click', () => {
+  button.classList.toggle('active');
+  button.setAttribute('aria-pressed', String(button.classList.contains('active')));
+}));
+document.querySelectorAll('.state-note-prompts button').forEach((button) => button.addEventListener('click', () => {
+  const note = document.getElementById('stateNote');
+  note.value = note.value ? `${note.value}\n${button.textContent} ` : `${button.textContent} `;
+  note.focus();
+}));
 document.querySelector('.save-state').addEventListener('click', (event) => {
   event.currentTarget.firstChild.textContent = 'Состояние сохранено ';
-  window.setTimeout(() => { event.currentTarget.firstChild.textContent = 'Сохранить состояние '; }, 1600);
+  window.setTimeout(() => {
+    event.currentTarget.firstChild.textContent = 'Сохранить состояние ';
+    showStateStep(1);
+  }, 1200);
 });
 
 function applyTheme(theme) {

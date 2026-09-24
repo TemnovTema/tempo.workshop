@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=34" />
+  <link rel="stylesheet" href="mobile.css?v=35" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -95,16 +95,41 @@
       </section>
 
       <section class="screen" data-screen="state" aria-labelledby="stateTitle">
-        <div class="top-slide-card state-top-card">
-          <header class="section-head state-head"><div><p>чек-ин · 1 из 3</p><h1 id="stateTitle">Как вы<br />сейчас?</h1></div><div class="state-head-side"><button class="header-mini-action" type="button" data-open-sheet="stateStatsSheet" aria-label="Статистика состояния"><i class="ph ph-chart-line-up"></i></button><span class="state-score" id="stateScore">68</span></div></header>
-          <div class="mood-panel">
-            <div class="mood-orb mood-energized" id="moodOrb" aria-hidden="true"><i class="face face-energized" id="moodFace"><b></b><b></b><em></em></i></div>
-            <strong id="moodLabel">Бодро</strong><p id="moodCopy">Энергии достаточно, чтобы начать с важного.</p>
+        <section class="state-step active" data-state-step="1">
+          <div class="top-slide-card state-top-card">
+            <header class="section-head state-head"><div><p>чек-ин · <span data-state-progress>1 из 3</span></p><h1 id="stateTitle">Как вы<br />сейчас?</h1></div><div class="state-head-side"><button class="header-mini-action" type="button" data-open-sheet="stateStatsSheet" aria-label="Статистика состояния"><i class="ph ph-chart-line-up"></i></button><span class="state-score" id="stateScore">68</span></div></header>
+            <div class="mood-panel">
+              <div class="mood-orb mood-energized" id="moodOrb" aria-hidden="true"><i class="face face-energized" id="moodFace"><b></b><b></b><em></em></i></div>
+              <strong id="moodLabel">Бодро</strong><p id="moodCopy">Энергии достаточно, чтобы начать с важного.</p>
+            </div>
           </div>
-        </div>
-        <label class="energy-slider"><span>меньше энергии</span><span>больше энергии</span><input id="energySlider" type="range" min="0" max="100" value="68" /></label>
-        <section class="factor-card"><small>что влияет</small><h2>Отметьте, что замечаете</h2><div><button type="button"><i class="ph ph-moon"></i>Сон</button><button class="active" type="button"><i class="ph ph-heartbeat"></i>Тело</button><button type="button"><i class="ph ph-brain"></i>Фокус</button><button type="button"><i class="ph ph-users"></i>Люди</button></div></section>
-        <button class="primary-button save-state" type="button">Сохранить состояние <span>готово</span></button>
+          <label class="energy-slider"><span>меньше энергии</span><span>больше энергии</span><input id="energySlider" type="range" min="0" max="100" value="68" /></label>
+          <button class="primary-button state-next" type="button" data-state-next="2">Продолжить <span>2 / 3</span></button>
+        </section>
+
+        <section class="state-step state-step-detail" data-state-step="2" hidden>
+          <header class="state-step-head"><button type="button" data-state-back="1" aria-label="Назад"><i class="ph ph-caret-left"></i></button><div><p>чек-ин · <span>2 из 3</span></p><h2>Что влияет?</h2></div><span class="state-score state-score-small">68</span></header>
+          <p class="state-step-lead">Можно выбрать несколько факторов — только то, что действительно заметно сейчас.</p>
+          <div class="state-factor-grid" role="group" aria-label="Факторы состояния">
+            <button type="button"><i class="ph ph-moon-stars"></i><span>Сон<small>качество и длительность</small></span></button>
+            <button class="active" type="button"><i class="ph ph-heartbeat"></i><span>Тело<small>тонус и напряжение</small></span></button>
+            <button type="button"><i class="ph ph-brain"></i><span>Фокус<small>ясность внимания</small></span></button>
+            <button type="button"><i class="ph ph-users-three"></i><span>Люди<small>общение и поддержка</small></span></button>
+            <button type="button"><i class="ph ph-briefcase"></i><span>Работа<small>нагрузка и задачи</small></span></button>
+            <button type="button"><i class="ph ph-house-line"></i><span>Дом<small>быт и пространство</small></span></button>
+            <button type="button"><i class="ph ph-cloud-sun"></i><span>Среда<small>свет, шум и погода</small></span></button>
+            <button type="button"><i class="ph ph-coffee"></i><span>Паузы<small>еда и восстановление</small></span></button>
+          </div>
+          <button class="primary-button state-next" type="button" data-state-next="3">Продолжить <span>3 / 3</span></button>
+        </section>
+
+        <section class="state-step state-step-detail" data-state-step="3" hidden>
+          <header class="state-step-head"><button type="button" data-state-back="2" aria-label="Назад"><i class="ph ph-caret-left"></i></button><div><p>чек-ин · <span>3 из 3</span></p><h2>Пара слов</h2></div><span class="state-score state-score-small">68</span></header>
+          <p class="state-step-lead">Что сейчас важнее всего заметить или не забыть?</p>
+          <label class="state-note"><textarea id="stateNote" rows="7" placeholder="Например: плохо спал, но после прогулки стало легче…"></textarea><span><i class="ph ph-lock-key"></i>Запись видна только вам</span></label>
+          <div class="state-note-prompts"><button type="button">Что помогло?</button><button type="button">Что забирает силы?</button><button type="button">Что нужно сейчас?</button></div>
+          <button class="primary-button save-state" type="button">Сохранить состояние <span>готово</span></button>
+        </section>
       </section>
 
       <section class="screen liked-screen" data-screen="liked" aria-labelledby="likedTitle">
@@ -236,6 +261,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=19"></script>
+  <script src="mobile.js?v=20"></script>
 </body>
 </html>
