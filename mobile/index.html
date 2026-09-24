@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=33" />
+  <link rel="stylesheet" href="mobile.css?v=34" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -133,7 +133,97 @@
       </div>
       <section class="practice-feedback" id="practiceFeedback" hidden><h2>Как вам практика?</h2><p>Можно выбрать несколько вариантов.</p><div class="feedback-options"><button type="button">Стало тише</button><button type="button">Дышать легче</button><button type="button">Фокус вернулся</button><button type="button">Не помогло</button></div><textarea placeholder="Напишите пару слов…" aria-label="Комментарий о практике"></textarea><button class="primary-button" type="button" id="practiceFeedbackSave">Записать и продолжить</button><button class="feedback-skip" type="button" id="practiceFeedbackSkip">Пропустить</button></section>
     </aside>
-    <aside class="bottom-sheet compact-info-sheet" id="profileSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>Профиль</small><h2>Артём Темнов</h2><div class="profile-summary"><span>АТ</span><div><strong>Ритм синхронизирован</strong><small>сегодня в 09:04</small></div></div><button class="info-sheet-action" type="button">Настройки профиля <i class="ph ph-arrow-right"></i></button></aside>
+    <aside class="bottom-sheet profile-page" id="profileSheet" aria-hidden="true">
+      <header class="profile-page-head">
+        <button class="sheet-close profile-back" type="button" aria-label="Закрыть профиль"><i class="ph ph-caret-left"></i></button>
+        <span>Профиль</span>
+        <button class="profile-more" type="button" aria-label="Дополнительные действия"><i class="ph ph-dots-three"></i></button>
+      </header>
+      <section class="profile-identity">
+        <div class="profile-avatar">АТ<i></i></div>
+        <div><h2>Артём Темнов</h2><p>artem@tempo.app</p></div>
+      </section>
+      <div class="profile-sync"><i class="ph-fill ph-check-circle"></i><span><strong>Всё синхронизировано</strong><small>обновлено сейчас</small></span><button type="button" data-profile-sync><i class="ph ph-arrows-clockwise"></i></button></div>
+
+      <nav class="profile-tabs" aria-label="Настройки профиля">
+        <button class="active" type="button" data-profile-tab="roles"><i class="ph ph-user-focus"></i><span>Ритм</span></button>
+        <button type="button" data-profile-tab="appearance"><i class="ph ph-palette"></i><span>Вид</span></button>
+        <button type="button" data-profile-tab="calendars"><i class="ph ph-calendar-dots"></i><span>Календари</span></button>
+        <button type="button" data-profile-tab="health"><i class="ph ph-heartbeat"></i><span>Здоровье</span></button>
+        <button type="button" data-profile-tab="notifications"><i class="ph ph-bell"></i><span>Сигналы</span></button>
+        <button type="button" data-profile-tab="privacy"><i class="ph ph-lock-key"></i><span>Данные</span></button>
+      </nav>
+
+      <div class="profile-panels">
+        <section class="profile-panel active" data-profile-panel="roles">
+          <header><span>Ваш ритм</span><h3>Роли и границы</h3><p>Tempo не смешивает обязательства и защищает личное время.</p></header>
+          <div class="profile-role-list">
+            <button type="button"><i class="role-work"></i><span><strong>Работа</strong><small>пн–пт · 09:30–18:30</small></span><em>Изменить</em></button>
+            <button type="button"><i class="role-study"></i><span><strong>Учёба</strong><small>до 8 часов в неделю</small></span><em>Изменить</em></button>
+            <button type="button"><i class="role-personal"></i><span><strong>Личное</strong><small>вечера и выходные</small></span><em>Изменить</em></button>
+          </div>
+          <article class="profile-rule-card"><div><span>Защищённое время</span><strong>После 18:30 — без новых задач</strong></div><label class="mobile-switch"><input type="checkbox" checked aria-label="Защищать личное время"><i></i></label></article>
+          <section class="focus-hours"><span>Лучшее время для фокуса</span><div><b>09</b><b class="active">10</b><b class="active">11</b><b>12</b><b>13</b><b>14</b><b class="active">15</b><b class="active">16</b><b>17</b></div></section>
+          <button class="profile-secondary-action" type="button">Повторить настройку ритма <i class="ph ph-arrow-right"></i></button>
+        </section>
+
+        <section class="profile-panel" data-profile-panel="appearance">
+          <header><span>Интерфейс</span><h3>Оформление</h3><p>Выбор применяется сразу ко всему Tempo.</p></header>
+          <div class="mobile-theme-grid">
+            <button class="active" type="button" data-theme="light"><i><b></b></i><strong>Светлая</strong><small>Мягкий свет</small></button>
+            <button type="button" data-theme="dark"><i><b></b></i><strong>Тёмная</strong><small>Тихий вечер</small></button>
+            <button type="button" data-theme="glass"><i><b></b></i><strong>Стекло</strong><small>Цвет и воздух</small></button>
+          </div>
+          <article class="profile-rule-card"><div><span>По расписанию</span><strong>Тёмная тема вечером</strong></div><label class="mobile-switch"><input type="checkbox" data-mobile-theme-auto aria-label="Тёмная тема по расписанию"><i></i></label></article>
+          <fieldset class="mobile-theme-hours" disabled><label>Включать<input type="time" value="20:00"></label><label>Выключать<input type="time" value="08:00"></label></fieldset>
+        </section>
+
+        <section class="profile-panel" data-profile-panel="calendars">
+          <header><span>3 источника</span><h3>Календари</h3><p>События собираются в один реалистичный план.</p></header>
+          <div class="connected-list">
+            <article><i class="ph-fill ph-google-logo source-google"></i><div><strong>Рабочий календарь</strong><small>Google · двусторонняя синхронизация</small><em>Работа</em></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><i class="ph-fill ph-google-logo source-study"></i><div><strong>Учёба в ВШЭ</strong><small>Google · только чтение</small><em>Учёба</em></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><i class="ph-fill ph-apple-logo source-apple"></i><div><strong>Личное</strong><small>Apple Calendar · 6 минут назад</small><em>Личное</em></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+          </div>
+          <button class="profile-connect" type="button" data-connect-source="calendar"><i class="ph ph-plus"></i>Подключить календарь</button>
+          <article class="profile-rule-card"><div><span>Свободные события</span><strong>Не уменьшают доступное время</strong></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+        </section>
+
+        <section class="profile-panel" data-profile-panel="health">
+          <header><span>Сводные показатели</span><h3>Сон и активность</h3><p>Tempo не сохраняет медицинские данные и маршруты.</p></header>
+          <div class="health-numbers"><article><i class="ph ph-moon-stars"></i><span>Средний сон<strong>7 ч 18 мин</strong><small>+24 мин за неделю</small></span></article><article><i class="ph ph-person-simple-walk"></i><span>Активность<strong>6 840 шагов</strong><small>устойчивый уровень</small></span></article></div>
+          <h4 class="profile-subtitle">Подключённые устройства</h4>
+          <div class="connected-list devices-list">
+            <article><i class="ph-fill ph-heart source-health"></i><div><strong>Apple Health</strong><small>сон, пульс и активность</small><em>Обновлено сейчас</em></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><i class="ph ph-watch source-watch"></i><div><strong>Apple Watch</strong><small>активность и восстановление</small><em>Подключено</em></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article class="muted-source"><i class="ph ph-circle-dashed source-oura"></i><div><strong>Oura Ring</strong><small>сон и готовность</small><em>Не подключено</em></div><button type="button" data-connect-source="oura">Подключить</button></article>
+          </div>
+          <button class="profile-connect" type="button" data-device-catalog><i class="ph ph-plus"></i>Добавить устройство</button>
+          <div class="device-catalog" hidden><button type="button"><i class="ph ph-waveform"></i><span><strong>WHOOP</strong><small>нагрузка и восстановление</small></span></button><button type="button"><i class="ph ph-watch"></i><span><strong>Garmin</strong><small>сон и Body Battery</small></span></button></div>
+          <article class="profile-rule-card"><div><span>Учитывать сон</span><strong>Адаптировать сложность утра</strong></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+        </section>
+
+        <section class="profile-panel" data-profile-panel="notifications">
+          <header><span>Только полезное</span><h3>Уведомления</h3><p>Остальные обновления останутся внутри приложения.</p></header>
+          <div class="notification-list">
+            <article><div><strong>Изменение нагрузки</strong><small>Когда план перестаёт помещаться</small></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><div><strong>Начало задачи</strong><small>За 10 минут до блока</small></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><div><strong>Групповые задачи</strong><small>Участник, комментарий или перенос</small></div><label class="mobile-switch"><input type="checkbox" checked><i></i></label></article>
+            <article><div><strong>Рекомендации практик</strong><small>Когда состояние изменилось</small></div><label class="mobile-switch"><input type="checkbox"><i></i></label></article>
+          </div>
+          <section class="quiet-time"><i class="ph ph-moon"></i><div><span>Тихие часы</span><strong>19:30 — 08:30</strong></div><button type="button">Изменить</button></section>
+        </section>
+
+        <section class="profile-panel" data-profile-panel="privacy">
+          <header><span>Под вашим контролем</span><h3>Данные и приватность</h3><p>Tempo не продаёт данные и не использует задачи для рекламы.</p></header>
+          <div class="privacy-ok"><i class="ph-fill ph-shield-check"></i><span><strong>Все разрешения в порядке</strong><small>проверено сегодня в 10:14</small></span></div>
+          <div class="mobile-data-map"><article><span>Календарь</span><strong>Названия, время, участники</strong><em>Хранится</em></article><article><span>Состояние</span><strong>Оценки и заметки</strong><em>12 месяцев</em></article><article><span>Здоровье</span><strong>Только дневные сводки</strong><em>24 часа</em></article></div>
+          <div class="privacy-buttons"><button type="button" data-profile-action="Экспорт подготовлен"><i class="ph ph-download-simple"></i><span><strong>Экспорт данных</strong><small>Архив JSON и CSV</small></span><i class="ph ph-caret-right"></i></button><button type="button" data-profile-action="История открыта"><i class="ph ph-clock-counter-clockwise"></i><span><strong>История активности</strong><small>Входы и подключения</small></span><i class="ph ph-caret-right"></i></button><button class="danger" type="button" data-profile-action="Настройки хранения открыты"><i class="ph ph-trash"></i><span><strong>Удаление данных</strong><small>Срок хранения и удаление</small></span><i class="ph ph-caret-right"></i></button></div>
+          <div class="profile-storage"><span>Хранилище <strong>18,4 из 250 МБ</strong></span><i><b></b></i><small><i class="ph ph-lock-key"></i> Шифрование включено</small></div>
+        </section>
+      </div>
+      <div class="profile-toast" role="status" aria-live="polite"></div>
+    </aside>
     <aside class="bottom-sheet compact-info-sheet" id="stateStatsSheet" aria-hidden="true"><div class="sheet-handle"></div><button class="sheet-close" type="button" aria-label="Закрыть"><i class="ph ph-x"></i></button><small>Последние 7 дней</small><h2>Динамика состояния</h2><div class="state-mini-chart" aria-label="Состояние за семь дней"><i style="--v:48%"></i><i style="--v:62%"></i><i style="--v:55%"></i><i style="--v:74%"></i><i style="--v:68%"></i><i style="--v:79%"></i><i class="active" style="--v:68%"></i></div><div class="stats-summary"><span><b>68</b><small>сегодня</small></span><span><b>+6</b><small>за неделю</small></span><span><b>74</b><small>среднее</small></span></div></aside>
   </div>
     <nav class="bottom-nav" aria-label="Разделы приложения">
@@ -146,6 +236,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=18"></script>
+  <script src="mobile.js?v=19"></script>
 </body>
 </html>

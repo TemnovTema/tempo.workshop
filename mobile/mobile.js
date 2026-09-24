@@ -73,6 +73,7 @@ function openSheet(sheet, trigger = document.activeElement) {
   sheetTrigger = trigger instanceof HTMLElement ? trigger : null;
   backdrop.hidden = false;
   app.classList.add('sheet-open');
+  document.body.classList.toggle('profile-mode', sheet.id === 'profileSheet');
   requestAnimationFrame(() => setSheetState(sheet, true));
 }
 function closeSheets({ immediate = false, restoreFocus = true } = {}) {
@@ -80,6 +81,7 @@ function closeSheets({ immediate = false, restoreFocus = true } = {}) {
   if (typeof practiceTimerId !== 'undefined') window.clearInterval(practiceTimerId);
   document.getElementById('practiceSheet')?.classList.remove('running-session');
   document.body.classList.remove('practice-mode');
+  document.body.classList.remove('profile-mode');
   sheets.forEach((sheet) => setSheetState(sheet, false));
   activeSheet = null;
   app.classList.remove('sheet-open');
@@ -595,6 +597,60 @@ function applyTheme(theme) {
 }
 document.querySelectorAll('[data-theme]').forEach((button) => button.addEventListener('click', () => applyTheme(button.dataset.theme)));
 applyTheme(localStorage.getItem('tempo-mobile-theme') || 'light');
+
+const profileSheet = document.getElementById('profileSheet');
+const profileTabs = [...document.querySelectorAll('[data-profile-tab]')];
+const profilePanels = [...document.querySelectorAll('[data-profile-panel]')];
+const profileToast = document.querySelector('.profile-toast');
+let profileToastTimer;
+
+function showProfilePanel(name) {
+  profileTabs.forEach((button) => button.classList.toggle('active', button.dataset.profileTab === name));
+  profilePanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.profilePanel === name));
+  profileSheet?.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showProfileToast(message) {
+  if (!profileToast) return;
+  window.clearTimeout(profileToastTimer);
+  profileToast.textContent = message;
+  profileToast.classList.add('visible');
+  profileToastTimer = window.setTimeout(() => profileToast.classList.remove('visible'), 1800);
+}
+
+profileTabs.forEach((button) => button.addEventListener('click', () => showProfilePanel(button.dataset.profileTab)));
+document.querySelector('.profile-more')?.addEventListener('click', () => showProfilePanel('privacy'));
+document.querySelector('[data-profile-sync]')?.addEventListener('click', (event) => {
+  event.currentTarget.querySelector('i').classList.add('spin-once');
+  showProfileToast('Источники обновлены');
+  window.setTimeout(() => event.currentTarget.querySelector('i').classList.remove('spin-once'), 650);
+});
+
+const themeAuto = document.querySelector('[data-mobile-theme-auto]');
+const themeHours = document.querySelector('.mobile-theme-hours');
+themeAuto?.addEventListener('change', () => {
+  themeHours.disabled = !themeAuto.checked;
+  showProfileToast(themeAuto.checked ? 'Расписание темы включено' : 'Расписание темы выключено');
+});
+
+document.querySelectorAll('[data-connect-source]').forEach((button) => button.addEventListener('click', () => {
+  const isConnected = button.classList.toggle('connected');
+  button.textContent = isConnected ? 'Подключено' : 'Подключить';
+  showProfileToast(isConnected ? 'Источник подключён' : 'Источник отключён');
+}));
+
+document.querySelector('[data-device-catalog]')?.addEventListener('click', (event) => {
+  const catalog = document.querySelector('.device-catalog');
+  catalog.hidden = !catalog.hidden;
+  event.currentTarget.classList.toggle('active', !catalog.hidden);
+});
+
+document.querySelectorAll('.device-catalog button').forEach((button) => button.addEventListener('click', () => {
+  button.classList.toggle('connected');
+  showProfileToast(button.classList.contains('connected') ? `${button.querySelector('strong').textContent} подключён` : 'Подключение отменено');
+}));
+
+document.querySelectorAll('[data-profile-action]').forEach((button) => button.addEventListener('click', () => showProfileToast(button.dataset.profileAction)));
 
 const availableScreens = ['today','calendar','practices','state','liked'];
 const initialScreen = location.hash.slice(1);
