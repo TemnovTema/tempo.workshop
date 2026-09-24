@@ -383,15 +383,25 @@ const practiceStep = document.getElementById('practiceStep');
 const practiceFinishEarly = document.getElementById('practiceFinishEarly');
 let selectedPracticeMinutes = 4;
 let selectedPracticeStages = ['Настройка','Практика','Завершение'];
+let selectedPracticeAnimation = 'focus';
 let practiceTimerId;
 
 const stagesForPractice = (name, category) => {
-  if (name === 'Дыхание 4 × 6' || name === 'Освободить внимание' || name === 'Тихое дыхание') return ['Вдох','Выдох','Повтор'];
+  if (name === 'Дыхание 4 × 6' || name === 'Освободить внимание' || name === 'Тихое дыхание') return ['Вдох · 4','Выдох · 6'];
   if (category === 'Рефлексия') return ['Заметьте','Назовите','Выберите'];
   if (category === 'Энергия') return ['Разминка','Движение','Пауза'];
   if (category === 'Спокойствие') return ['Настройка','Замедление','Тишина'];
   if (category === 'Медитация') return ['Настройка','Сканирование','Завершение'];
   return ['Настройка','Наблюдение','Возврат'];
+};
+
+const animationForPractice = (name, category) => {
+  if (name === 'Дыхание 4 × 6' || name === 'Освободить внимание' || name === 'Тихое дыхание') return 'breathe';
+  if (category === 'Медитация') return 'scan';
+  if (category === 'Энергия') return 'energy';
+  if (category === 'Спокойствие') return 'calm';
+  if (category === 'Рефлексия') return 'reflection';
+  return 'focus';
 };
 
 function renderPracticeStages(activeIndex = 0) {
@@ -412,6 +422,7 @@ document.querySelectorAll('[data-practice]').forEach((button) => button.addEvent
   const [category, minutes, icon, instruction] = practiceLibrary[name] || ['Практика',5,'sparkle','Устройтесь удобно и следуйте подсказкам на экране.'];
   selectedPracticeMinutes = minutes;
   selectedPracticeStages = stagesForPractice(name, category);
+  selectedPracticeAnimation = animationForPractice(name, category);
   window.clearInterval(practiceTimerId);
   practiceSheetTitle.textContent = name;
   practiceSheetMeta.textContent = `${category} · ${minutes} минут`;
@@ -419,6 +430,8 @@ document.querySelectorAll('[data-practice]').forEach((button) => button.addEvent
   practiceTimer.textContent = `${String(minutes).padStart(2,'0')}:00`;
   practicePlayerVisual.querySelector('i').className = `ph ph-${icon}`;
   practicePlayerVisual.dataset.category = category.toLowerCase();
+  practicePlayerVisual.dataset.animation = selectedPracticeAnimation;
+  practicePlayerVisual.setAttribute('aria-label', `Анимация практики «${name}»`);
   practiceSheet.classList.remove('running-session');
   practiceSession.hidden = false;
   practiceFeedback.hidden = true;
@@ -427,6 +440,8 @@ document.querySelectorAll('[data-practice]').forEach((button) => button.addEvent
   practiceStartButton.classList.remove('running');
   practiceStartButton.querySelector('i').className = 'ph ph-play';
   document.body.classList.add('practice-mode');
+  app.scrollTo({ top: 0, behavior: 'auto' });
+  practiceSheet.scrollTop = 0;
   openSheet(practiceSheet, button);
 }));
 
@@ -439,7 +454,12 @@ practiceStartButton.addEventListener('click', () => {
   practiceStartButton.querySelector('i').className = 'ph ph-pause';
   const renderPracticeTime = () => {
     const elapsed = totalSeconds - remaining;
-    renderPracticeStages(Math.min(2, Math.floor(elapsed / Math.max(1, totalSeconds / 3))));
+    if (selectedPracticeAnimation === 'breathe') {
+      const breathSecond = elapsed % 10;
+      renderPracticeStages(breathSecond < 4 ? 0 : 1);
+    } else {
+      renderPracticeStages(Math.min(selectedPracticeStages.length - 1, Math.floor(elapsed / Math.max(1, totalSeconds / selectedPracticeStages.length))));
+    }
     practiceTimer.textContent = `${String(Math.floor(remaining / 60)).padStart(2,'0')}:${String(remaining % 60).padStart(2,'0')}`;
     if (remaining === 0) {
       showPracticeFeedback();
