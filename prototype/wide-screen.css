@@ -7,7 +7,7 @@
   .app-main{margin-top:12px;margin-bottom:110px}
   .view-intro{min-height:320px;padding:62px 58px 46px}.view-intro h1,.checkin-form h1{font-size:clamp(82px,6vw,124px)}
   .intro-meta{width:min(520px,100%)}.intro-meta>p{font-size:19px}
-  .calendar-intro{min-height:148px;padding:34px 30px}.calendar-intro h1{height:54px;font-size:50px;line-height:54px}.calendar-toolbar{gap:8px}.segmented-control button,.date-control,.primary-compact{height:44px;padding-inline:17px;font-size:12px}
+  .calendar-intro{min-height:148px;padding:34px 30px}.calendar-intro h1,.view-intro h1.app-page-title,.checkin-form h1.app-page-title{height:auto;font-size:50px;line-height:54px}.calendar-toolbar{gap:8px}.segmented-control button,.date-control,.primary-compact{height:44px;padding-inline:17px;font-size:12px}
   .calendar-shell{grid-template-columns:320px minmax(0,1fr);min-height:960px}.calendar-context{padding:38px 30px}.calendar-context-date{padding-bottom:22px}.calendar-context .context-date{font-size:30px}.calendar-context-date>span,.calendar-context-date>p{font-size:11px}
   .calendar-project-row,.calendar-project-add{min-height:52px}.calendar-project-row strong{font-size:12px}.project-glyph{width:34px;height:34px;border-radius:11px}.project-glyph-icon .ph{font-size:18px}.project-members i{width:23px;height:23px}
   .calendar-stage{padding:32px}.day-grid,.week-grid{height:clamp(780px,calc(100dvh - 340px),940px)}.day-grid{grid-template-columns:78px 1fr}.time-labels,.week-times{font-size:10px}.calendar-event{left:26px;right:16px;min-height:54px;padding:12px 17px;border-radius:15px}.calendar-event strong{font-size:15px}.calendar-event span,.calendar-event small{font-size:10px}.event-recommended{right:28%}.event-meeting{left:34%}.event-project{left:17%}

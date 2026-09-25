@@ -14,12 +14,12 @@
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
   <link rel="stylesheet" href="calendar-projects.css?v=4" />
   <link rel="stylesheet" href="calendar-time.css?v=1" />
-  <link rel="stylesheet" href="calendar-project-hub.css?v=4" />
+  <link rel="stylesheet" href="calendar-project-hub.css?v=5" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
   <link rel="stylesheet" href="themes.css?v=5" />
-  <link rel="stylesheet" href="wide-screen.css?v=1" />
+  <link rel="stylesheet" href="wide-screen.css?v=2" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -51,7 +51,7 @@
       <div class="view-intro today-intro">
         <div>
           <p class="date-line"><span>Среда</span> 26 августа</p>
-          <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
+          <h1 class="app-page-title" id="todayTitle">Доброе утро, Артём</h1>
         </div>
         <div class="intro-meta">
           <button class="text-action" type="button" data-open-view="checkin">Обновить состояние</button>
@@ -224,7 +224,7 @@
 
     <section class="app-view" data-view-panel="calendar" aria-labelledby="calendarTitle">
       <div class="view-intro calendar-intro">
-        <h1 id="calendarTitle">Календарь</h1>
+        <h1 class="app-page-title" id="calendarTitle">Календарь</h1>
         <div class="calendar-toolbar">
           <div class="segmented-control" role="tablist" aria-label="Вид календаря">
             <button class="active" type="button" role="tab" aria-selected="true" data-calendar-mode="day">День</button>
@@ -321,7 +321,7 @@
     <section class="app-view" data-view-panel="practices" aria-labelledby="practicesTitle">
       <div class="view-intro practices-intro">
         <div>
-          <h1 id="practicesTitle">Практики</h1>
+          <h1 class="app-page-title" id="practicesTitle">Практики</h1>
         </div>
       </div>
 
@@ -416,7 +416,7 @@
         <section class="checkin-form">
           <header>
             <p class="date-line"><span>Быстрая проверка</span> около минуты</p>
-            <h1 id="checkinTitle">Как вы<br />сейчас?</h1>
+            <h1 class="app-page-title" id="checkinTitle">Как вы сейчас?</h1>
             <p>Ответ поможет Tempo предложить реалистичный темп. Здесь нет правильного состояния.</p>
           </header>
 
