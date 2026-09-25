@@ -591,7 +591,8 @@ function showStateStep(step) {
     panel.hidden = !isActive;
     panel.classList.toggle('active', isActive);
   });
-  document.querySelector('[data-screen="state"]')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  app.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 document.querySelectorAll('[data-state-next]').forEach((button) => button.addEventListener('click', () => showStateStep(button.dataset.stateNext)));
 document.querySelectorAll('[data-state-back]').forEach((button) => button.addEventListener('click', () => showStateStep(button.dataset.stateBack)));
