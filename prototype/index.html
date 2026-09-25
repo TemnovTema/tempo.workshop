@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
   <script src="themes.js?v=3"></script>
-  <link rel="stylesheet" href="tempo-app.css?v=header-left-1" />
+  <link rel="stylesheet" href="tempo-app.css?v=today-balance-1" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
@@ -54,42 +54,32 @@
           <h1 id="todayTitle">Доброе утро,<br />Артём</h1>
         </div>
         <div class="intro-meta">
-          <p>План собран из календаря, задач и последней оценки состояния.</p>
           <button class="text-action" type="button" data-open-view="checkin">Обновить состояние</button>
           <div class="context-links"><button type="button" data-open-view="conflict">Изменение плана</button><button type="button" data-open-view="review">Завершить день</button></div>
         </div>
       </div>
 
       <section class="day-status" aria-label="Состояние дня">
-        <div class="energy-orbit" aria-label="Энергия 68 из 100">
-          <div class="orbit-ring orbit-ring-one"></div>
-          <div class="orbit-ring orbit-ring-two"></div>
-          <div class="orbit-core">
-            <span>энергия</span>
-            <strong>68</strong>
-            <small>устойчивая</small>
-          </div>
-          <span class="orbit-point point-one"></span>
-          <span class="orbit-point point-two"></span>
+        <div class="desktop-balance-wheel" aria-label="Ритм дня 68 из 100, устойчивый">
+          <svg viewBox="0 0 160 160" aria-hidden="true">
+            <circle class="balance-track" cx="80" cy="80" r="59" pathLength="100" />
+            <circle class="balance-segment balance-pink" cx="80" cy="80" r="59" pathLength="100" />
+            <circle class="balance-segment balance-orange" cx="80" cy="80" r="59" pathLength="100" />
+            <circle class="balance-segment balance-blue" cx="80" cy="80" r="59" pathLength="100" />
+            <circle class="balance-segment balance-green" cx="80" cy="80" r="59" pathLength="100" />
+            <circle class="balance-segment balance-purple" cx="80" cy="80" r="59" pathLength="100" />
+          </svg>
+          <strong>68</strong>
         </div>
 
-        <div class="capacity-copy">
-          <span class="section-label">Реалистичность плана</span>
-          <h2>День помещается,<br />если оставить вечер свободным.</h2>
-          <p>После 18:30 энергия, вероятно, снизится. Tempo уже перенёс необязательную задачу на завтра.</p>
-          <div class="capacity-legend">
-            <span><i class="legend-dot coral"></i> 4 ч 20 мин в плане</span>
-            <span><i class="legend-dot pale"></i> 1 ч 40 мин свободно</span>
-          </div>
+        <div class="desktop-rhythm-copy">
+          <span>Ритм дня</span>
+          <h2>Устойчивый</h2>
         </div>
 
-        <div class="capacity-bars" aria-hidden="true">
-          <div class="capacity-hour"><i style="--load:.42"></i><span>09</span></div>
-          <div class="capacity-hour"><i style="--load:.78"></i><span>11</span></div>
-          <div class="capacity-hour"><i style="--load:.55"></i><span>13</span></div>
-          <div class="capacity-hour"><i style="--load:.88"></i><span>15</span></div>
-          <div class="capacity-hour"><i style="--load:.66"></i><span>17</span></div>
-          <div class="capacity-hour"><i style="--load:.26"></i><span>19</span></div>
+        <div class="desktop-balance-metrics">
+          <article><i></i><strong>4 ч 20 мин</strong><span>в плане</span></article>
+          <article><i></i><strong>1 ч 40 мин</strong><span>свободно</span></article>
         </div>
       </section>
 
@@ -98,14 +88,14 @@
           <header class="section-heading">
             <div>
               <span class="section-label">Следующее действие</span>
-              <h2 id="nextActionTitle">Сейчас лучше начать<br />с макета главного экрана</h2>
+              <h2 id="nextActionTitle">Макет главного экрана</h2>
             </div>
             <span class="time-window">10:20–11:10</span>
           </header>
 
           <div class="recommendation-reason">
             <span class="reason-index">01</span>
-            <p>До следующей встречи 58 минут. Энергии достаточно для сложной визуальной работы, а задача нужна сегодня.</p>
+            <p>До следующей встречи 58 минут. Сейчас достаточно ресурса для сложной визуальной работы.</p>
           </div>
 
           <div class="recommendation-actions">
