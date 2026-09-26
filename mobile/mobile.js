@@ -44,7 +44,7 @@ devicePicker.addEventListener('change', () => {
   fitDeviceMockup();
 });
 
-function showScreen(name) {
+function showScreen(name, updateHistory = true) {
   closeSheets({ immediate: true, restoreFocus: false });
   app.dataset.activeScreen = name;
   screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === name));
@@ -53,7 +53,7 @@ function showScreen(name) {
   const activeTopCard = document.querySelector(`[data-screen="${name}"] .top-slide-card`);
   if (activeTopCard) requestAnimationFrame(() => activeTopCard.classList.add('entering'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  history.replaceState(null, '', `#${name}`);
+  if (updateHistory) history.replaceState(null, '', `#${name}`);
 }
 
 navButtons.forEach((button) => button.addEventListener('click', () => showScreen(button.dataset.nav)));
@@ -676,11 +676,80 @@ document.querySelectorAll('.device-catalog button').forEach((button) => button.a
 
 document.querySelectorAll('[data-profile-action]').forEach((button) => button.addEventListener('click', () => showProfileToast(button.dataset.profileAction)));
 
+const authFlow = document.getElementById('authFlow');
+const authSteps = [...document.querySelectorAll('[data-auth-step]')];
+const emailForm = document.querySelector('[data-auth-email-form]');
+
+function showAuthStep(step) {
+  authSteps.forEach((item) => {
+    const active = Number(item.dataset.authStep) === Number(step);
+    item.hidden = !active;
+    item.classList.toggle('active', active);
+    if (active) item.scrollTop = 0;
+  });
+}
+
+function openAuth({ syncHash = true } = {}) {
+  closeSheets({ immediate: true, restoreFocus: false });
+  document.body.classList.add('auth-mode');
+  authFlow.hidden = false;
+  authFlow.setAttribute('aria-hidden', 'false');
+  showAuthStep(1);
+  app.scrollTop = 0;
+  if (syncHash) history.replaceState(null, '', '#signup');
+}
+
+function finishAuth() {
+  authFlow.hidden = true;
+  authFlow.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('auth-mode');
+  showScreen('today');
+}
+
+document.querySelectorAll('[data-open-auth]').forEach((button) => button.addEventListener('click', () => openAuth()));
+document.querySelectorAll('[data-auth-method]').forEach((button) => button.addEventListener('click', () => {
+  if (button.dataset.authMethod === 'email') {
+    emailForm.hidden = false;
+    emailForm.querySelector('input')?.focus();
+    return;
+  }
+  showAuthStep(2);
+}));
+emailForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  showAuthStep(2);
+});
+document.querySelectorAll('[data-auth-next]').forEach((button) => button.addEventListener('click', () => showAuthStep(button.dataset.authNext)));
+document.querySelectorAll('[data-auth-back]').forEach((button) => button.addEventListener('click', () => showAuthStep(button.dataset.authBack)));
+document.querySelectorAll('[data-rhythm-choice]').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll(`[data-rhythm-choice="${button.dataset.rhythmChoice}"]`).forEach((choice) => {
+    choice.classList.toggle('active', choice === button);
+    choice.setAttribute('aria-pressed', String(choice === button));
+  });
+}));
+document.querySelectorAll('[data-auth-source]').forEach((button) => button.addEventListener('click', () => {
+  const selected = button.classList.toggle('selected');
+  button.setAttribute('aria-pressed', String(selected));
+}));
+document.querySelectorAll('[data-auth-finish]').forEach((button) => button.addEventListener('click', finishAuth));
+
 const availableScreens = ['today','calendar','practices','state','liked'];
 const initialScreen = location.hash.slice(1);
-showScreen(availableScreens.includes(initialScreen) ? initialScreen : 'today');
+if (initialScreen === 'signup') {
+  showScreen('today', false);
+  openAuth({ syncHash: false });
+} else {
+  showScreen(availableScreens.includes(initialScreen) ? initialScreen : 'today');
+}
 window.addEventListener('hashchange', () => {
   const screen = location.hash.slice(1);
-  showScreen(availableScreens.includes(screen) ? screen : 'today');
+  if (screen === 'signup') {
+    openAuth({ syncHash: false });
+    return;
+  }
+  authFlow.hidden = true;
+  authFlow.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('auth-mode');
+  showScreen(availableScreens.includes(screen) ? screen : 'today', false);
 });
 window.addEventListener('pageshow', () => closeSheets({ immediate: true, restoreFocus: false }));

@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=38" />
+  <link rel="stylesheet" href="mobile.css?v=39" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -24,6 +24,38 @@
       <button class="dynamic-island" id="dynamicIsland" type="button" aria-label="Таймер задачи не запущен" aria-expanded="false"><i class="island-camera" aria-hidden="true"></i><span class="island-live" aria-hidden="true"><span class="island-compact"><em></em><b id="islandTimer">25:00</b></span><span class="island-expanded"><small id="islandStage">Фокус · 1 из 3</small><strong id="islandTask">Макет главного экрана</strong><span class="island-progress"><i id="islandProgress"></i></span><span class="island-controls"><span data-island-toggle><i class="ph ph-pause"></i><b>Пауза</b></span><span data-island-skip><i class="ph ph-skip-forward"></i><b>Дальше</b></span></span></span></span></button>
       <div class="status-icons" aria-label="Сеть Wi-Fi, заряд 100 процентов"><img src="assets/ios-status-icons.svg" alt="" /></div>
     </div>
+    <section class="auth-flow" id="authFlow" aria-label="Регистрация в Tempo" hidden>
+      <div class="auth-step active" data-auth-step="1">
+        <div class="auth-brand"><span>Tempo</span><i></i></div>
+        <div class="auth-copy"><span>Начнём спокойно</span><h1>День, который<br />учитывает вас.</h1><p>Создайте профиль — Tempo соберёт календарь, задачи и ритм в один реалистичный план.</p></div>
+        <div class="auth-methods">
+          <button class="auth-method email" type="button" data-auth-method="email"><i class="ph ph-envelope-simple"></i><span><strong>Продолжить с почтой</strong><small>код придёт на email</small></span><i class="ph ph-arrow-right"></i></button>
+          <div class="auth-social-row"><button type="button" data-auth-method="vk"><b>VK</b><span>ВКонтакте</span></button><button type="button" data-auth-method="max"><b>MAX</b><span>MAX</span></button></div>
+        </div>
+        <form class="auth-email-form" data-auth-email-form hidden><label>Email<input type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required /></label><button class="auth-primary" type="submit">Получить код <i class="ph ph-arrow-right"></i></button></form>
+        <p class="auth-legal">Продолжая, вы принимаете условия и политику приватности.</p>
+      </div>
+
+      <div class="auth-step" data-auth-step="2" hidden>
+        <header class="auth-step-head"><button type="button" data-auth-back="1" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Настройка ритма</span><small>1 из 2</small></header>
+        <div class="auth-copy compact"><span>Пара минут</span><h2>Как устроен<br />ваш день?</h2><p>Ответы помогут не ставить сложные задачи в неподходящее время.</p></div>
+        <section class="rhythm-question"><strong>Как обычно работаете?</strong><div><button class="active" type="button" data-rhythm-choice="work" aria-pressed="true"><i class="ph ph-target"></i><span>Длинный фокус</span></button><button type="button" data-rhythm-choice="work" aria-pressed="false"><i class="ph ph-timer"></i><span>Короткие спринты</span></button><button type="button" data-rhythm-choice="work" aria-pressed="false"><i class="ph ph-users-three"></i><span>Много встреч</span></button></div></section>
+        <section class="rhythm-question"><strong>Что лучше восстанавливает?</strong><div><button type="button" data-rhythm-choice="rest" aria-pressed="false"><i class="ph ph-person-simple-walk"></i><span>Движение</span></button><button class="active" type="button" data-rhythm-choice="rest" aria-pressed="true"><i class="ph ph-headphones"></i><span>Тишина</span></button><button type="button" data-rhythm-choice="rest" aria-pressed="false"><i class="ph ph-chat-circle-dots"></i><span>Общение</span></button></div></section>
+        <div class="auth-actions"><button class="auth-primary" type="button" data-auth-next="3">Продолжить <i class="ph ph-arrow-right"></i></button><button class="auth-skip" type="button" data-auth-next="3">Пройти позже</button></div>
+      </div>
+
+      <div class="auth-step" data-auth-step="3" hidden>
+        <header class="auth-step-head"><button type="button" data-auth-back="2" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Источники данных</span><small>2 из 2</small></header>
+        <div class="auth-copy compact"><span>Только с разрешения</span><h2>Подключить<br />ваш контекст?</h2><p>Tempo берёт только дневные сводки. Медицинские данные и маршруты не сохраняются.</p></div>
+        <div class="auth-sources">
+          <button class="selected" type="button" data-auth-source="health" aria-pressed="true"><i class="ph-fill ph-heart"></i><span><strong>Здоровье</strong><small>сон, активность, пульс</small></span><b><i class="ph ph-check"></i></b></button>
+          <button class="selected" type="button" data-auth-source="calendar" aria-pressed="true"><i class="ph ph-calendar-dots"></i><span><strong>Календарь</strong><small>занятость и встречи</small></span><b><i class="ph ph-check"></i></b></button>
+          <button type="button" data-auth-source="oura" aria-pressed="false"><i class="ph ph-circle-dashed"></i><span><strong>Oura и другие</strong><small>можно подключить позже</small></span><b><i class="ph ph-check"></i></b></button>
+        </div>
+        <div class="auth-privacy"><i class="ph ph-lock-key"></i><p><strong>Вы управляете доступом</strong><span>Отключить источник можно в профиле в любой момент.</span></p></div>
+        <div class="auth-actions"><button class="auth-primary" type="button" data-auth-finish>Разрешить выбранное <i class="ph ph-arrow-right"></i></button><button class="auth-skip" type="button" data-auth-finish>Пропустить</button></div>
+      </div>
+    </section>
     <main id="mobileMain">
       <section class="screen active" data-screen="today" aria-labelledby="todayTitle">
         <div class="top-slide-card top-summary-card">
@@ -245,6 +277,7 @@
           <div class="mobile-data-map"><article><span>Календарь</span><strong>Названия, время, участники</strong><em>Хранится</em></article><article><span>Состояние</span><strong>Оценки и заметки</strong><em>12 месяцев</em></article><article><span>Здоровье</span><strong>Только дневные сводки</strong><em>24 часа</em></article></div>
           <div class="privacy-buttons"><button type="button" data-profile-action="Экспорт подготовлен"><i class="ph ph-download-simple"></i><span><strong>Экспорт данных</strong><small>Архив JSON и CSV</small></span><i class="ph ph-caret-right"></i></button><button type="button" data-profile-action="История открыта"><i class="ph ph-clock-counter-clockwise"></i><span><strong>История активности</strong><small>Входы и подключения</small></span><i class="ph ph-caret-right"></i></button><button class="danger" type="button" data-profile-action="Настройки хранения открыты"><i class="ph ph-trash"></i><span><strong>Удаление данных</strong><small>Срок хранения и удаление</small></span><i class="ph ph-caret-right"></i></button></div>
           <div class="profile-storage"><span>Хранилище <strong>18,4 из 250 МБ</strong></span><i><b></b></i><small><i class="ph ph-lock-key"></i> Шифрование включено</small></div>
+          <button class="profile-secondary-action" type="button" data-open-auth>Показать путь регистрации <i class="ph ph-arrow-right"></i></button>
         </section>
       </div>
       <div class="profile-toast" role="status" aria-live="polite"></div>
@@ -261,6 +294,6 @@
       <button class="bottom-nav-add" type="button" data-add-task aria-label="Добавить задачу"><img src="assets/nav-add.svg" alt="" /></button>
     </nav>
   </div>
-  <script src="mobile.js?v=21"></script>
+  <script src="mobile.js?v=22"></script>
 </body>
 </html>
