@@ -1,5 +1,34 @@
 const viewButtons = document.querySelectorAll('[data-view]');
 const viewPanels = document.querySelectorAll('[data-view-panel]');
+const webAuthFlow = document.getElementById('webAuthFlow');
+const webAuthSteps = [...document.querySelectorAll('[data-web-auth-step]')];
+const webAuthProgress = [...document.querySelectorAll('[data-web-auth-progress]')];
+
+function showWebAuthStep(step) {
+  webAuthSteps.forEach((panel) => {
+    const active = Number(panel.dataset.webAuthStep) === Number(step);
+    panel.hidden = !active;
+    panel.classList.toggle('active', active);
+  });
+  webAuthProgress.forEach((item) => {
+    const itemStep = Number(item.dataset.webAuthProgress);
+    item.classList.toggle('active', itemStep === Number(step));
+    item.classList.toggle('complete', itemStep < Number(step));
+  });
+}
+
+function openWebAuth({ syncHash = true } = {}) {
+  document.body.classList.add('web-auth-mode');
+  webAuthFlow.hidden = false;
+  showWebAuthStep(1);
+  if (syncHash) history.replaceState(null, '', '#signup');
+}
+
+function finishWebAuth() {
+  webAuthFlow.hidden = true;
+  document.body.classList.remove('web-auth-mode');
+  openView('today');
+}
 
 function openView(name) {
   viewButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === name));
@@ -15,9 +44,20 @@ viewButtons.forEach((button) => button.addEventListener('click', () => openView(
 document.querySelectorAll('[data-open-view]').forEach((button) => button.addEventListener('click', () => openView(button.dataset.openView)));
 document.querySelectorAll('[data-route]').forEach((link) => link.addEventListener('click', (event) => { event.preventDefault(); openView(link.dataset.route); }));
 
+document.querySelector('[data-web-signup-form]')?.addEventListener('submit', (event) => { event.preventDefault(); showWebAuthStep(2); });
+document.querySelectorAll('[data-web-auth-social]').forEach((button) => button.addEventListener('click', () => showWebAuthStep(2)));
+document.querySelectorAll('[data-web-auth-next]').forEach((button) => button.addEventListener('click', () => showWebAuthStep(button.dataset.webAuthNext)));
+document.querySelectorAll('[data-web-auth-back]').forEach((button) => button.addEventListener('click', () => showWebAuthStep(button.dataset.webAuthBack)));
+document.querySelectorAll('[data-web-rhythm]').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll(`[data-web-rhythm="${button.dataset.webRhythm}"]`).forEach((choice) => { const selected = choice === button; choice.classList.toggle('active', selected); choice.setAttribute('aria-pressed', String(selected)); });
+}));
+document.querySelectorAll('[data-web-source]').forEach((button) => button.addEventListener('click', () => { const selected = button.classList.toggle('selected'); button.setAttribute('aria-pressed', String(selected)); }));
+document.querySelectorAll('[data-web-auth-finish]').forEach((button) => button.addEventListener('click', finishWebAuth));
+
 const initialHash = location.hash.slice(1);
 const initialView = initialHash === 'tasks' || initialHash === 'projects' ? 'calendar' : initialHash;
-if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
+if (initialHash === 'signup' || !initialHash) openWebAuth({ syncHash: initialHash !== 'signup' });
+else if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
 
 document.querySelectorAll('[data-header-panel]').forEach((button) => button.addEventListener('click', () => {
   const target = button.dataset.headerPanel;
