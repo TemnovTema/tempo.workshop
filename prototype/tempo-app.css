@@ -8,31 +8,32 @@
 @media(max-width:1100px){.app-header{grid-template-columns:auto 1fr auto}.primary-nav{justify-self:center}.sync-button{display:none}.day-status{grid-template-columns:250px 1fr}.capacity-bars{display:none}.today-grid{grid-template-columns:1fr}.calendar-shell{grid-template-columns:210px 1fr}.featured-practice{grid-template-columns:280px 1fr}.practice-fit{display:none}.practice-card{grid-column:span 6}.checkin-layout{grid-template-columns:1fr}.state-preview{min-height:680px}}
 @media(max-width:760px){:root{--radius:22px}.app-header{top:8px;width:calc(100% - 16px);height:62px;margin-top:8px;padding:0 10px 0 14px}.app-brand>span:last-child{display:none}.primary-nav{max-width:calc(100vw - 105px);overflow-x:auto}.nav-item{flex:0 0 auto;padding:9px}.avatar-button{width:36px;height:36px}.app-main{width:calc(100% - 16px);margin-top:8px}.view-intro{grid-template-columns:1fr;gap:30px;min-height:340px;padding:55px 18px 30px}.view-intro h1{font-size:64px}.intro-meta{justify-self:start}.day-status{grid-template-columns:1fr;padding:30px 22px}.energy-orbit{margin:auto}.capacity-copy h2{font-size:33px}.today-grid{gap:8px;margin-top:8px}.next-action{min-height:610px;padding:28px 22px}.section-heading{display:block}.section-heading h2{font-size:35px}.time-window{display:inline-block;margin-top:15px}.recommendation-actions{left:22px;right:22px;bottom:24px;display:grid}.recommendation-actions button{width:100%}.alternative-stack{right:20px;bottom:130px}.today-timeline{padding:26px 20px}.calendar-intro,.practices-intro{grid-template-columns:1fr}.calendar-toolbar{justify-content:flex-start;flex-wrap:wrap}.segmented-control{width:100%;margin:0 0 6px}.segmented-control button{flex:1}.calendar-shell{display:block}.calendar-context{display:grid;grid-template-columns:1fr 1fr;padding:25px;border-right:0;border-bottom:1px solid var(--line)}.context-date{margin-top:30px}.calendar-context>p{align-self:end;margin:0 0 10px;text-align:right}.day-metric{display:none}.energy-curve{grid-column:1/-1;margin-top:35px}.calendar-stage{padding:12px;overflow-x:auto}.calendar-panel{min-width:660px}.month-grid button{height:90px}.featured-practice{display:block;padding:25px}.breath-flower{margin:auto}.featured-copy h2{font-size:37px}.practice-catalog{display:block}.practice-card{margin-top:8px}.checkin-layout{display:block}.checkin-form{padding:38px 20px}.checkin-form header{display:block}.checkin-form h1{font-size:67px}.checkin-form header>p:last-child{margin-top:25px}.checkin-form form{margin-top:55px}.state-step legend{font-size:18px}.choice-grid{grid-template-columns:1fr}.choice-grid label>span{min-height:140px}.factor-list{grid-template-columns:1fr 1fr}.form-controls{grid-template-columns:1fr 1fr}.step-progress{display:none}.form-controls .primary-action{min-width:0}.state-preview{min-height:620px;padding:24px}.state-orb{width:300px;height:300px}.state-orb>div{inset:82px}.focus-progress strong{font-size:54px}.practice-player .player-orb{width:290px;height:290px}.player-orb i{left:100px;top:20px;width:90px;height:250px}.checkin-success h2{font-size:40px}}
 
-/* Month view: task-led cells instead of an analytical heatmap. */
+/* Month view follows the same quiet, continuous calendar surface as day and week. */
 .calendar-panel[data-calendar-panel="month"]{position:relative}
-.calendar-panel[data-calendar-panel="month"] .month-summary{display:block;padding:12px 8px 24px}
-.calendar-panel[data-calendar-panel="month"] .month-summary strong{margin:0;font-size:30px;font-weight:450;letter-spacing:-.04em}
-.calendar-panel[data-calendar-panel="month"] .month-weekdays{gap:8px;padding:0 2px 8px}
-.calendar-panel[data-calendar-panel="month"] .month-weekdays span{padding:6px 10px;color:#77756f;font-size:10px;font-weight:550}
-.calendar-panel[data-calendar-panel="month"] .month-grid{gap:8px;border:0}
-.calendar-panel[data-calendar-panel="month"] .month-day{position:relative;min-width:0;height:118px;padding:12px;border:0;border-radius:15px;background:#f1f0ed;cursor:pointer;outline:none;transition:transform .2s ease,background-color .2s ease,box-shadow .2s ease}
-.calendar-panel[data-calendar-panel="month"] .month-day:hover{z-index:1;background:#ebe9e5;transform:translateY(-2px)}
-.calendar-panel[data-calendar-panel="month"] .month-day:focus-visible,.calendar-panel[data-calendar-panel="month"] .month-day.active{box-shadow:inset 0 0 0 2px #242321}
-.calendar-panel[data-calendar-panel="month"] .month-day.weekend{background:#f6f4f0}
-.calendar-panel[data-calendar-panel="month"] .month-day.outside{background:transparent;color:#b9b6b0;box-shadow:none}
-.calendar-panel[data-calendar-panel="month"] .month-day.selected{background:#f7ded5}
+.calendar-panel[data-calendar-panel="month"] .month-summary{display:block;padding:10px 10px 22px}
+.calendar-panel[data-calendar-panel="month"] .month-summary strong{margin:0;font-size:25px;font-weight:450;letter-spacing:-.035em}
+.calendar-panel[data-calendar-panel="month"] .month-weekdays{padding:0 4px 9px}
+.calendar-panel[data-calendar-panel="month"] .month-weekdays span{padding:6px 9px;color:var(--muted);font-size:10px;font-weight:500}
+.calendar-panel[data-calendar-panel="month"] .month-grid{gap:1px 6px;border:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 117px,var(--line) 117px,var(--line) 118px)}
+.calendar-panel[data-calendar-panel="month"] .month-day{position:relative;min-width:0;height:118px;padding:12px 9px;border:0;border-radius:0;background:transparent;cursor:pointer;outline:none;transition:background-color .18s ease}
+.calendar-panel[data-calendar-panel="month"] .month-day:hover{z-index:1;background:rgba(24,25,24,.035)}
+.calendar-panel[data-calendar-panel="month"] .month-day:focus-visible,.calendar-panel[data-calendar-panel="month"] .month-day.active{background:rgba(24,25,24,.055)}
+.calendar-panel[data-calendar-panel="month"] .month-day.weekend{background:rgba(24,25,24,.018)}
+.calendar-panel[data-calendar-panel="month"] .month-day.outside{background:transparent;color:#b9b6b0}
+.calendar-panel[data-calendar-panel="month"] .month-day.selected{border-radius:13px;background:var(--coral-soft)}
 .calendar-panel[data-calendar-panel="month"] .month-day-number{display:block;font-size:14px;font-weight:560;font-variant-numeric:tabular-nums}
 .calendar-panel[data-calendar-panel="month"] .month-day>small{position:absolute;top:12px;right:12px;color:#ef6a45;font-size:8px}
-.month-day-tasks{display:grid;gap:5px;margin-top:10px;overflow:hidden}
+.month-day-tasks{display:grid;gap:4px;margin-top:9px;overflow:hidden}
 .month-task{display:grid;grid-template-columns:7px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;min-width:0;padding:9px 10px;border:0;border-radius:12px;background:#f2f1ee;color:var(--ink);text-align:left;transition:filter .2s ease,transform .2s ease}
 .month-task:hover{filter:brightness(.97);transform:translateY(-1px)}
 .month-task i{width:7px;height:7px;border-radius:3px;background:#8aaaf0}
 .month-task span{min-width:0;overflow:hidden;font-size:11px;font-weight:520;text-overflow:ellipsis;white-space:nowrap}
 .month-task time{color:var(--muted);font-size:9px;font-variant-numeric:tabular-nums}
-.month-task.compact{grid-template-columns:5px minmax(0,1fr);gap:6px;height:24px;padding:3px 7px;border-radius:7px;background:#fff}
-.month-task.compact i{width:5px;height:14px;border-radius:3px}
+.month-task.compact{grid-template-columns:4px minmax(0,1fr);gap:6px;height:24px;padding:3px 7px;border-radius:7px;background:#e9edf5}
+.month-task.compact i{width:4px;height:14px;border-radius:3px}
 .month-task.compact span{font-size:9px}
-.month-task-coral i{background:#ff7b60}.month-task-lilac i{background:#9f7cdb}.month-task-green i{background:#90cda4}.month-task-blue i{background:#7fa4e9}.month-task-yellow i{background:#dfd956}
+.month-task-coral.compact{background:var(--coral-soft)}.month-task-lilac.compact{background:var(--lilac)}.month-task-green.compact{background:var(--green)}.month-task-blue.compact{background:var(--blue)}.month-task-yellow.compact{background:var(--yellow)}
+.month-task-coral i{background:#ff7b60}.month-task-lilac i{background:#9f7cdb}.month-task-green i{background:#90cda4}.month-task-blue i{background:#7fa4e9}.month-task-yellow i{background:#c9c535}
 .month-task-more{padding-left:12px;color:var(--muted);font-size:9px}
 .month-day-detail{position:absolute;z-index:6;top:64px;right:8px;width:min(330px,calc(100% - 16px));padding:18px;border-radius:22px;background:rgba(255,255,253,.96);box-shadow:0 22px 60px rgba(58,48,43,.2);backdrop-filter:blur(16px)}
 .month-day-detail[hidden]{display:none}
