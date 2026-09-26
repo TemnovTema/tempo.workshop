@@ -8,7 +8,7 @@
   <title>Tempo — мобильный прототип</title>
   <link rel="icon" href="../prototype/assets/tempo-logo.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-  <link rel="stylesheet" href="mobile.css?v=39" />
+  <link rel="stylesheet" href="mobile.css?v=40" />
 </head>
 <body>
   <a class="skip-link" href="#mobileMain">К содержанию</a>
@@ -26,14 +26,20 @@
     </div>
     <section class="auth-flow" id="authFlow" aria-label="Регистрация в Tempo" hidden>
       <div class="auth-step active" data-auth-step="1">
-        <div class="auth-brand"><span>Tempo</span><i></i></div>
-        <div class="auth-copy"><span>Начнём спокойно</span><h1>День, который<br />учитывает вас.</h1><p>Создайте профиль — Tempo соберёт календарь, задачи и ритм в один реалистичный план.</p></div>
-        <div class="auth-methods">
-          <button class="auth-method email" type="button" data-auth-method="email"><i class="ph ph-envelope-simple"></i><span><strong>Продолжить с почтой</strong><small>код придёт на email</small></span><i class="ph ph-arrow-right"></i></button>
-          <div class="auth-social-row"><button type="button" data-auth-method="vk"><b>VK</b><span>ВКонтакте</span></button><button type="button" data-auth-method="max"><b>MAX</b><span>MAX</span></button></div>
+        <div class="auth-welcome-visual" aria-label="Tempo — ритм вашего дня">
+          <div class="auth-logo-mark" aria-hidden="true"><svg viewBox="0 0 160 160"><circle class="logo-arc logo-violet" cx="80" cy="80" r="58" pathLength="100"/><circle class="logo-arc logo-coral" cx="80" cy="80" r="58" pathLength="100"/><circle class="logo-arc logo-blue" cx="80" cy="80" r="58" pathLength="100"/><circle class="logo-arc logo-green" cx="80" cy="80" r="58" pathLength="100"/><circle class="logo-arc logo-yellow" cx="80" cy="80" r="58" pathLength="100"/></svg></div>
+          <strong>Tempo</strong><small>Больше гармонии<br />в каждом дне</small>
         </div>
-        <form class="auth-email-form" data-auth-email-form hidden><label>Email<input type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required /></label><button class="auth-primary" type="submit">Получить код <i class="ph ph-arrow-right"></i></button></form>
-        <p class="auth-legal">Продолжая, вы принимаете условия и политику приватности.</p>
+        <section class="auth-signup-sheet">
+          <i class="auth-sheet-handle" aria-hidden="true"></i>
+          <div class="auth-copy"><h1>День, который<br />учитывает вас.</h1><p>Календарь, задачи и ритм — в одном реалистичном плане.</p></div>
+          <div class="auth-methods">
+            <button class="auth-method email" type="button" data-auth-method="email"><i class="ph ph-envelope-simple"></i><span><strong>Продолжить с почтой</strong><small>код придёт на email</small></span><i class="ph ph-arrow-right"></i></button>
+            <div class="auth-social-row"><button type="button" data-auth-method="vk"><b>VK</b><span>ВКонтакте</span></button><button type="button" data-auth-method="max"><b>MAX</b><span>MAX</span></button></div>
+          </div>
+          <form class="auth-email-form" data-auth-email-form hidden><label>Email<input type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required /></label><button class="auth-primary" type="submit">Получить код <i class="ph ph-arrow-right"></i></button></form>
+          <p class="auth-legal">Продолжая, вы принимаете условия и политику приватности.</p>
+        </section>
       </div>
 
       <div class="auth-step" data-auth-step="2" hidden>
