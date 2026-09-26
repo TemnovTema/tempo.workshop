@@ -20,9 +20,10 @@
 .calendar-panel[data-calendar-panel="month"] .month-day:focus-visible,.calendar-panel[data-calendar-panel="month"] .month-day.active{background:rgba(24,25,24,.055)}
 .calendar-panel[data-calendar-panel="month"] .month-day.weekend{background:rgba(24,25,24,.018)}
 .calendar-panel[data-calendar-panel="month"] .month-day.outside{background:transparent;color:#b9b6b0}
-.calendar-panel[data-calendar-panel="month"] .month-day.selected{border-radius:13px;background:var(--coral-soft)}
-.calendar-panel[data-calendar-panel="month"] .month-day-number{display:block;font-size:14px;font-weight:560;font-variant-numeric:tabular-nums}
-.calendar-panel[data-calendar-panel="month"] .month-day>small{position:absolute;top:12px;right:12px;color:#ef6a45;font-size:8px}
+.calendar-panel[data-calendar-panel="month"] .month-day.selected{background:transparent}
+.calendar-panel[data-calendar-panel="month"] .month-day-number{display:grid;place-items:center;width:28px;height:28px;margin:-5px 0 0 -4px;border-radius:50%;font-size:14px;font-weight:560;font-variant-numeric:tabular-nums}
+.calendar-panel[data-calendar-panel="month"] .month-day.selected .month-day-number{background:#776786;color:#fff;font-weight:500}
+.calendar-panel[data-calendar-panel="month"] .month-day.selected>small{display:none}
 .month-day-tasks{display:grid;gap:4px;margin-top:9px;overflow:hidden}
 .month-task{display:grid;grid-template-columns:7px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;min-width:0;padding:9px 10px;border:0;border-radius:12px;background:#f2f1ee;color:var(--ink);text-align:left;transition:filter .2s ease,transform .2s ease}
 .month-task:hover{filter:brightness(.97);transform:translateY(-1px)}

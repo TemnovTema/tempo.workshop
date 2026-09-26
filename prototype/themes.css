@@ -209,8 +209,8 @@
 :root:is([data-theme="dark"],[data-theme="glass"]) .month-day { background:transparent; }
 :root:is([data-theme="dark"],[data-theme="glass"]) .month-day.weekend { background:rgba(255,255,255,.018); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .month-day.outside { background:transparent; }
-:root:is([data-theme="dark"],[data-theme="glass"]) .month-day.selected { background:var(--coral-soft); }
-:root:is([data-theme="dark"],[data-theme="glass"]) .month-day:is(:hover,.active) { background:rgba(255,255,255,.045); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day.selected { background:transparent; }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day:is(:hover,.active):not(.selected) { background:rgba(255,255,255,.045); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .month-day-detail { background:var(--theme-panel); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .month-day-detail>header button { background:var(--theme-control);color:var(--ink); }
 [data-theme="dark"] .state-preview { background: radial-gradient(ellipse at 30% 20%,#474555,transparent 65%),linear-gradient(140deg,#303935,#4c4038); }
