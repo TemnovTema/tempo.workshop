@@ -88,9 +88,63 @@ const monthNamesTitle = ['Январь', 'Февраль', 'Март', 'Апре
 const monthNamesGenitive = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 const weekdayNames = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 const weekdayShort = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+let calendarProjectFilter = 'all';
+
+const monthTaskCatalog = [
+  { name: 'Макет главного экрана', time: '10:20', minutes: 50, project: 'tempo', tone: 'coral' },
+  { name: 'Синхронизация с командой', time: '11:30', minutes: 30, project: 'tempo', tone: 'lilac' },
+  { name: 'Сделать уборку после работы', time: '18:40', minutes: 35, project: 'personal', tone: 'green' },
+  { name: 'Исследование источников', time: '09:40', minutes: 70, project: 'university', tone: 'blue' },
+  { name: 'Прогулка без телефона', time: '19:20', minutes: 30, project: 'personal', tone: 'yellow' },
+  { name: 'Проверка прототипа', time: '15:00', minutes: 80, project: 'tempo', tone: 'blue' },
+  { name: 'Черновик главы', time: '13:10', minutes: 60, project: 'university', tone: 'lilac' }
+];
+
+function getMonthTasks(date) {
+  const day = date.getDate();
+  const indexes = [];
+  if (day % 2 === 0) indexes.push((day + date.getMonth()) % monthTaskCatalog.length);
+  if (day % 3 === 0) indexes.push((day + 2) % monthTaskCatalog.length);
+  if (day % 5 === 0 || isSameDate(date, calendarToday)) indexes.push((day + 4) % monthTaskCatalog.length);
+  return [...new Set(indexes)].map((index) => monthTaskCatalog[index]).filter((task) => calendarProjectFilter === 'all' || task.project === calendarProjectFilter);
+}
+
+function createMonthTaskButton(task, compact = false) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `month-task month-task-${task.tone}${compact ? ' compact' : ''}`;
+  button.dataset.pomodoroTaskName = task.name;
+  button.dataset.focusMinutes = task.minutes;
+  button.dataset.calendarProject = task.project;
+  button.dataset.taskTime = task.time;
+  button.title = `${task.time} · ${task.name}`;
+  button.innerHTML = `<i aria-hidden="true"></i><span>${task.name}</span>${compact ? '' : `<time>${task.time}</time>`}`;
+  button.addEventListener('click', (event) => {
+    event.stopPropagation();
+    openCalendarTask(button);
+  });
+  return button;
+}
+
+function openMonthDay(date, tasks) {
+  calendarDate = new Date(date);
+  document.querySelectorAll('.month-day').forEach((cell) => cell.classList.toggle('active', cell.dataset.date === getDateKey(date)));
+  const detail = document.querySelector('[data-month-day-detail]');
+  detail.querySelector('[data-month-detail-weekday]').textContent = weekdayNames[date.getDay()];
+  detail.querySelector('[data-month-detail-date]').textContent = `${date.getDate()} ${monthNamesGenitive[date.getMonth()]}`;
+  const list = detail.querySelector('[data-month-detail-tasks]');
+  list.innerHTML = '';
+  if (!tasks.length) list.innerHTML = '<p>На этот день задач пока нет.</p>';
+  else tasks.forEach((task) => list.append(createMonthTaskButton(task)));
+  detail.hidden = false;
+}
 
 function isSameDate(a, b) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function getDateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
 function getWeekStart(date) {
@@ -102,32 +156,48 @@ function getWeekStart(date) {
 function renderMonthGrid() {
   const grid = document.querySelector('[data-month-grid]');
   if (!grid) return;
+  const detail = document.querySelector('[data-month-day-detail]');
+  if (detail) detail.hidden = true;
   const year = calendarDate.getFullYear();
   const month = calendarDate.getMonth();
   const first = new Date(year, month, 1);
   const start = new Date(year, month, 1 - ((first.getDay() + 6) % 7));
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const totalCells = Math.ceil((((first.getDay() + 6) % 7) + daysInMonth) / 7) * 7;
   grid.innerHTML = '';
-  for (let index = 0; index < 42; index += 1) {
+  for (let index = 0; index < totalCells; index += 1) {
     const date = new Date(start);
     date.setDate(start.getDate() + index);
-    const button = document.createElement('button');
-    button.type = 'button';
-    if (date.getMonth() !== month) button.classList.add('outside');
-    if (isSameDate(date, calendarToday)) button.classList.add('selected');
+    const cell = document.createElement('article');
+    cell.className = 'month-day';
+    cell.tabIndex = 0;
+    cell.setAttribute('role', 'button');
+    cell.dataset.date = getDateKey(date);
+    if (date.getMonth() !== month) cell.classList.add('outside');
+    if (date.getDay() === 0 || date.getDay() === 6) cell.classList.add('weekend');
+    if (isSameDate(date, calendarToday)) cell.classList.add('selected');
+    if (isSameDate(date, calendarDate)) cell.classList.add('active');
     const number = document.createElement('span');
+    number.className = 'month-day-number';
     number.textContent = date.getDate();
-    button.append(number);
-    if (date.getMonth() === month && date.getDay() !== 0 && date.getDay() !== 6) {
-      const load = document.createElement('i');
-      load.className = `load ${['low', 'mid', 'high'][(date.getDate() * 7 + month) % 3]}`;
-      button.append(load);
-    }
+    cell.append(number);
+    const tasks = date.getMonth() === month ? getMonthTasks(date) : [];
+    const taskList = document.createElement('div');
+    taskList.className = 'month-day-tasks';
+    tasks.slice(0, 3).forEach((task) => taskList.append(createMonthTaskButton(task, true)));
+    if (tasks.length > 3) taskList.insertAdjacentHTML('beforeend', `<span class="month-task-more">+${tasks.length - 3}</span>`);
+    cell.append(taskList);
     if (isSameDate(date, calendarToday)) {
       const today = document.createElement('small');
       today.textContent = 'сегодня';
-      button.append(today);
+      cell.append(today);
     }
-    grid.append(button);
+    const select = () => openMonthDay(date, tasks);
+    cell.addEventListener('click', select);
+    cell.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select(); }
+    });
+    grid.append(cell);
   }
   grid.setAttribute('aria-label', `${monthNamesTitle[month]} ${year}`);
 }
@@ -178,6 +248,9 @@ document.querySelectorAll('[data-calendar-mode]').forEach((button) => {
 document.querySelector('[data-calendar-previous]')?.addEventListener('click', () => shiftCalendarPeriod(-1));
 document.querySelector('[data-calendar-next]')?.addEventListener('click', () => shiftCalendarPeriod(1));
 document.querySelector('[data-calendar-today]')?.addEventListener('click', () => { calendarDate = new Date(calendarToday); renderCalendarPeriod(); });
+document.querySelector('[data-month-detail-close]')?.addEventListener('click', () => {
+  document.querySelector('[data-month-day-detail]').hidden = true;
+});
 renderCalendarPeriod();
 
 function updateCalendarNow() {
@@ -374,9 +447,11 @@ document.querySelectorAll('.w-event[data-pomodoro-task-name]').forEach((task) =>
 });
 
 function filterCalendarByProject(projectKey) {
+  calendarProjectFilter = projectKey;
   document.querySelectorAll('[data-calendar-project-filter]').forEach((button) => button.classList.toggle('active', button.dataset.calendarProjectFilter === projectKey));
   document.querySelectorAll('[data-calendar-project]').forEach((task) => task.classList.toggle('project-filtered', projectKey !== 'all' && task.dataset.calendarProject !== projectKey));
   renderProjectPeek(projectKey);
+  if (calendarMode === 'month') renderMonthGrid();
   if (document.querySelector('.calendar-stage').classList.contains('project-details-open')) {
     if (projectKey === 'all') closeInlineProjectDetails();
     else renderInlineProjectDetails(projectKey);
@@ -551,13 +626,13 @@ function openCalendarTask(task) {
   activeCalendarTask = task;
   const name = task.dataset.pomodoroTaskName;
   const totalMinutes = Number(task.dataset.focusMinutes || 50);
-  const visibleTime = task.querySelector(':scope > span')?.textContent?.trim() || '10:00';
+  const visibleTime = task.dataset.taskTime || task.querySelector(':scope > span')?.textContent?.trim() || '10:00';
   const [hours, minutes] = /^\d{2}:\d{2}$/.test(visibleTime) ? visibleTime.split(':').map(Number) : [10, 0];
   const endTotal = hours * 60 + minutes + totalMinutes;
   const endTime = `${String(Math.floor(endTotal / 60) % 24).padStart(2, '0')}:${String(endTotal % 60).padStart(2, '0')}`;
   const isMeeting = task.classList.contains('group-event') || name.toLowerCase().includes('созвон') || name.toLowerCase().includes('синхронизац');
   document.getElementById('calendarTaskTitle').textContent = name;
-  const projectName = isMeeting ? 'Команда' : task.dataset.calendarProject === 'personal' ? 'Здоровье' : name.includes('Курсов') || name.includes('Учёб') ? 'Курсовая работа' : 'Tempo Remake';
+  const projectName = isMeeting ? 'Команда' : task.dataset.calendarProject === 'personal' ? 'Здоровье' : task.dataset.calendarProject === 'university' ? 'Универ' : 'Tempo Remake';
   document.getElementById('taskDetailProject').textContent = projectName;
   document.getElementById('taskDetailProjectSelect').value = projectName;
   document.getElementById('taskDetailStartTime').value = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;

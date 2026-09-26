@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
   <script src="themes.js?v=3"></script>
-  <link rel="stylesheet" href="tempo-app.css?v=web-signup-3" />
+  <link rel="stylesheet" href="tempo-app.css?v=calendar-month-1" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
@@ -18,8 +18,8 @@
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
-  <link rel="stylesheet" href="themes.css?v=5" />
-  <link rel="stylesheet" href="wide-screen.css?v=2" />
+  <link rel="stylesheet" href="themes.css?v=calendar-month-1" />
+  <link rel="stylesheet" href="wide-screen.css?v=calendar-month-1" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -323,16 +323,13 @@
           </div>
 
           <div class="calendar-panel" data-calendar-panel="month">
-            <header class="month-summary"><div><span class="section-label" data-month-name>Август</span><strong>Ритм месяца</strong></div><div class="month-insight" aria-label="Нагрузка по неделям снизилась на 18 процентов"><div class="month-insight-value"><strong>−18%</strong><span>к первой неделе</span></div><div class="month-load-chart" aria-hidden="true"><i style="--load:82%"><small>1</small></i><i style="--load:74%"><small>2</small></i><i style="--load:78%"><small>3</small></i><i style="--load:66%"><small>4</small></i><i class="current" style="--load:54%"><small>5</small></i><b></b></div><div class="month-insight-key"><span><i></i>нагрузка</span><strong>последняя неделя свободнее</strong></div></div></header>
+            <header class="month-summary"><strong data-month-name>Август</strong></header>
             <div class="month-weekdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
-            <div class="month-grid" data-month-grid aria-label="Август 2026">
-              <button class="outside" type="button"><span>27</span></button><button class="outside" type="button"><span>28</span></button><button class="outside" type="button"><span>29</span></button><button class="outside" type="button"><span>30</span></button><button class="outside" type="button"><span>31</span></button><button type="button"><span>1</span><i class="load low"></i></button><button type="button"><span>2</span></button>
-              <button type="button"><span>3</span><i class="load mid"></i></button><button type="button"><span>4</span><i class="load high"></i></button><button type="button"><span>5</span><i class="load mid"></i></button><button type="button"><span>6</span><i class="load high"></i></button><button type="button"><span>7</span><i class="load low"></i></button><button type="button"><span>8</span></button><button type="button"><span>9</span><i class="load low"></i></button>
-              <button type="button"><span>10</span><i class="load mid"></i></button><button type="button"><span>11</span><i class="load high"></i></button><button type="button"><span>12</span><i class="load high"></i></button><button type="button"><span>13</span><i class="load mid"></i></button><button type="button"><span>14</span><i class="load low"></i></button><button type="button"><span>15</span></button><button type="button"><span>16</span></button>
-              <button type="button"><span>17</span><i class="load high"></i></button><button type="button"><span>18</span><i class="load high"></i></button><button type="button"><span>19</span><i class="load mid"></i></button><button type="button"><span>20</span><i class="load high"></i></button><button type="button"><span>21</span><i class="load low"></i></button><button type="button"><span>22</span></button><button type="button"><span>23</span><i class="load low"></i></button>
-              <button type="button"><span>24</span><i class="load mid"></i></button><button type="button"><span>25</span><i class="load high"></i></button><button class="selected" type="button"><span>26</span><i class="load mid"></i><small>сегодня</small></button><button type="button"><span>27</span><i class="load mid"></i></button><button type="button"><span>28</span><i class="load low"></i></button><button type="button"><span>29</span></button><button type="button"><span>30</span></button>
-              <button type="button"><span>31</span><i class="load low"></i></button><button class="outside" type="button"><span>1</span></button><button class="outside" type="button"><span>2</span></button><button class="outside" type="button"><span>3</span></button><button class="outside" type="button"><span>4</span></button><button class="outside" type="button"><span>5</span></button><button class="outside" type="button"><span>6</span></button>
-            </div>
+            <div class="month-grid" data-month-grid aria-label="Август 2026"></div>
+            <aside class="month-day-detail" data-month-day-detail hidden aria-live="polite">
+              <header><div><span data-month-detail-weekday>Воскресенье</span><strong data-month-detail-date>27 сентября</strong></div><button type="button" data-month-detail-close aria-label="Закрыть задачи дня">×</button></header>
+              <div data-month-detail-tasks></div>
+            </aside>
           </div>
 
           <section class="project-inline-view" data-project-inline-view hidden aria-labelledby="projectInlineTitle">
@@ -599,6 +596,6 @@
     </div>
   </div>
 
-  <script src="tempo-app.js?v=web-signup-1"></script>
+  <script src="tempo-app.js?v=calendar-month-1"></script>
 </body>
 </html>

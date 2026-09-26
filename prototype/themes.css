@@ -205,7 +205,14 @@
 [data-theme="dark"] .featured-practice { background: linear-gradient(110deg,#584139,#514438 55%,#454733); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .featured-copy>p { color: var(--muted); }
 :root:is([data-theme="dark"],[data-theme="glass"]) .primary-action span { color: #e5e8e1; }
-[data-theme="dark"] .month-grid button.outside { color: var(--faint); }
+[data-theme="dark"] .month-day.outside { color: var(--faint); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day { background:var(--theme-control); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day.weekend { background:var(--theme-panel); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day.outside { background:transparent; }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day.selected { background:var(--coral-soft); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-task.compact { background:var(--theme-raised); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day-detail { background:var(--theme-panel); }
+:root:is([data-theme="dark"],[data-theme="glass"]) .month-day-detail>header button { background:var(--theme-control);color:var(--ink); }
 [data-theme="dark"] .state-preview { background: radial-gradient(ellipse at 30% 20%,#474555,transparent 65%),linear-gradient(140deg,#303935,#4c4038); }
 [data-theme="dark"] .state-preview:before { opacity: .12; }
 [data-theme="dark"] :is(.focus-overlay,.practice-player) { background: rgba(29,34,30,.96); }
