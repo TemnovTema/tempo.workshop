@@ -1,17 +1,21 @@
 /* Apply before styles; catch up after sleep or returning to the app. */
 (() => {
-  const key = 'tempo-theme', scheduleKey = 'tempo-theme-schedule';
-  const themes = { light: ['Светлая', '#d4d1d8'], dark: ['Тёмная', '#202321'], glass: ['Стеклянная', '#c9c5d7'] };
+  const key = 'tempo-theme', scheduleKey = 'tempo-theme-schedule', customKey = 'tempo-custom-theme';
+  const themes = { light: ['Светлая', '#d4d1d8'], dark: ['Тёмная', '#202321'], glass: ['Свой вариант', '#c9c5d7'] };
+  const customDefaults = { accent:'#6b5e78', task:'#ef7656', rest:'#8ba6df', practice:'#82aa72', opacity:64, blur:22, radius:28, finish:'soft', background:'' };
   const normalize = value => Object.hasOwn(themes, value) ? value : 'light';
   const validTime = value => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
   const minutes = value => Number(value.slice(0, 2)) * 60 + Number(value.slice(3));
   let preferred = 'light';
   let schedule = { enabled: false, start: '20:00', end: '08:00', dayTheme: 'light' };
+  let custom = { ...customDefaults };
   let storageFailed = false;
   function read() {
     try {
       preferred = normalize(localStorage.getItem(key));
       const saved = JSON.parse(localStorage.getItem(scheduleKey) || 'null');
+      const savedCustom = JSON.parse(localStorage.getItem(customKey) || 'null');
+      if (savedCustom && typeof savedCustom === 'object') custom = { ...customDefaults, ...savedCustom };
       schedule = {
         enabled: saved?.enabled === true,
         start: validTime(saved?.start) ? saved.start : '20:00',
@@ -25,8 +29,30 @@
     try {
       localStorage.setItem(key, preferred);
       localStorage.setItem(scheduleKey, JSON.stringify(schedule));
+      localStorage.setItem(customKey, JSON.stringify(custom));
       storageFailed = false;
     } catch { storageFailed = true; }
+  }
+  const hexToRgba = (hex, alpha) => {
+    const value = /^#[\da-f]{6}$/i.test(hex) ? hex.slice(1) : '6b5e78';
+    return `rgba(${parseInt(value.slice(0,2),16)},${parseInt(value.slice(2,4),16)},${parseInt(value.slice(4,6),16)},${alpha})`;
+  };
+  function applyCustom() {
+    const root = document.documentElement;
+    const alpha = Math.max(.35, Math.min(.92, Number(custom.opacity) / 100));
+    root.style.setProperty('--custom-accent', custom.accent);
+    root.style.setProperty('--custom-task', custom.task);
+    root.style.setProperty('--custom-accent-soft', hexToRgba(custom.accent,.52));
+    root.style.setProperty('--custom-task-soft', hexToRgba(custom.task,.5));
+    root.style.setProperty('--custom-rest-soft', hexToRgba(custom.rest,.52));
+    root.style.setProperty('--custom-practice-soft', hexToRgba(custom.practice,.5));
+    root.style.setProperty('--custom-panel', `rgba(255,255,255,${(alpha * .46).toFixed(2)})`);
+    root.style.setProperty('--custom-control', `rgba(255,255,255,${(alpha * .54).toFixed(2)})`);
+    root.style.setProperty('--custom-raised', `rgba(255,255,255,${(alpha * .86).toFixed(2)})`);
+    root.style.setProperty('--custom-blur', `${Number(custom.blur)}px`);
+    root.style.setProperty('--custom-radius', `${Number(custom.radius)}px`);
+    root.style.setProperty('--custom-background-image', custom.background ? `url("${custom.background}")` : 'none');
+    root.dataset.customFinish = custom.finish;
   }
   function refresh() {
     const now = new Date();
@@ -35,8 +61,11 @@
     const night = start > end ? time >= start || time < end : time >= start && time < end;
     const current = schedule.enabled ? (night ? 'dark' : schedule.dayTheme) : preferred;
     document.documentElement.dataset.theme = current;
+    applyCustom();
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themes[current][1]);
     document.querySelectorAll('input[name="tempo-theme"]').forEach(input => { input.checked = input.value === current; });
+    const editor = document.querySelector('[data-custom-theme-editor]');
+    if (editor) { editor.hidden = current !== 'glass'; editor.setAttribute('aria-hidden', String(current !== 'glass')); }
     const toggle = document.querySelector('[data-theme-auto]');
     if (toggle) toggle.checked = schedule.enabled;
     const fields = document.querySelector('[data-theme-hours]');
@@ -61,9 +90,23 @@
     document.querySelectorAll('[data-theme-hours] input').forEach(input => input.removeAttribute('aria-invalid'));
   }
   read();
+  applyCustom();
   refresh();
   document.addEventListener('DOMContentLoaded', () => {
+    const syncCustomFields = () => {
+      document.querySelectorAll('[data-custom-color]').forEach(input => { input.value = custom[input.dataset.customColor]; });
+      document.querySelectorAll('[data-custom-range]').forEach(input => {
+        const name = input.dataset.customRange; input.value = custom[name];
+        const output = document.querySelector(`[data-custom-output="${name}"]`);
+        if (output) output.textContent = custom[name] + (name === 'opacity' ? '%' : ' px');
+      });
+      const finish = document.querySelector('[data-custom-finish]'); if (finish) finish.value = custom.finish;
+      const preview = document.querySelector('[data-custom-background-preview]');
+      if (preview) preview.style.backgroundImage = custom.background ? `linear-gradient(rgba(30,25,32,.16),rgba(30,25,32,.16)),url("${custom.background}")` : '';
+    };
+    const commitCustom = () => { applyCustom(); syncCustomFields(); save(); refresh(); };
     syncFields();
+    syncCustomFields();
     refresh();
     document.querySelectorAll('input[name="tempo-theme"]').forEach(input => input.addEventListener('change', () => {
       if (!input.checked) return;
@@ -96,6 +139,26 @@
       save();
       refresh();
     }));
+    document.querySelectorAll('[data-custom-color]').forEach(input => input.addEventListener('input', () => { custom[input.dataset.customColor] = input.value; commitCustom(); }));
+    document.querySelectorAll('[data-custom-range]').forEach(input => input.addEventListener('input', () => { custom[input.dataset.customRange] = Number(input.value); commitCustom(); }));
+    document.querySelector('[data-custom-finish]')?.addEventListener('change', event => { custom.finish = event.target.value; commitCustom(); });
+    document.querySelector('[data-custom-theme-reset]')?.addEventListener('click', () => { custom = { ...customDefaults }; commitCustom(); });
+    document.querySelector('[data-custom-background-remove]')?.addEventListener('click', () => { custom.background = ''; commitCustom(); });
+    document.querySelector('[data-custom-background]')?.addEventListener('change', event => {
+      const file = event.target.files?.[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new Image();
+        image.onload = () => {
+          const scale = Math.min(1, 1600 / Math.max(image.width,image.height));
+          const canvas = document.createElement('canvas'); canvas.width = Math.round(image.width * scale); canvas.height = Math.round(image.height * scale);
+          canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+          custom.background = canvas.toDataURL('image/jpeg',.78); commitCustom(); event.target.value = '';
+        };
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
     setInterval(refresh, 1000);
   });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });

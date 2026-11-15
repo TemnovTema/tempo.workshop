@@ -6,7 +6,7 @@
   <meta name="description" content="Tempo — адаптивный план дня с учётом энергии, задач и календаря." />
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
-  <script src="themes.js?v=3"></script>
+  <script src="themes.js?v=custom-theme-1"></script>
   <link rel="stylesheet" href="tempo-app.css?v=page-spacing-2" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
-  <link rel="stylesheet" href="themes.css?v=dark-today-1" />
+  <link rel="stylesheet" href="themes.css?v=custom-theme-1" />
   <link rel="stylesheet" href="wide-screen.css?v=calendar-height-1" />
 </head>
 <body>
@@ -232,8 +232,27 @@
           <fieldset class="theme-options"><legend>Тема интерфейса</legend>
             <label class="theme-option"><input type="radio" name="tempo-theme" value="light" checked /><span class="theme-swatch swatch-light" aria-hidden="true"><i class="ph ph-sun"></i><span>Тёплый свет</span></span><span class="theme-option-name">Светлая <i></i></span><small>Привычная, мягкая и светлая</small></label>
             <label class="theme-option"><input type="radio" name="tempo-theme" value="dark" /><span class="theme-swatch swatch-dark" aria-hidden="true"><i class="ph ph-moon"></i><span>Тихий вечер</span></span><span class="theme-option-name">Тёмная <i></i></span><small>Графит и приглушённые акценты</small></label>
-            <label class="theme-option"><input type="radio" name="tempo-theme" value="glass" /><span class="theme-swatch swatch-glass" aria-hidden="true"><i class="ph ph-drop"></i><span>Цвет и воздух</span></span><span class="theme-option-name">Стеклянная <i></i></span><small>Прозрачность и рассеянный свет</small></label>
+            <label class="theme-option"><input type="radio" name="tempo-theme" value="glass" /><span class="theme-swatch swatch-glass" aria-hidden="true"><i class="ph ph-sliders-horizontal"></i><span>Ваши цвета</span></span><span class="theme-option-name">Свой вариант <i></i></span><small>Фон, цвет и оформление поверхностей</small></label>
           </fieldset>
+          <section class="custom-theme-editor" data-custom-theme-editor hidden aria-labelledby="customThemeTitle">
+            <header><div><span>Свой вариант</span><h3 id="customThemeTitle">Настройте атмосферу</h3></div><button type="button" data-custom-theme-reset>Сбросить</button></header>
+            <div class="custom-background-setting">
+              <div class="custom-background-preview" data-custom-background-preview><i class="ph ph-image" aria-hidden="true"></i><span>Фон интерфейса</span></div>
+              <div><strong>Изображение на фоне</strong><p>Останется на этом устройстве. Для читаемости Tempo добавит мягкое затемнение.</p><div class="custom-background-actions"><label>Выбрать изображение<input type="file" accept="image/*" data-custom-background /></label><button type="button" data-custom-background-remove>Убрать</button></div></div>
+            </div>
+            <fieldset class="custom-color-settings"><legend>Палитра</legend>
+              <label><span><i class="ph ph-palette"></i>Интерфейс</span><input type="color" value="#6b5e78" data-custom-color="accent" /></label>
+              <label><span><i class="ph ph-check-square"></i>Задачи</span><input type="color" value="#ef7656" data-custom-color="task" /></label>
+              <label><span><i class="ph ph-coffee"></i>Отдых</span><input type="color" value="#8ba6df" data-custom-color="rest" /></label>
+              <label><span><i class="ph ph-leaf"></i>Практики</span><input type="color" value="#82aa72" data-custom-color="practice" /></label>
+            </fieldset>
+            <div class="custom-surface-settings">
+              <label><span>Прозрачность карточек <output data-custom-output="opacity">64%</output></span><input type="range" min="35" max="92" value="64" data-custom-range="opacity" /></label>
+              <label><span>Размытие фона <output data-custom-output="blur">22 px</output></span><input type="range" min="0" max="40" value="22" data-custom-range="blur" /></label>
+              <label><span>Скругление <output data-custom-output="radius">28 px</output></span><input type="range" min="10" max="40" value="28" data-custom-range="radius" /></label>
+            </div>
+            <label class="custom-finish-setting"><span><strong>Оформление</strong><small>Характер границ и света на карточках</small></span><select data-custom-finish><option value="soft">Мягкое стекло</option><option value="outline">Тонкий контур</option><option value="matte">Матовая поверхность</option></select></label>
+          </section>
           <section class="theme-schedule" aria-labelledby="themeScheduleTitle">
             <div class="theme-schedule-heading"><div><h3 id="themeScheduleTitle">Тёмная тема по расписанию</h3><p>Вечером темнее, утром снова ваша обычная тема.</p></div><label class="switch-control"><input type="checkbox" role="switch" aria-label="Тёмная тема по расписанию" data-theme-auto /><i></i></label></div>
             <fieldset class="theme-hours" data-theme-hours disabled><legend>Время на вашем устройстве</legend><label>Включать в<input type="time" value="20:00" required data-theme-start aria-describedby="themeTimeError" /></label><label>Выключать в<input type="time" value="08:00" required data-theme-end aria-describedby="themeTimeError" /></label></fieldset>
