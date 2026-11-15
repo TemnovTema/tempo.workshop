@@ -2,7 +2,8 @@
 (() => {
   const key = 'tempo-theme', scheduleKey = 'tempo-theme-schedule', customKey = 'tempo-custom-theme';
   const themes = { light: ['Светлая', '#d4d1d8'], dark: ['Тёмная', '#202321'], glass: ['Свой вариант', '#c9c5d7'] };
-  const customDefaults = { accent:'#6b5e78', task:'#ef7656', rest:'#8ba6df', practice:'#82aa72', opacity:64, blur:22, radius:28, finish:'soft', background:'' };
+  const customDefaults = { accent:'#6b5e78', task:'#ef7656', rest:'#8ba6df', practice:'#82aa72', opacity:64, blur:22, radius:28, finish:'soft', background:'assets/wallpapers/calm-dawn.png' };
+  const customPalette = ['#6b5e78','#ef7656','#8ba6df','#82aa72','#e2c95d','#b887a6','#65706a','#d39a72'];
   const normalize = value => Object.hasOwn(themes, value) ? value : 'light';
   const validTime = value => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
   const minutes = value => Number(value.slice(0, 2)) * 60 + Number(value.slice(3));
@@ -51,7 +52,7 @@
     root.style.setProperty('--custom-raised', `rgba(255,255,255,${(alpha * .86).toFixed(2)})`);
     root.style.setProperty('--custom-blur', `${Number(custom.blur)}px`);
     root.style.setProperty('--custom-radius', `${Number(custom.radius)}px`);
-    root.style.setProperty('--custom-background-image', custom.background ? `url("${custom.background}")` : 'none');
+    root.style.setProperty('--custom-background-image', custom.background ? `linear-gradient(rgba(35,29,39,.18),rgba(35,29,39,.18)),url("${custom.background}")` : 'none');
     root.dataset.customFinish = custom.finish;
   }
   function refresh() {
@@ -94,7 +95,10 @@
   refresh();
   document.addEventListener('DOMContentLoaded', () => {
     const syncCustomFields = () => {
-      document.querySelectorAll('[data-custom-color]').forEach(input => { input.value = custom[input.dataset.customColor]; });
+      document.querySelectorAll('[data-custom-color-choice]').forEach(button => {
+        const active = custom[button.dataset.customColorChoice] === button.dataset.color;
+        button.classList.toggle('active', active); button.setAttribute('aria-checked', String(active));
+      });
       document.querySelectorAll('[data-custom-range]').forEach(input => {
         const name = input.dataset.customRange; input.value = custom[name];
         const output = document.querySelector(`[data-custom-output="${name}"]`);
@@ -103,9 +107,21 @@
       const finish = document.querySelector('[data-custom-finish]'); if (finish) finish.value = custom.finish;
       const preview = document.querySelector('[data-custom-background-preview]');
       if (preview) preview.style.backgroundImage = custom.background ? `linear-gradient(rgba(30,25,32,.16),rgba(30,25,32,.16)),url("${custom.background}")` : '';
+      document.querySelectorAll('[data-custom-wallpaper]').forEach(button => {
+        const active = custom.background === button.dataset.customWallpaper;
+        button.classList.toggle('active', active); button.setAttribute('aria-checked', String(active));
+      });
     };
     const commitCustom = () => { applyCustom(); syncCustomFields(); save(); refresh(); };
     syncFields();
+    document.querySelectorAll('[data-custom-color-group]').forEach(group => {
+      const name = group.dataset.customColorGroup;
+      customPalette.forEach((color,index) => {
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'custom-color-choice';
+        button.dataset.customColorChoice = name; button.dataset.color = color; button.style.setProperty('--choice-color',color);
+        button.setAttribute('role','radio'); button.setAttribute('aria-label',`Цвет ${index + 1}`); group.append(button);
+      });
+    });
     syncCustomFields();
     refresh();
     document.querySelectorAll('input[name="tempo-theme"]').forEach(input => input.addEventListener('change', () => {
@@ -139,7 +155,8 @@
       save();
       refresh();
     }));
-    document.querySelectorAll('[data-custom-color]').forEach(input => input.addEventListener('input', () => { custom[input.dataset.customColor] = input.value; commitCustom(); }));
+    document.querySelectorAll('[data-custom-color-choice]').forEach(button => button.addEventListener('click', () => { custom[button.dataset.customColorChoice] = button.dataset.color; commitCustom(); }));
+    document.querySelectorAll('[data-custom-wallpaper]').forEach(button => button.addEventListener('click', () => { custom.background = button.dataset.customWallpaper; commitCustom(); }));
     document.querySelectorAll('[data-custom-range]').forEach(input => input.addEventListener('input', () => { custom[input.dataset.customRange] = Number(input.value); commitCustom(); }));
     document.querySelector('[data-custom-finish]')?.addEventListener('change', event => { custom.finish = event.target.value; commitCustom(); });
     document.querySelector('[data-custom-theme-reset]')?.addEventListener('click', () => { custom = { ...customDefaults }; commitCustom(); });

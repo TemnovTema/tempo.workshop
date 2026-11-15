@@ -6,7 +6,7 @@
   <meta name="description" content="Tempo — адаптивный план дня с учётом энергии, задач и календаря." />
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
-  <script src="themes.js?v=custom-theme-1"></script>
+  <script src="themes.js?v=custom-theme-2"></script>
   <link rel="stylesheet" href="tempo-app.css?v=page-spacing-2" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
-  <link rel="stylesheet" href="themes.css?v=custom-theme-1" />
+  <link rel="stylesheet" href="themes.css?v=custom-theme-2" />
   <link rel="stylesheet" href="wide-screen.css?v=calendar-height-1" />
 </head>
 <body>
@@ -236,20 +236,26 @@
           </fieldset>
           <section class="custom-theme-editor" data-custom-theme-editor hidden aria-labelledby="customThemeTitle">
             <header><div><span>Свой вариант</span><h3 id="customThemeTitle">Настройте атмосферу</h3></div><button type="button" data-custom-theme-reset>Сбросить</button></header>
-            <div class="custom-background-setting">
-              <div class="custom-background-preview" data-custom-background-preview><i class="ph ph-image" aria-hidden="true"></i><span>Фон интерфейса</span></div>
-              <div><strong>Изображение на фоне</strong><p>Останется на этом устройстве. Для читаемости Tempo добавит мягкое затемнение.</p><div class="custom-background-actions"><label>Выбрать изображение<input type="file" accept="image/*" data-custom-background /></label><button type="button" data-custom-background-remove>Убрать</button></div></div>
-            </div>
+            <section class="custom-wallpaper-setting" aria-labelledby="wallpaperTitle">
+              <header><div><h4 id="wallpaperTitle">Фон</h4><p>Спокойные широкие изображения с мягким размытием под интерфейсом.</p></div><button type="button" data-custom-background-remove>Без изображения</button></header>
+              <div class="wallpaper-gallery" role="radiogroup" aria-label="Фоновое изображение">
+                <button type="button" data-custom-wallpaper="assets/wallpapers/calm-dawn.png" aria-label="Рассвет"><img src="assets/wallpapers/calm-dawn.png" alt="Мягкий розово-лиловый рассвет" /><span>Рассвет</span><i class="ph ph-check"></i></button>
+                <button type="button" data-custom-wallpaper="assets/wallpapers/quiet-waves.png" aria-label="Волны"><img src="assets/wallpapers/quiet-waves.png" alt="Светло-голубые абстрактные волны" /><span>Волны</span><i class="ph ph-check"></i></button>
+                <button type="button" data-custom-wallpaper="assets/wallpapers/tempo-fields.png" aria-label="Поля"><img src="assets/wallpapers/tempo-fields.png" alt="Цветные волнистые поля" /><span>Поля</span><i class="ph ph-check"></i></button>
+                <button type="button" data-custom-wallpaper="assets/wallpapers/soft-light.png" aria-label="Тихий свет"><img src="assets/wallpapers/soft-light.png" alt="Тёплый свет и тени листьев" /><span>Свет</span><i class="ph ph-check"></i></button>
+                <button type="button" data-custom-wallpaper="assets/wallpapers/focus-arcs.png" aria-label="Фокус"><img src="assets/wallpapers/focus-arcs.png" alt="Графичные лилово-голубые дуги" /><span>Фокус</span><i class="ph ph-check"></i></button>
+              </div>
+              <div class="custom-photo-row"><div class="custom-photo-preview" data-custom-background-preview><i class="ph ph-image-square"></i></div><div><strong>Ваши фото</strong><p>Файл сжимается и остаётся только на этом устройстве.</p></div><label>Добавить фото<input type="file" accept="image/*" data-custom-background /></label></div>
+            </section>
             <fieldset class="custom-color-settings"><legend>Палитра</legend>
-              <label><span><i class="ph ph-palette"></i>Интерфейс</span><input type="color" value="#6b5e78" data-custom-color="accent" /></label>
-              <label><span><i class="ph ph-check-square"></i>Задачи</span><input type="color" value="#ef7656" data-custom-color="task" /></label>
-              <label><span><i class="ph ph-coffee"></i>Отдых</span><input type="color" value="#8ba6df" data-custom-color="rest" /></label>
-              <label><span><i class="ph ph-leaf"></i>Практики</span><input type="color" value="#82aa72" data-custom-color="practice" /></label>
+              <div class="custom-color-row"><span><i class="ph ph-palette"></i>Интерфейс</span><div role="radiogroup" aria-label="Цвет интерфейса" data-custom-color-group="accent"></div></div>
+              <div class="custom-color-row"><span><i class="ph ph-check-square"></i>Задачи</span><div role="radiogroup" aria-label="Цвет задач" data-custom-color-group="task"></div></div>
+              <div class="custom-color-row"><span><i class="ph ph-coffee"></i>Отдых</span><div role="radiogroup" aria-label="Цвет отдыха" data-custom-color-group="rest"></div></div>
+              <div class="custom-color-row"><span><i class="ph ph-leaf"></i>Практики</span><div role="radiogroup" aria-label="Цвет практик" data-custom-color-group="practice"></div></div>
             </fieldset>
             <div class="custom-surface-settings">
               <label><span>Прозрачность карточек <output data-custom-output="opacity">64%</output></span><input type="range" min="35" max="92" value="64" data-custom-range="opacity" /></label>
               <label><span>Размытие фона <output data-custom-output="blur">22 px</output></span><input type="range" min="0" max="40" value="22" data-custom-range="blur" /></label>
-              <label><span>Скругление <output data-custom-output="radius">28 px</output></span><input type="range" min="10" max="40" value="28" data-custom-range="radius" /></label>
             </div>
             <label class="custom-finish-setting"><span><strong>Оформление</strong><small>Характер границ и света на карточках</small></span><select data-custom-finish><option value="soft">Мягкое стекло</option><option value="outline">Тонкий контур</option><option value="matte">Матовая поверхность</option></select></label>
           </section>
