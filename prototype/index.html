@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
   <script src="themes.js?v=3"></script>
-  <link rel="stylesheet" href="tempo-app.css?v=calendar-month-3" />
+  <link rel="stylesheet" href="tempo-app.css?v=today-balance-1" />
   <link rel="stylesheet" href="state-moods.css" />
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
   <link rel="stylesheet" href="themes.css?v=calendar-month-3" />
-  <link rel="stylesheet" href="wide-screen.css?v=calendar-month-2" />
+  <link rel="stylesheet" href="wide-screen.css?v=today-balance-1" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -93,21 +93,29 @@
       </div>
 
       <section class="day-status" aria-label="Состояние дня">
-        <div class="desktop-balance-wheel" aria-label="Ритм дня 68 из 100, устойчивый">
-          <svg viewBox="0 0 160 160" aria-hidden="true">
-            <circle class="balance-track" cx="80" cy="80" r="59" pathLength="100" />
-            <circle class="balance-segment balance-pink" cx="80" cy="80" r="59" pathLength="100" />
-            <circle class="balance-segment balance-orange" cx="80" cy="80" r="59" pathLength="100" />
-            <circle class="balance-segment balance-blue" cx="80" cy="80" r="59" pathLength="100" />
-            <circle class="balance-segment balance-green" cx="80" cy="80" r="59" pathLength="100" />
-            <circle class="balance-segment balance-purple" cx="80" cy="80" r="59" pathLength="100" />
-          </svg>
-          <strong>68</strong>
-        </div>
+        <div class="desktop-balance-overview">
+          <div class="desktop-balance-wheel" aria-label="Ритм дня 68 из 100, устойчивый">
+            <svg viewBox="0 0 160 160" aria-hidden="true">
+              <circle class="balance-track" cx="80" cy="80" r="59" pathLength="100" />
+              <circle class="balance-segment balance-pink" cx="80" cy="80" r="59" pathLength="100" />
+              <circle class="balance-segment balance-orange" cx="80" cy="80" r="59" pathLength="100" />
+              <circle class="balance-segment balance-blue" cx="80" cy="80" r="59" pathLength="100" />
+              <circle class="balance-segment balance-green" cx="80" cy="80" r="59" pathLength="100" />
+              <circle class="balance-segment balance-purple" cx="80" cy="80" r="59" pathLength="100" />
+            </svg>
+            <strong>68</strong>
+          </div>
 
-        <div class="desktop-rhythm-copy">
-          <span>Ритм дня</span>
-          <h2>Устойчивый</h2>
+          <div class="desktop-rhythm-copy">
+            <span>Ритм дня</span>
+            <h2>Устойчивый</h2>
+            <p>Энергии достаточно для сложной работы. После обеда лучше оставить задачи короче.</p>
+            <div class="desktop-rhythm-signals" aria-label="Показатели ритма">
+              <span><b>74</b><small>энергия</small></span>
+              <span><b>13:00</b><small>окно фокуса</small></span>
+              <span><b>50 мин</b><small>до паузы</small></span>
+            </div>
+          </div>
         </div>
 
         <div class="desktop-balance-metrics">
