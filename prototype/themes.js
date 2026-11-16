@@ -2,7 +2,7 @@
 (() => {
   const key = 'tempo-theme', scheduleKey = 'tempo-theme-schedule', customKey = 'tempo-custom-theme';
   const themes = { light: ['Светлая', '#d4d1d8'], dark: ['Тёмная', '#202321'], glass: ['Свой вариант', '#c9c5d7'] };
-  const customDefaults = { accent:'#6b5e78', task:'#ef7656', rest:'#8ba6df', practice:'#82aa72', opacity:64, blur:22, radius:28, finish:'soft', background:'assets/wallpapers/calm-dawn.png' };
+  const customDefaults = { accent:'#6b5e78', task:'#ef7656', rest:'#8ba6df', practice:'#82aa72', opacity:64, blur:55, radius:28, finish:'soft', background:'assets/wallpapers/calm-dawn.png' };
   const customPalette = ['#6b5e78','#ef7656','#8ba6df','#82aa72','#e2c95d','#b887a6','#65706a','#d39a72'];
   const normalize = value => Object.hasOwn(themes, value) ? value : 'light';
   const validTime = value => typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
@@ -16,7 +16,10 @@
       preferred = normalize(localStorage.getItem(key));
       const saved = JSON.parse(localStorage.getItem(scheduleKey) || 'null');
       const savedCustom = JSON.parse(localStorage.getItem(customKey) || 'null');
-      if (savedCustom && typeof savedCustom === 'object') custom = { ...customDefaults, ...savedCustom };
+      if (savedCustom && typeof savedCustom === 'object') {
+        custom = { ...customDefaults, ...savedCustom };
+        if (Number(custom.blur) <= 40) custom.blur = Math.round(Number(custom.blur) / 40 * 100);
+      }
       schedule = {
         enabled: saved?.enabled === true,
         start: validTime(saved?.start) ? saved.start : '20:00',
@@ -50,7 +53,8 @@
     root.style.setProperty('--custom-panel', `rgba(255,255,255,${(alpha * .46).toFixed(2)})`);
     root.style.setProperty('--custom-control', `rgba(255,255,255,${(alpha * .54).toFixed(2)})`);
     root.style.setProperty('--custom-raised', `rgba(255,255,255,${(alpha * .86).toFixed(2)})`);
-    root.style.setProperty('--custom-blur', `${Number(custom.blur)}px`);
+    const blurStrength = Math.round(Math.max(0,Math.min(100,Number(custom.blur))) * .32);
+    root.style.setProperty('--custom-blur', `${blurStrength}px`);
     root.style.setProperty('--custom-radius', `${Number(custom.radius)}px`);
     root.style.setProperty('--custom-background-image', custom.background ? `linear-gradient(rgba(35,29,39,.18),rgba(35,29,39,.18)),url("${custom.background}")` : 'none');
     root.dataset.customFinish = custom.finish;
@@ -102,7 +106,7 @@
       document.querySelectorAll('[data-custom-range]').forEach(input => {
         const name = input.dataset.customRange; input.value = custom[name];
         const output = document.querySelector(`[data-custom-output="${name}"]`);
-        if (output) output.textContent = custom[name] + (name === 'opacity' ? '%' : ' px');
+        if (output) output.textContent = custom[name] + '%';
       });
       const finish = document.querySelector('[data-custom-finish]'); if (finish) finish.value = custom.finish;
       const preview = document.querySelector('[data-custom-background-preview]');
