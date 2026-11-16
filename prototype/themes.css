@@ -263,11 +263,12 @@
 [data-theme="dark"] .balance-blue { stroke:#668eb8; }
 [data-theme="dark"] .balance-green { stroke:#7ba964; }
 [data-theme="dark"] .balance-purple { stroke:#8d70bb; }
-[data-theme="dark"] .desktop-balance-metrics article {
-  border:1px solid rgba(222,231,220,.075);
-  background:linear-gradient(145deg,rgba(58,65,59,.92),rgba(47,53,49,.92));
+[data-theme="dark"] .desktop-balance-metrics {
+  border-color:rgba(222,231,220,.075);
+  background:linear-gradient(145deg,rgba(58,65,59,.72),rgba(47,53,49,.72));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 13px 30px rgba(8,13,10,.09);
 }
+[data-theme="dark"] .desktop-balance-metrics article+article { border-left-color:rgba(222,231,220,.075); }
 [data-theme="dark"] .desktop-balance-metrics strong { color:#edf0e9; }
 [data-theme="dark"] .desktop-balance-metrics span { color:#aeb7ac; }
 [data-theme="dark"] .desktop-balance-metrics article:first-child i { background:#d98267; }
