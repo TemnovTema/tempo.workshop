@@ -1,6 +1,6 @@
 /* Large desktop layout: use the monitor without merely scaling the whole UI. */
 @media (min-width:1680px){
-  .app-header,.app-main{width:min(1460px,calc(100% - 96px))}
+  .app-header,.app-main{width:calc(100% - 64px);max-width:none}
   .app-header{margin-top:18px}.header-topline{grid-template-columns:260px minmax(0,1fr) 340px;min-height:80px}
   .header-logo img{width:124px;height:auto}.primary-nav{padding:5px;border-radius:16px}.nav-item{padding:12px 20px;font-size:13px}
   .header-actions{gap:10px}.header-icon-button,.header-profile,.profile-photo{width:48px;height:48px}.work-rest-switch{width:154px;height:46px}.work-rest-switch i{width:70px;height:38px}.work-rest-switch:not(.work) i{transform:translateX(72px)}
@@ -36,7 +36,7 @@
 }
 
 @media (min-width:2200px){
-  .app-header,.app-main{width:min(1460px,calc(100% - 128px))}
+  .app-header,.app-main{width:calc(100% - 64px);max-width:none}
   .calendar-shell{grid-template-columns:350px minmax(0,1fr)}
   .calendar-stage{padding:38px}
   .nav-item{font-size:16px}.calendar-project-row strong{font-size:15px}.practice-meta p,.recommendation-reason p,.state-reading p{font-size:16px}
