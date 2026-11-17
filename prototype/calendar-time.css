@@ -1,3 +1,17 @@
 .calendar-panel[data-calendar-panel="day"]{padding-top:0}.calendar-panel[data-calendar-panel="day"] .day-grid{position:relative;height:744px}.calendar-panel[data-calendar-panel="day"] .day-track{border-top:0}.now-line{display:none!important}.now-marker{position:absolute;z-index:7;left:-65px;top:var(--now-top);display:flex;align-items:center;justify-content:flex-end;width:65px;padding-right:10px;transform:translateY(-50%);pointer-events:none}.now-marker[hidden]{display:none}.now-marker time{padding:4px 6px;border-radius:7px;background:var(--coral-soft);color:#c9563d;font-size:9px;font-style:normal;font-variant-numeric:tabular-nums;box-shadow:0 0 0 3px var(--paper)}.now-marker i{position:absolute;right:-4px;width:8px;height:8px;border:2px solid var(--paper);border-radius:50%;background:var(--coral)}
 .now-marker.is-outside-range time{background:#e9e8e4;color:var(--muted)}.now-marker.is-outside-range i{background:#aaa}
 @media(max-width:760px){.calendar-panel[data-calendar-panel="day"] .day-grid{height:720px}}
+
+/* Общие задачи в представлениях календаря. */
+.week-day .w-event>span,.week-day .w-event>strong,.week-day .w-event>small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.week-day .w-event>small{font-size:10px;font-weight:400}
+.task-storage-status{padding:0 20px;color:var(--muted);font-size:12px}
+
+.task-completed{opacity:.55}.task-completed>strong{text-decoration:line-through}
+
+/* Строки итогов сохраняют колонку текста, даже когда перенос недоступен. */
+.review-list article > div { grid-column: 2; min-width: 0; }
+.review-list article > input[type="checkbox"] { grid-column: 1; accent-color: var(--coral); }
+.review-list article span { overflow-wrap: anywhere; }
+.tomorrow-preview > .secondary-action { margin-top: 12px; }
+.calendar-metrics-date { margin: 20px 0 6px; color: var(--muted); font-size: 11px; }

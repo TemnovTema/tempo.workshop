@@ -31,6 +31,7 @@ function finishWebAuth() {
 }
 
 function openView(name) {
+  if (name === 'checkin') resetCheckin();
   viewButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === name));
   viewPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.viewPanel === name));
   const viewNames = { today: 'Сегодня', calendar: 'Календарь', practices: 'Практики', checkin: 'Состояние', profile: 'Профиль', conflict: 'Изменение плана', review: 'Итог дня', onboarding: 'Настройка', 'focus-result': 'Результат фокуса' };
@@ -53,11 +54,6 @@ document.querySelectorAll('[data-web-rhythm]').forEach((button) => button.addEve
 }));
 document.querySelectorAll('[data-web-source]').forEach((button) => button.addEventListener('click', () => { const selected = button.classList.toggle('selected'); button.setAttribute('aria-pressed', String(selected)); }));
 document.querySelectorAll('[data-web-auth-finish]').forEach((button) => button.addEventListener('click', finishWebAuth));
-
-const initialHash = location.hash.slice(1);
-const initialView = initialHash === 'tasks' || initialHash === 'projects' ? 'calendar' : initialHash;
-if (initialHash === 'signup' || !initialHash) openWebAuth({ syncHash: initialHash !== 'signup' });
-else if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
 
 document.querySelectorAll('[data-header-panel]').forEach((button) => button.addEventListener('click', () => {
   const target = button.dataset.headerPanel;
@@ -596,9 +592,14 @@ document.querySelector('[data-project-add-link]')?.addEventListener('click', () 
   link.focus();
   if (!link.value) link.placeholder = 'Вставьте первую рабочую ссылку';
 });
-calendarProjectForm?.addEventListener('submit', () => {
+calendarProjectForm?.querySelectorAll('[value="cancel"]').forEach(button => {
+  button.type = 'button';
+  button.addEventListener('click', () => calendarProjectDialog.close());
+});
+calendarProjectForm?.addEventListener('submit', (event) => {
+  if (event.submitter?.value === 'cancel') return;
   const name = document.getElementById('calendarProjectName').value.trim();
-  if (!name) return;
+  if (!name) { event.preventDefault(); document.getElementById('calendarProjectName').focus(); return; }
   if (activeProjectKey) {
     calendarProjectData[activeProjectKey].name = name;
     calendarProjectData[activeProjectKey].description = document.getElementById('calendarProjectDescription').value;
@@ -657,10 +658,11 @@ document.querySelectorAll('.pomodoro-task').forEach((task) => {
   });
 });
 
-document.getElementById('taskDetailStart')?.addEventListener('click', () => {
+document.getElementById('taskDetailStart')?.addEventListener('click', (event) => {
+  event.stopPropagation();
   if (!activeCalendarTask) return;
   const totalMinutes = Number(activeCalendarTask.dataset.focusMinutes || 50);
-  startFocusPlan(activeCalendarTask.dataset.pomodoroTaskName, totalMinutes);
+  startFocusPlan(activeCalendarTask.dataset.pomodoroTaskName, totalMinutes, activeCalendarTask.dataset.taskId);
   taskDetailDialog.close();
 });
 
@@ -866,7 +868,7 @@ function renderMood(value) {
   renderMood.timeout = window.setTimeout(() => moodStage.classList.remove('is-changing'), 180);
 }
 
-energyRange?.addEventListener('input', () => {
+function renderEnergyInput() {
   const value = Number(energyRange.value);
   energyOutput.value = value;
   energyOutput.textContent = value;
@@ -876,9 +878,8 @@ energyRange?.addEventListener('input', () => {
       ? 'Устойчивая энергия: можно работать, если сохранять паузы.'
       : 'Энергии много: можно выбрать сложную задачу, не уплотняя весь день.';
   renderMood(value);
-});
-
-renderMood(Number(energyRange?.value || 68));
+}
+energyRange?.addEventListener('input', renderEnergyInput);
 
 let stateStep = 1;
 const stateSteps = document.querySelectorAll('.state-step');
@@ -894,17 +895,92 @@ function renderStateStep() {
   document.querySelector('.step-progress').setAttribute('aria-label', `Шаг ${stateStep} из 3`);
 }
 
+const checkinKey = 'tempo-checkin-v1';
+let savedCheckin = null;
+function checkinDay() {
+  const { year, month, day } = getMoscowParts();
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+function loadCheckin() {
+  try { return TempoCheckin.validate(JSON.parse(localStorage.getItem(checkinKey)), checkinDay()); }
+  catch { return null; }
+}
+function resetCheckin() {
+  savedCheckin = savedCheckin?.day === checkinDay() ? savedCheckin : loadCheckin();
+  stateStep = 1;
+  document.querySelector('.checkin-layout').style.removeProperty('display');
+  const success = document.querySelector('.checkin-success');
+  success.classList.remove('open');
+  success.setAttribute('aria-hidden', 'true');
+  energyRange.value = savedCheckin?.energy ?? 68;
+  document.querySelectorAll('[name="attention"]').forEach(input => {
+    input.checked = input.value === (savedCheckin?.attention || 'switching');
+  });
+  document.querySelectorAll('[name="factor"]').forEach(input => {
+    input.checked = (savedCheckin?.factors || []).includes(input.value);
+  });
+  renderEnergyInput();
+  renderStateStep();
+}
+function applyCheckin(record) {
+  const advice = TempoCheckin.advice(record);
+  const wheel = document.querySelector('.desktop-balance-wheel');
+  wheel.querySelector('strong').textContent = record.energy;
+  wheel.setAttribute('aria-label', `Энергия ${record.energy} из 100`);
+  wheel.querySelectorAll('.balance-segment').forEach(segment => {
+    const length = record.energy * 0.84 / 5;
+    segment.style.strokeDasharray = `${length} ${100 - length}`;
+    segment.style.opacity = record.energy === 0 ? '0' : '1';
+  });
+  const copy = document.querySelector('.desktop-rhythm-copy');
+  copy.querySelector('span').textContent = 'Энергия по вашей отметке';
+  copy.querySelector('h2').textContent = advice.title;
+  copy.querySelector('p').textContent = advice.copy;
+  document.querySelector('.recommendation-reason p').textContent = advice.next;
+}
+// «Не знаю» исключает конкретные факторы, а конкретный выбор снимает «Не знаю».
+document.querySelectorAll('[name="factor"]').forEach(input => input.addEventListener('change', () => {
+  if (!input.checked) return;
+  document.querySelectorAll('[name="factor"]').forEach(other => {
+    if (other !== input && (input.value === 'unknown' || other.value === 'unknown')) other.checked = false;
+  });
+}));
 stateBack?.addEventListener('click', () => { if (stateStep > 1) { stateStep -= 1; renderStateStep(); } });
 stateNext?.addEventListener('click', () => {
   if (stateStep < 3) { stateStep += 1; renderStateStep(); return; }
+  savedCheckin = {
+    day: checkinDay(), energy: Number(energyRange.value),
+    attention: document.querySelector('[name="attention"]:checked').value,
+    factors: [...document.querySelectorAll('[name="factor"]:checked')].map(input => input.value)
+  };
+  let persisted = true;
+  try { localStorage.setItem(checkinKey, JSON.stringify(savedCheckin)); }
+  catch { persisted = false; }
+  applyCheckin(savedCheckin);
+  const attention = { scattered: 'рассеянное', switching: 'переключается', steady: 'устойчивое' };
+  const factors = { sleep: 'сон', meetings: 'встречи', food: 'голод', noise: 'шум', mood: 'настроение', unknown: 'пока неясно' };
+  const summary = `Энергия — ${savedCheckin.energy} из 100. Внимание — ${attention[savedCheckin.attention]}.`;
+  document.querySelector('[data-checkin-summary]').textContent = summary + (savedCheckin.factors.length ? ` Влияет: ${savedCheckin.factors.map(key => factors[key]).join(', ')}.` : ' Факторы не указаны.');
+  document.querySelector('[data-checkin-result]').textContent = 'Рекомендация на главной обновлена. Задачи и время в календаре сохранены.';
+  document.querySelector('[data-checkin-storage]').textContent = persisted ? 'Отметка сохранена в этом браузере на сегодня.' : 'Отметка доступна до закрытия страницы: браузер не разрешил сохранение.';
   document.querySelector('.checkin-layout').style.display = 'none';
   const success = document.querySelector('.checkin-success');
   success.classList.add('open');
   success.setAttribute('aria-hidden', 'false');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  success.querySelector('h2').focus({ preventScroll: true });
 });
+savedCheckin = loadCheckin();
+if (savedCheckin) applyCheckin(savedCheckin);
+renderEnergyInput();
 
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
   focusOverlay?.classList.remove('open');
   practicePlayer?.classList.remove('open');
 });
+
+const initialHash = location.hash.slice(1);
+const initialView = initialHash === 'tasks' || initialHash === 'projects' ? 'calendar' : initialHash;
+if (initialHash === 'signup' || !initialHash) openWebAuth({ syncHash: initialHash !== 'signup' });
+else if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
