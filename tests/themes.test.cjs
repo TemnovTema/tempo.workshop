@@ -13,9 +13,9 @@ function app(time, saved = {}, preferred = 'glass', blocked = false) {
   const fields = [nodes['[data-theme-start]'], nodes['[data-theme-end]']];
   const store = new Map([['tempo-theme', preferred], ['tempo-theme-schedule', JSON.stringify(saved)]]);
   const document = {
-    documentElement: { dataset: {} }, hidden: false,
+    documentElement: { dataset: {}, style: { setProperty() {} } }, hidden: false,
     querySelector: s => nodes[s] || null,
-    querySelectorAll: s => s.includes('tempo-theme') ? radios : fields,
+    querySelectorAll: s => s.includes('tempo-theme') ? radios : s === '[data-theme-hours] input' ? fields : [],
     addEventListener: (type, cb) => { events[type] = cb; }
   };
   vm.runInNewContext(source, {

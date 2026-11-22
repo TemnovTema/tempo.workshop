@@ -9,11 +9,13 @@
   const duration=n=>`${Math.floor(n/60)} ч ${n%60} мин`;
   function persist(){try{localStorage.setItem(key,JSON.stringify(saved));return true;}catch{message.textContent='Не удалось сохранить итог в браузере. Попробуйте ещё раз.';return false;}}
   function preview(){
-    proposal=TempoReviewState.plan(store.all(),[...selected],day,tomorrow);
+    let boundaries=[{start:'09:30',end:'18:30'},{start:'16:00',end:'20:00'},{start:'08:00',end:'21:00'}];
+    try{const saved=JSON.parse(localStorage.getItem('tempo-boundaries-v1'));if(Array.isArray(saved)&&saved.length===3&&saved.every(r=>r&&/^([01]\d|2[0-3]):[0-5]\d$/.test(r.start)&&/^([01]\d|2[0-3]):[0-5]\d$/.test(r.end)&&r.start<r.end))boundaries=saved;}catch{}
+    proposal=TempoReviewState.plan(store.all(),[...selected],day,tomorrow,boundaries);
     const total=store.forDate(tomorrow).filter(t=>!t.completed&&!t.readonly).reduce((s,t)=>s+t.minutes,0)+proposal.changes.reduce((s,t)=>s+t.minutes,0);
     panel.querySelector('.tomorrow-preview > strong').textContent=duration(total);
     panel.querySelector('.tomorrow-preview h3').textContent=`К переносу: ${proposal.changes.length}`;
-    panel.querySelectorAll('.tomorrow-preview > p')[1].textContent=proposal.blocked.length?`Нет свободного окна: ${proposal.blocked.join(', ')}. Снимите выбор или освободите время в календаре.`:'Время подбирается без пересечений в пределах 08:00–21:00, включая защищённые блоки.';
+    panel.querySelectorAll('.tomorrow-preview > p')[1].textContent=proposal.blocked.length?`Нет свободного окна: ${proposal.blocked.join(', ')}. Снимите выбор или освободите время в календаре.`:'Перенос учитывает часы роли и защищённые блоки в сетке 08:00–21:00. Рабочие проекты — работа, университет — учёба, здоровье и задачи без проекта — личное время.';
     save.disabled=proposal.blocked.length>0;
     rows.querySelectorAll('[data-transfer-time]').forEach(span=>{const task=proposal.changes.find(t=>t.id===span.dataset.transferTime);span.textContent=task?`Завтра · ${task.time} · ${task.minutes} мин`:'Оставить на сегодня';});
   }

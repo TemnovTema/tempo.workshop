@@ -30,3 +30,13 @@ test('batch transfer is atomic on storage failure and persists on success',()=>{
  fail=false;assert.equal(s.saveMany(changes),true);assert.equal(create(db,[]).forDate(tomorrow).length,2);
  assert.equal(plan(s.all(),['a','b'],today,tomorrow).changes.length,0);
 });
+test('transfer uses the appropriate role and never schedules outside its hours',()=>{
+ const hours=[{start:'11:00',end:'12:00'},{start:'17:00',end:'19:00'},{start:'08:00',end:'09:00'}];
+ const tasks=[task,{...task,id:'u',project:'university'},{...task,id:'p',project:'none'}];
+ assert.deepEqual(plan(tasks,['a','u','p'],today,tomorrow,hours).changes.map(t=>t.time),['11:00','17:00','08:00']);
+ assert.deepEqual(plan([{...task,minutes:90}],['a'],today,tomorrow,hours).blocked,['A']);
+});
+test('role boundaries outside calendar grid cannot leak outside supported times',()=>{
+ const hours=[{start:'06:00',end:'08:30'}];
+ assert.equal(plan([task],['a'],today,tomorrow,hours).changes.length,0);
+});

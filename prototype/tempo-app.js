@@ -154,13 +154,17 @@ function renderMonthGrid() {
   if (!grid) return;
   const detail = document.querySelector('[data-month-day-detail]');
   if (detail) detail.hidden = true;
-  const year = calendarDate.getFullYear();
-  const month = calendarDate.getMonth();
+  grid.replaceChildren();
+  for(let monthOffset=0;monthOffset<12;monthOffset++){
+  const period=new Date(calendarDate.getFullYear(),calendarDate.getMonth()+monthOffset,1);
+  const year = period.getFullYear();
+  const month = period.getMonth();
+  const heading=document.createElement('h3');heading.className='month-period-heading';heading.textContent=`${monthNamesTitle[month]} ${year}`;grid.append(heading);
+
   const first = new Date(year, month, 1);
   const start = new Date(year, month, 1 - ((first.getDay() + 6) % 7));
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const totalCells = Math.ceil((((first.getDay() + 6) % 7) + daysInMonth) / 7) * 7;
-  grid.innerHTML = '';
   for (let index = 0; index < totalCells; index += 1) {
     const date = new Date(start);
     date.setDate(start.getDate() + index);
@@ -195,7 +199,8 @@ function renderMonthGrid() {
     });
     grid.append(cell);
   }
-  grid.setAttribute('aria-label', `${monthNamesTitle[month]} ${year}`);
+  }
+  grid.setAttribute('aria-label', 'Календарь на 12 месяцев');
 }
 
 function renderCalendarPeriod() {
@@ -467,7 +472,7 @@ function renderProjectPeek(projectKey) {
   if (!data) return;
   activeProjectKey = projectKey;
   peek.querySelector('[data-project-peek-name]').textContent = data.name;
-  peek.querySelector('[data-project-peek-deadline]').textContent = `до ${data.deadline}`;
+  peek.querySelector('[data-project-peek-deadline]').textContent = data.deadline === 'без срока' ? 'Без срока' : `до ${data.deadline}`;
   peek.querySelector('[data-project-peek-progress]').style.width = `${data.progress}%`;
   peek.querySelector('[data-project-peek-percent]').textContent = `${data.progress}%`;
   peek.querySelector('[data-project-peek-team]').innerHTML = data.moods.map(([name, mood, label]) => projectMoodMarkup(name, mood, label)).join('');
@@ -762,6 +767,7 @@ let breathTimer;
 let practiceSeconds = 240;
 let reflectionIndex = 0;
 let activePrompts = [];
+let lastMeditation = null;
 
 function stopPracticeTimers() {
   window.clearInterval(practiceTimer);
@@ -772,23 +778,35 @@ function formatPracticeTime(seconds) {
   return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 }
 
+function finishMeditation() {
+  stopPracticeTimers();
+  meditationPlayer.classList.add('paused');
+  meditationPlayer.querySelector('strong').textContent = 'Готово';
+  meditationPlayer.querySelector('.breath-cue').textContent = 'Практика завершена. Можно вернуться к дню или повторить её.';
+  document.querySelector('.player-pause').hidden = true;
+  document.querySelector('.practice-complete-actions').hidden = false;
+}
 function startMeditation(name, breathing = false) {
+  stopPracticeTimers();
+  lastMeditation = {name, breathing};
+  document.querySelector('.player-pause').hidden = false;
+  document.querySelector('.practice-complete-actions').hidden = true;
   reflectionPlayer.hidden = true;
   reflectionPlayer.setAttribute('aria-hidden', 'true');
   meditationPlayer.hidden = false;
   meditationPlayer.querySelector('h2').textContent = name;
   meditationPlayer.classList.toggle('is-breathing', breathing);
   meditationPlayer.classList.remove('paused');
-  practiceSeconds = name === 'Сканирование тела' ? 420 : name === 'Дыхание 4 × 6' ? 240 : 180;
+  practiceSeconds = ({'Собрать внимание':480,'Разбудить тело':360,'Снизить шум':180,'Оставить день позади':600,'Разложить сложное':720,'Выйти на свет':900,'Сканирование тела':420,'Дыхание 4 × 6':240})[name] || 180;
   meditationPlayer.querySelector('strong').textContent = formatPracticeTime(practiceSeconds);
-  meditationPlayer.querySelector('.breath-cue').textContent = breathing ? 'Медленный вдох' : 'Оставайтесь с ощущением';
+  meditationPlayer.querySelector('.breath-cue').textContent = breathing ? 'Медленный вдох' : ({'Собрать внимание':'Выберите одну точку. Если отвлеклись, спокойно верните внимание.','Разбудить тело':'Мягко потянитесь и смените положение. Двигайтесь в комфортном темпе.','Снизить шум':'Побудьте в тишине. Замечайте звуки вокруг, не пытаясь их изменить.','Оставить день позади':'Отметьте, что сегодня сделано. Позвольте оставшимся задачам подождать.','Разложить сложное':'Выберите одну задачу и запишите самый маленький следующий шаг.','Выйти на свет':'Если удобно, выйдите на короткую прогулку. Замечайте свет и свой темп.','Сканирование тела':'Медленно переводите внимание от лица к стопам, ничего не исправляя.'})[name] || 'Оставайтесь с ощущением';
   document.querySelector('.player-pause').textContent = 'Пауза';
   let cycleSeconds = 0;
   practiceTimer = window.setInterval(() => {
     if (meditationPlayer.classList.contains('paused')) return;
     practiceSeconds = Math.max(0, practiceSeconds - 1);
     meditationPlayer.querySelector('strong').textContent = formatPracticeTime(practiceSeconds);
-    if (!practiceSeconds) stopPracticeTimers();
+    if (!practiceSeconds) finishMeditation();
   }, 1000);
   if (breathing) breathTimer = window.setInterval(() => {
     if (meditationPlayer.classList.contains('paused')) return;
@@ -823,11 +841,14 @@ document.querySelectorAll('[data-practice-start]').forEach((button) => button.ad
   if (button.dataset.practiceType === 'reflection') startReflection(button.dataset.practiceStart);
   else startMeditation(button.dataset.practiceStart, button.dataset.practiceType === 'breathing');
 }));
-document.querySelector('.player-close')?.addEventListener('click', () => {
+function closePractice() {
   stopPracticeTimers();
   practicePlayer.classList.remove('open');
   practicePlayer.setAttribute('aria-hidden', 'true');
-});
+}
+document.querySelector('.player-close')?.addEventListener('click', closePractice);
+document.querySelector('[data-practice-done]')?.addEventListener('click', closePractice);
+document.querySelector('[data-practice-repeat]')?.addEventListener('click', () => { if (lastMeditation) startMeditation(lastMeditation.name, lastMeditation.breathing); });
 document.querySelector('.player-pause')?.addEventListener('click', (event) => {
   meditationPlayer.classList.toggle('paused');
   event.currentTarget.textContent = event.currentTarget.textContent === 'Пауза' ? 'Продолжить' : 'Пауза';
@@ -923,15 +944,12 @@ function resetCheckin() {
   renderStateStep();
 }
 function applyCheckin(record) {
+  document.querySelector('.empty-checkin-action').hidden=true;
   const advice = TempoCheckin.advice(record);
   const wheel = document.querySelector('.desktop-balance-wheel');
   wheel.querySelector('strong').textContent = record.energy;
   wheel.setAttribute('aria-label', `Энергия ${record.energy} из 100`);
-  wheel.querySelectorAll('.balance-segment').forEach(segment => {
-    const length = record.energy * 0.84 / 5;
-    segment.style.strokeDasharray = `${length} ${100 - length}`;
-    segment.style.opacity = record.energy === 0 ? '0' : '1';
-  });
+  TempoBalanceRing.render(wheel, record.energy);
   const copy = document.querySelector('.desktop-rhythm-copy');
   copy.querySelector('span').textContent = 'Энергия по вашей отметке';
   copy.querySelector('h2').textContent = advice.title;
@@ -977,7 +995,7 @@ renderEnergyInput();
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
   focusOverlay?.classList.remove('open');
-  practicePlayer?.classList.remove('open');
+  closePractice();
 });
 
 const initialHash = location.hash.slice(1);

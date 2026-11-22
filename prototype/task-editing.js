@@ -34,6 +34,8 @@
   let storage;
   try { storage = localStorage; } catch { storage = {getItem(){throw Error();},setItem(){throw Error();}}; }
   const store = TempoTaskStore.create(storage, seed);
+  window.detachProjectTasks = id => store.saveMany(store.all().filter(t=>t.project===id).map(t=>({...t,project:'none',deletedProject:id})));
+  window.restoreProjectTasks = id => store.saveMany(store.all().filter(t=>t.deletedProject===id&&t.project==='none').map(t=>({...t,project:id,deletedProject:undefined})));
   let refreshProjects = () => {};
   let refreshToday = () => {};
   let createProjectContext = null;
@@ -48,6 +50,10 @@
   function makeTask(task, kind) {
     const node = document.createElement(kind === 'month' ? 'button' : 'article');
     node.className = kind === 'day' ? 'calendar-event event-project pomodoro-task' : kind === 'week' ? 'w-event blue pomodoro-task' : 'month-task month-task-blue';
+    const color = calendarProjectData[task.project]?.color || ({team:'blue',none:'neutral'})[task.project] || 'neutral';
+    const palette = {coral:'var(--coral-soft)',blue:'var(--blue)',green:'var(--green)',lilac:'var(--lilac)',neutral:'var(--theme-control, #e9e8e2)'};
+    node.style.background = palette[color] || palette.neutral;
+    node.dataset.projectColor = color;
     if (kind === 'month') node.type='button';
     node.tabIndex=0; node.setAttribute('role','button');
     Object.assign(node.dataset, { taskId:task.id, pomodoroTaskName:task.name, taskDate:task.date, taskTime:task.time, focusMinutes:String(task.minutes), calendarProject:task.project, notes:task.notes });
@@ -90,7 +96,7 @@
     caption.textContent=`За ${calendarDate.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}`;
     const count=document.querySelector('[data-calendar-project-filter="all"]');
     const badge=count.querySelector('small');
-    if(badge) badge.textContent=store.all().length;
+    if(badge){ const start=getWeekStart(calendarDate), end=new Date(start);end.setDate(end.getDate()+7);badge.textContent=store.all().filter(t=>t.date>=dayKey(start)&&t.date<dayKey(end)).length;count.title='Задачи выбранной недели'; }
     status.textContent=store.error() || 'Задачи сохранены в этом браузере.';
     refreshProjects();
     refreshToday();
@@ -111,7 +117,7 @@
   document.querySelectorAll('[data-new-task]').forEach(button => button.addEventListener('click', () => {
     createProjectContext = button.closest('[data-project-inline-view], [data-project-task-board]') ? activeProjectKey : null;
     createForm.reset();
-    if(createProjectContext) createForm.querySelectorAll('select')[1].value=({tempo:'Tempo Remake',university:'Курсовая работа',personal:'Здоровье'})[createProjectContext];
+    if(createProjectContext) createForm.querySelectorAll('select')[1].value=createProjectContext;
     title.required = true; date.required = true; start.required = true;
     date.value = dayKey(calendarDate);
     createForm.querySelector('[data-task-error]')?.remove();
@@ -123,8 +129,8 @@
     editDate.value=task.dataset.taskDate || dayKey(calendarDate);
     detailForm.querySelector('[data-task-error]')?.remove();
     selectLength(Number(task.dataset.focusMinutes || 50));
-    const label=({tempo:'Tempo Remake',university:'Курсовая работа',personal:'Здоровье',team:'Команда',none:'Без проекта'})[task.dataset.calendarProject];
-    document.getElementById('taskDetailProjectSelect').value=label;
+    const label=calendarProjectData[task.dataset.calendarProject]?.name||({team:'Команда',none:'Без проекта'})[task.dataset.calendarProject];
+    document.getElementById('taskDetailProjectSelect').value=task.dataset.calendarProject;
     document.getElementById('taskDetailProject').textContent=label;
     const record=store.all().find(t=>t.id===task.dataset.taskId);
     document.querySelector('.task-detail-status').textContent=record?.completed ? 'Завершено' : 'Запланировано';
@@ -156,7 +162,7 @@
     const project = createForm.querySelectorAll('select')[1].value;
     const record={id:crypto.randomUUID(),name:title.value.trim(),date:date.value,time:start.value,minutes:n,
       notes:createForm.querySelector('textarea').value,
-      project:({'Tempo Remake':'tempo','Курсовая работа':'university','Здоровье':'personal'})[project] || 'none'};
+      project:project || 'none'};
     if (!store.save(record)) { report(createForm); return; }
     calendarDate = new Date(`${date.value}T12:00:00`);
     filterCalendarByProject('all');
@@ -173,7 +179,7 @@
     if (!activeCalendarTask || !validWindow(startEdit, startEdit.value, n)) return;
     const previous=store.all().find(t=>t.id===activeCalendarTask.dataset.taskId);
     if(!previous || !detailForm.reportValidity()) return;
-    const project=({'Tempo Remake':'tempo','Курсовая работа':'university','Здоровье':'personal','Команда':'team'})[document.getElementById('taskDetailProjectSelect').value] || 'none';
+    const project=document.getElementById('taskDetailProjectSelect').value || 'none';
     if(!store.save({...previous,date:editDate.value,time:startEdit.value,minutes:n,notes:notes.value,project})) {report(detailForm);return;}
     calendarDate=new Date(`${editDate.value}T12:00:00`);
     taskDetailDialog.close(); renderCalendarPeriod();
@@ -193,6 +199,7 @@
   TempoTaskFocus({store,refresh:()=>renderCalendarPeriod(),report});
   refreshToday=TempoTaskToday({store,makeTask,dayKey});
   TempoTaskReview({store,dayKey,refresh:()=>renderCalendarPeriod(),report});
+  TempoTaskReschedule({store,dayKey,refresh:()=>renderCalendarPeriod()});
   renderCalendarPeriod();
   createForm.querySelector('.task-dialog-footer p').textContent = 'Задача сохраняется в этом браузере. Проверка пересечений и повторение появятся позже.';
   const repeat = createForm.querySelectorAll('select')[2]; repeat.disabled = true;

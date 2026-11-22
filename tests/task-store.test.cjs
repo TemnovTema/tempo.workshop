@@ -43,3 +43,20 @@ test('focus result persists independently of task notes and continuation keeps t
  assert.ok(s.save({...s.all()[0],completed:true,focusResults:[result,{...result,id:'session-2',outcome:'completed'}]}));
  assert.equal(create(db,[base]).all()[0].completed,true);
 });
+test('custom project identity survives save and reload',()=>{
+ const db=storage(),s=create(db,[base]);
+ assert.ok(s.save({...base,project:'project-a123-456b'}));
+ assert.equal(create(db,[]).forDate(base.date,'project-a123-456b').length,1);
+});
+test('detaching a deleted project preserves task content and focus history',()=>{
+ const db=storage(),s=create(db,[{...base,project:'project-a123',notes:'Keep',focusResults:[{id:'s',seconds:12}]}]);
+ assert.ok(s.saveMany(s.all().filter(t=>t.project==='project-a123').map(t=>({...t,project:'none'}))));
+ const task=create(db,[]).all()[0];assert.equal(task.project,'none');assert.equal(task.notes,'Keep');assert.equal(task.focusResults[0].seconds,12);assert.equal(task.date,base.date);
+});
+test('stale tab cannot overwrite tasks saved by another tab',()=>{
+ const db=storage(),first=create(db,[base]),second=create(db,[base]);
+ assert.ok(first.save({...base,notes:'newer'}));
+ assert.equal(second.save({...base,name:'stale edit'}),false);
+ assert.match(second.error(),/другой вкладке/);
+ assert.equal(create(db,[]).all()[0].notes,'newer');
+});

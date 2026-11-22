@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="buttons-v2.css" />
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
   <link rel="stylesheet" href="calendar-projects.css?v=4" />
-  <link rel="stylesheet" href="calendar-time.css?v=3" />
+  <link rel="stylesheet" href="calendar-time.css?v=10" />
   <link rel="stylesheet" href="calendar-project-hub.css?v=6" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
@@ -110,6 +110,7 @@
             <span>Ритм дня</span>
             <h2>Устойчивый</h2>
             <p>Энергии достаточно для сложной работы. После обеда лучше оставить задачи короче.</p>
+            <button class="primary-action empty-checkin-action" type="button" data-open-view="checkin" hidden>Оценить состояние</button>
           </div>
         </div>
 
@@ -401,7 +402,7 @@
         </div>
         <div class="practice-fit">
           <span>Почему сейчас</span>
-          <strong>Нагрузка снижалась<br />последние 23 минуты</strong>
+          <strong>Подсказка<br />выберите комфортный темп</strong>
           <div class="fit-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </section>
@@ -431,7 +432,7 @@
         </article>
         <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
           <div class="practice-visual wave-visual"><i></i><i></i><i></i></div>
-          <div class="practice-meta"><span>Спокойствие · 3 минуты</span><strong>Снизить шум</strong><p>Простая звуковая практика для перехода из перегруженного состояния.</p></div>
+          <div class="practice-meta"><span>Спокойствие · 3 минуты</span><strong>Снизить шум</strong><p>Несколько минут тишины и внимания к окружающим звукам.</p></div>
           <button type="button" data-practice-start="Снизить шум">Открыть</button>
         </article>
         <article class="practice-card practice-calm" data-practice-category="calm" tabindex="0">
@@ -623,6 +624,7 @@
       <span>Практика</span><h2>Дыхание 4 × 6</h2><strong>04:00</strong>
       <p class="breath-cue">Медленный вдох</p>
       <button class="player-pause" type="button">Пауза</button>
+      <div class="practice-complete-actions" hidden><button class="secondary-action" type="button" data-practice-repeat>Повторить</button><button class="primary-action" type="button" data-practice-done>К практикам</button></div>
     </div>
     <div class="reflection-player" aria-hidden="true">
       <header><span>Рефлексия</span><small><b id="reflectionStep">1</b> / <b id="reflectionTotal">4</b></small></header>
@@ -634,16 +636,28 @@
     </div>
   </div>
 
+  <script src="demo-data.js?v=2"></script>
+  <script src="demo-today.js?v=1"></script>
   <script src="checkin-state.js?v=2"></script>
-  <script src="tempo-app.js?v=project-cancel-1"></script>
-  <script src="task-store.js?v=2"></script>
+  <script src="balance-ring.js?v=1"></script>
+  <script src="tempo-app.js?v=calendar-year-1"></script>
+  <script src="task-store.js?v=4"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>
   <script src="task-today.js?v=3"></script>
   <script src="focus-state.js?v=1"></script>
   <script src="task-focus.js?v=4"></script>
-  <script src="review-state.js?v=1"></script>
-  <script src="task-review.js?v=2"></script>
-  <script src="task-editing.js?v=7"></script>
+  <script src="review-state.js?v=2"></script>
+  <script src="task-review.js?v=3"></script>
+  <script src="task-reschedule.js?v=1"></script>
+  <script src="task-editing.js?v=13"></script>
+  <script src="project-settings.js?v=5"></script>
+  <script src="reflection-state.js?v=1"></script>
+  <script src="reflection-flow.js?v=3"></script>
+  <script src="work-boundaries.js?v=3"></script>
+  <script src="local-settings.js?v=2"></script>
+  <script src="local-onboarding.js?v=2"></script>
+  <script src="demo-cleanup.js?v=5"></script>
+  <script src="session-notice.js?v=1"></script>
 </body>
 </html>

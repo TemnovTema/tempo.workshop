@@ -1,13 +1,17 @@
 (function(root){
  const minute=t=>Number(t.slice(0,2))*60+Number(t.slice(3));
  const clock=n=>`${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`;
- function plan(tasks,ids,day,tomorrow){
+ function plan(tasks,ids,day,tomorrow,boundaries){
    const occupied=tasks.filter(t=>t.date===tomorrow&&!t.completed).map(t=>[minute(t.time),minute(t.time)+t.minutes]);
    const changes=[],blocked=[];
    for(const task of tasks.filter(t=>ids.includes(t.id)&&t.date===day&&!t.completed&&!t.readonly).sort((a,b)=>a.time.localeCompare(b.time))){
+     const role=task.project==='university'?1:['personal','none'].includes(task.project)?2:0;
+     const boundary=boundaries?.[role];
+     const start=boundary?Math.max(480,minute(boundary.start)):480;
+     const end=boundary?Math.min(1260,minute(boundary.end)):1260;
      const preferred=minute(task.time);
-     const slots=[preferred,...Array.from({length:781},(_,i)=>480+i)].filter((n,i,a)=>a.indexOf(n)===i);
-     const from=slots.find(n=>n+task.minutes<=1260&&occupied.every(([a,b])=>n+task.minutes<=a||n>=b));
+     const slots=[preferred,...Array.from({length:Math.max(0,end-start+1)},(_,i)=>start+i)].filter((n,i,a)=>a.indexOf(n)===i);
+     const from=slots.find(n=>n>=start&&n+task.minutes<=end&&occupied.every(([a,b])=>n+task.minutes<=a||n>=b));
      if(from===undefined){blocked.push(task.name);continue;}
      occupied.push([from,from+task.minutes]);changes.push({...task,date:tomorrow,time:clock(from),movedFrom:day});
    }
