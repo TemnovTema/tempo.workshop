@@ -1,0 +1,19 @@
+(function(){
+ const F=TempoMobileFlow,initial=F.day(),banner=document.createElement('section');banner.className='profile-rule-card';banner.hidden=true;const text=document.createElement('p');banner.append(text,F.button('Обновить',()=>location.reload()));document.querySelector('.ios-statusbar').after(banner);
+ function notice(message){text.textContent=message;banner.hidden=false;}
+ window.addEventListener('storage',e=>{if(e.key===null||e.key?.startsWith('tempo-'))notice('Данные изменились в другой вкладке. Сохранение задач защищено от перезаписи. Обновите страницу для продолжения.');});
+ setInterval(()=>{if(F.day()!==initial)notice('Начался новый день. Обновите страницу, чтобы открыть сегодняшние задачи.');},30000);
+ if(TempoMobileTasks.store.error())notice(TempoMobileTasks.store.error());
+ document.querySelector('.calendar-top-card .section-head p').textContent=new Date(initial+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+ // Match the timeline labels to the shared 08–21 task window.
+ calendarDay.querySelectorAll(':scope>time').forEach(n=>n.remove());calendarDay.style.height='1608px';calendarDay.style.backgroundSize='auto';calendarDay.style.backgroundImage='repeating-linear-gradient(to bottom,transparent 0,transparent 119px,var(--line) 120px)';
+ calendarDay.style.backgroundPosition='0 24px';
+ for(let h=8;h<=20;h+=2){const t=document.createElement('time');t.textContent=String(h).padStart(2,'0')+':00';t.style.top=(24+(h-8)*120)+'px';calendarDay.append(t);}
+ function now(){const date=new Date(),parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit',hour12:false}).format(date),[h,m]=parts.split(':').map(Number),minute=h*60+m;const visible=TempoMobileTasks.date()===F.day()&&minute>=480&&minute<1260;for(const n of calendarDay.querySelectorAll('.now-label,.now-mark')){n.hidden=!visible;n.style.top=(24+(minute-480)*2)+'px';if(n.classList.contains('now-label'))n.textContent=parts;}}
+ const render=renderCalendar;renderCalendar=function(view){render(view);now();};now();setInterval(now,60000);
+ const demo=new URLSearchParams(location.search).get('demo')==='1';document.querySelector('[data-profile-panel="health"] header p').textContent=demo?'Демонстрационные показатели. Устройства не подключены.':'Устройства не подключены. Здесь появятся данные после подключения источника.';
+ if(!demo)document.querySelectorAll('.health-numbers strong').forEach(n=>n.textContent='—');document.querySelectorAll('.health-numbers small').forEach(n=>n.textContent=demo?'Демонстрационные данные':'Нет подключённого источника');
+ // Statistics represent saved check-ins, not a decorative seven-day series.
+ const stats=document.getElementById('stateStatsSheet');function chart(){const raw=F.read('tempo-checkin-v1',null),history=F.read('tempo-mobile-checkin-history-v1',[]);let records=Array.isArray(history)?history:[];if(raw&&TempoCheckin.validate(raw,initial))records=[...records.filter(r=>r.day!==raw.day),raw];records=records.filter(r=>TempoCheckin.validate(r,r.day)).sort((a,b)=>a.day.localeCompare(b.day)).slice(-7);const chart=stats.querySelector('.state-mini-chart');chart.replaceChildren();for(const r of records){const bar=document.createElement('i');bar.style.setProperty('--v',r.energy+'%');bar.title=r.day+': '+r.energy;chart.append(bar);}stats.querySelector('small').textContent='Сохранённые отметки';const values=stats.querySelectorAll('.stats-summary b');values[0].textContent=records.find(r=>r.day===initial)?.energy??'—';values[1].textContent=records.length>1?String(records.at(-1).energy-records[0].energy):'—';values[2].textContent=records.length?Math.round(records.reduce((s,r)=>s+r.energy,0)/records.length):'—';stats.querySelectorAll('.stats-summary small')[1].textContent='изменение';}
+ document.querySelector('[data-open-sheet="stateStatsSheet"]').addEventListener('click',chart);chart();
+})();

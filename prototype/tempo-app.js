@@ -757,11 +757,7 @@ document.querySelectorAll('[data-practice-filter]').forEach((button) => {
 const practicePlayer = document.querySelector('.practice-player');
 const meditationPlayer = practicePlayer?.querySelector('.player-meditation');
 const reflectionPlayer = practicePlayer?.querySelector('.reflection-player');
-const reflectionPrompts = {
-  'Что со мной сейчас': ['Что вы замечаете в теле прямо сейчас?', 'Какая эмоция занимает больше всего места?', 'Чего вам сейчас не хватает?', 'Какой небольшой следующий шаг поддержит вас?'],
-  'Распутать мысль': ['Какая мысль возвращается снова и снова?', 'Что здесь является фактом, а что вашей интерпретацией?', 'На какую часть ситуации вы можете повлиять?', 'Что можно отпустить хотя бы до завтра?'],
-  'Три хороших момента': ['Что сегодня прошло хорошо, даже если это мелочь?', 'Как вы чувствовали себя в этот момент?', 'Благодаря чему это событие стало возможным?', 'Какие ещё два хороших момента вы хотите сохранить?']
-};
+const reflectionPrompts = window.TempoReflectionPrompts;
 let practiceTimer;
 let breathTimer;
 let practiceSeconds = 240;

@@ -11,7 +11,7 @@ let sheetTrigger = null;
 
 function updateStatusTime() {
   const now = new Date();
-  document.getElementById('statusTime').textContent = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+  document.getElementById('statusTime').textContent = now.toLocaleTimeString('ru-RU',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit'});
 }
 updateStatusTime();
 window.setInterval(updateStatusTime, 30000);
@@ -72,6 +72,7 @@ function openSheet(sheet, trigger = document.activeElement) {
   activeSheet = sheet;
   sheetTrigger = trigger instanceof HTMLElement ? trigger : null;
   backdrop.hidden = false;
+  backdrop.style.pointerEvents = '';
   app.classList.add('sheet-open');
   document.body.classList.toggle('profile-mode', sheet.id === 'profileSheet');
   requestAnimationFrame(() => setSheetState(sheet, true));
@@ -84,6 +85,7 @@ function closeSheets({ immediate = false, restoreFocus = true } = {}) {
   document.body.classList.remove('profile-mode');
   sheets.forEach((sheet) => setSheetState(sheet, false));
   activeSheet = null;
+  backdrop.style.pointerEvents = 'none';
   app.classList.remove('sheet-open');
   const finishClose = () => {
     backdrop.hidden = true;
@@ -321,7 +323,7 @@ document.querySelectorAll('[data-start-task]').forEach((button) => button.addEve
 editorStartButton.addEventListener('click', () => startTask(50, sheetTaskTitle.textContent.trim() || 'Текущая задача'));
 document.addEventListener('click', (event) => {
   const card = event.target.closest('[data-open-task]');
-  if (!card || card.dataset.openTask !== activeTaskTitle || !dynamicIsland.classList.contains('live')) return;
+  if (!card || (card.dataset.taskId ? card.dataset.taskId !== dynamicIsland.dataset.taskId : card.dataset.openTask !== activeTaskTitle) || !dynamicIsland.classList.contains('live')) return;
   event.preventDefault();
   event.stopImmediatePropagation();
   dynamicIsland.classList.add('expanded');
