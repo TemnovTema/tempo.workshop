@@ -680,9 +680,23 @@ document.querySelectorAll('[data-profile-action]').forEach((button) => button.ad
 
 const authFlow = document.getElementById('authFlow');
 const authSteps = [...document.querySelectorAll('[data-auth-step]')];
-const emailForm = document.querySelector('[data-auth-email-form]');
+const entryForm = document.querySelector('[data-entry-form]');
+
+const progressRing = authFlow.querySelector('.intro-progress');
+progressRing.setAttribute('aria-valuemax', authSteps.length);
 
 function showAuthStep(step) {
+  const page = authSteps.find(item => item.dataset.authStep === String(step));
+  if (!page) return;
+  page.querySelector('.auth-step-head, .entry-sheet').append(progressRing);
+  const arc = progressRing.querySelector('.intro-progress-value');
+  const previous = arc.style.strokeDashoffset;
+  const offset = 100 * (1 - Number(step) / authSteps.length);
+  arc.style.strokeDashoffset = offset;
+  progressRing.setAttribute('aria-valuenow', step);
+  if (previous && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    arc.animate([{strokeDashoffset: previous}, {strokeDashoffset: String(offset)}], {duration: 280, easing: 'ease-out'});
+  }
   authSteps.forEach((item) => {
     const active = Number(item.dataset.authStep) === Number(step);
     item.hidden = !active;
@@ -694,6 +708,7 @@ function showAuthStep(step) {
 function openAuth({ syncHash = true } = {}) {
   closeSheets({ immediate: true, restoreFocus: false });
   document.body.classList.add('auth-mode');
+  entryForm.reset();
   authFlow.hidden = false;
   authFlow.setAttribute('aria-hidden', 'false');
   showAuthStep(1);
@@ -709,15 +724,19 @@ function finishAuth() {
 }
 
 document.querySelectorAll('[data-open-auth]').forEach((button) => button.addEventListener('click', () => openAuth()));
-document.querySelectorAll('[data-auth-method]').forEach((button) => button.addEventListener('click', () => {
-  if (button.dataset.authMethod === 'email') {
-    emailForm.hidden = false;
-    emailForm.querySelector('input')?.focus();
-    return;
-  }
-  showAuthStep(2);
-}));
-emailForm?.addEventListener('submit', (event) => {
+document.querySelector('.entry-close').addEventListener('click', finishAuth);
+document.querySelectorAll('[data-demo-provider]').forEach(button => {
+  button.addEventListener('click', () => {
+    showAuthStep(2);
+  });
+});
+const contactPreview = entryForm.querySelector('input');
+function fillContactPreview() {
+  contactPreview.value = 'demp@tempo.ru';
+}
+contactPreview.addEventListener('click', fillContactPreview);
+contactPreview.addEventListener('focus', fillContactPreview);
+entryForm.addEventListener('submit', (event) => {
   event.preventDefault();
   showAuthStep(2);
 });

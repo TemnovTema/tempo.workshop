@@ -1,15 +1,72 @@
 (function(){
  const F=TempoMobileFlow,panel=F.sheet('settingsEditorSheet','Настройки');
- const nameInput=emailForm.querySelector('input');nameInput.type='text';nameInput.inputMode='text';nameInput.autocomplete='given-name';nameInput.placeholder='Ваше имя';nameInput.maxLength=80;nameInput.closest('label').firstChild.textContent='Имя';emailForm.querySelector('button').firstChild.textContent='Продолжить ';
- document.querySelector('[data-auth-method="email"] strong').textContent='Начать локально';document.querySelector('[data-auth-method="email"] small').textContent='имя и настройки на этом устройстве';document.querySelector('.auth-legal').textContent='Аккаунт не создаётся. Данные сохраняются в этом браузере.';
- document.querySelectorAll('[data-auth-method]:not([data-auth-method="email"]),[data-auth-source]').forEach(b=>{b.disabled=true;b.classList.remove('selected');b.setAttribute('aria-pressed','false');b.title='Внешние подключения пока недоступны';});
- document.querySelector('[data-auth-step="2"] .auth-copy p').textContent='Сохраним предпочтения в профиле. Автоматическая адаптация по ним пока не включена.';
- document.querySelector('[data-auth-step="3"] .auth-copy p').textContent='Внешние источники пока недоступны. Можно работать с локальными задачами и отмечать состояние вручную.';
- document.querySelector('[data-auth-step="3"] h2').textContent='Можно начинать';document.querySelector('[data-auth-finish]').firstChild.textContent='Сохранить и начать ';document.querySelector('.auth-privacy span').textContent='Настройки сохраняются в этом браузере.';
- const authStatus=document.createElement('p');authStatus.setAttribute('role','status');document.querySelector('[data-auth-step="3"]').append(authStatus);
- function identity(data){if(!data?.name)return;document.querySelector('.profile-identity h2').textContent=data.name;document.querySelector('.profile-identity p').textContent=[data.work,data.rest].filter(Boolean).join(' · ');document.querySelector('.profile-avatar').firstChild.textContent=data.name.split(' ').slice(0,2).map(n=>n[0]).join('').toUpperCase();document.getElementById('todayTitle').textContent='Ваш день, '+data.name;nameInput.value=data.name;for(const group of ['work','rest'])document.querySelectorAll(`[data-rhythm-choice="${group}"]`).forEach(b=>{b.classList.toggle('active',b.querySelector('span').textContent===data[group]);b.setAttribute('aria-pressed',String(b.classList.contains('active')));});}
- document.querySelector('.profile-identity p').textContent='Локальный профиль';identity(F.read('tempo-onboarding-v1',null));
- document.querySelectorAll('[data-auth-finish]').forEach(b=>b.addEventListener('click',e=>{e.stopImmediatePropagation();if(!nameInput.value.trim()){showAuthStep(1);emailForm.hidden=false;nameInput.focus();return;}const data={name:nameInput.value.trim(),work:document.querySelector('[data-rhythm-choice="work"].active span')?.textContent||'',rest:document.querySelector('[data-rhythm-choice="rest"].active span')?.textContent||''};if(F.write('tempo-onboarding-v1',data,authStatus)){identity(data);finishAuth();}},true));
+ const nameField = document.getElementById('intro-name');
+ const fields = ['occupation', 'goal'];
+ const status = document.createElement('p');
+ document.querySelectorAll('.note-examples button').forEach(button => {
+   button.addEventListener('click', () => {
+     const example = button.textContent.trim();
+     const lines = note.value.split('\n');
+     if (!lines.some(line => line.trim() === example)) {
+       note.value = [note.value.trimEnd(), example].filter(Boolean).join('\n');
+     }
+   });
+ });
+ status.setAttribute('role','status');
+ const note = document.getElementById("intro-note");
+ document.querySelector('[data-auth-step="6"]').append(status);
+ document.querySelectorAll('[data-auth-next]').forEach(button => button.addEventListener('click', () => {
+     button.closest('.auth-step').dataset.skipped = String(button.classList.contains('auth-skip'));
+ }));
+ let previewHealth = false;
+ document.querySelectorAll('[data-auth-next="4"]').forEach(button => button.addEventListener('click', () => {
+   previewHealth = button.hasAttribute('data-health-preview');
+ }));
+ function identity(data) {
+   if (!data?.name) return;
+   nameField.value = data.editableIntroName ? data.name : nameField.defaultValue;
+   note.value = data.dayNote || '';
+   for (const key of fields) {
+     const select = document.getElementById('intro-' + key);
+     if (data[key] && !Array.from(select.options).some(option => option.value === data[key])) {
+       select.add(new Option(data[key], data[key]));
+     }
+     if (typeof data[key] === 'string') select.value = data[key];
+   }
+   document.querySelectorAll('[data-rhythm-choice]').forEach(button => {
+     const selected = data[button.dataset.rhythmChoice] === button.querySelector('span').textContent;
+     button.classList.toggle('active', selected);
+     button.setAttribute('aria-pressed', String(selected));
+   });
+   document.querySelector('.profile-identity h2').textContent = data.name;
+   document.querySelector('.profile-identity p').textContent = [data.occupation,data.goal,data.work,data.rest].filter(Boolean).join(' · ');
+   document.querySelector('.profile-avatar').firstChild.textContent = data.name.slice(0,1).toUpperCase();
+   document.getElementById('todayTitle').textContent = 'Ваш день, ' + data.name;
+ }
+ identity(F.read('tempo-onboarding-v1',null));
+ document.querySelectorAll('[data-auth-finish]').forEach(button => button.addEventListener('click', event => {
+   event.stopImmediatePropagation();
+   const data = {...F.read('tempo-onboarding-v1', {})};
+   if (document.querySelector('[data-auth-step="2"]').dataset.skipped !== 'true') {
+     data.name = nameField.value.trim() || nameField.defaultValue;
+     data.editableIntroName = true;
+     for (const key of fields) data[key] = document.getElementById('intro-' + key).value;
+   }
+   if (button.dataset.authFinish === 'save') {
+     document.querySelectorAll('.auth-step:not([data-skipped="true"]) [data-rhythm-choice].active').forEach(choice => {
+       data[choice.dataset.rhythmChoice] = choice.querySelector('span').textContent;
+     });
+   }
+   data.dayNote = note.value.trim();
+   data.name ||= 'Гость';
+   if (!F.write('tempo-onboarding-v1',data,status)) return;
+   finishAuth();
+   identity(data);
+   if (previewHealth) {
+     document.querySelector('.energy-card').scrollIntoView({block:'center'});
+     showProfileToast('Показаны демонстрационные показатели');
+   }
+ }, true));
  document.querySelector('[data-profile-panel="roles"] .profile-secondary-action').onclick=()=>{openAuth();showAuthStep(2);};
  // The local prototype must never report a successful external connection.
  document.querySelector('.profile-sync strong').textContent='Данные в этом браузере';document.querySelector('.profile-sync small').textContent='Общие для веба и мобильной версии';

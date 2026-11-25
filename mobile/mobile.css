@@ -544,3 +544,77 @@ body:before{display:none!important}
 .screen[data-screen="calendar"] .mobile-event{min-height:0;box-sizing:border-box;padding:10px 15px}
 .screen[data-screen="calendar"] .mobile-event.compact-event{padding:5px 12px;display:flex;align-items:center}
 .screen[data-screen="calendar"] .mobile-event.compact-event b{line-height:20px}
+
+@media (max-width: 599px) {
+  .auth-mode .mobile-app {
+    height: 100dvh;
+    min-height: 0;
+  }
+}
+
+.auth-step[data-auth-step="1"] {
+  overflow-y: auto;
+}
+
+.auth-step[data-auth-step="1"] .auth-methods {
+  margin-top: 0;
+}
+
+.auth-flow:has(.entry-sheet):has([data-auth-step="1"].active) {
+  background: rgba(32, 30, 36, .42);
+}
+.auth-step[data-auth-step="1"] {
+  background: transparent;
+  padding: 60px 0 0;
+}
+.entry-sheet {
+  position: relative;
+  flex: 1 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 64px 24px 40px;
+  border-radius: 32px 32px 0 0;
+  background: #fff;
+  color: #201f22;
+}
+.entry-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; background: transparent; font-size: 26px; }
+.entry-content { width: min(100%, 340px); text-align: center; }
+.entry-content img { display: block; height: auto; margin: auto; }
+.entry-content h1 { margin: 24px 0; font-size: 25px; letter-spacing: -.04em; }
+.entry-content form, .entry-content label { display: grid; gap: 9px; }
+.entry-content label { text-align: left; font-size: 13px; }
+.entry-content input, .entry-primary { width: 100%; min-height: 50px; border-radius: 13px; }
+.entry-content input { padding: 0 14px; border: 1px solid #bdb9bf; background: white; color: #201f22; font-size: 16px; }
+.entry-primary { background: #27242b; color: white; font-weight: 600; }
+.entry-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: #706b73; font-size: 13px; }
+.entry-divider::before,.entry-divider::after { content: ""; flex: 1; height: 1px; background: #e4e1e5; }
+.entry-services { display: flex; justify-content: center; gap: 12px; }
+.entry-services button { display: grid; place-items: center; width: 54px; height: 48px; border-radius: 13px; border: 1px solid #dedbe0; background: white; }
+.entry-services svg { width: 26px; height: 26px; }
+.entry-sheet { grid-template-rows: 1fr auto; row-gap: 24px; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+.entry-note { max-width: 340px; margin: 0; text-align: center; font-size: 12px; line-height: 1.45; color: #716c74; }
+
+.intro-fields { display: grid; gap: 18px; margin-bottom: 24px; }
+.intro-fields label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; }
+.intro-fields select, .intro-fields input { width: 100%; padding: 14px; border: 1px solid #d8d4dc; border-radius: 14px; background: white; color: #262229; font: inherit; }
+.intro-health { display: flex; align-items: center; gap: 15px; padding: 18px; border-radius: 20px; background: white; color: #262229; }
+.intro-health i { color: #ec4666; font-size: 32px; }
+.intro-health small { display: block; margin-top: 4px; }
+.intro-hint { font-size: 14px; line-height: 1.45; color: var(--muted); }
+
+[data-auth-step="4"] .auth-copy h2 {
+  line-height: 1.16;
+  letter-spacing: -.035em;
+}
+
+.survey-note { display: grid; gap: 18px; margin-bottom: 24px; }
+.note-examples { display: flex; flex-wrap: wrap; gap: 8px; }
+.note-examples button { min-height: 40px; padding: 8px 14px; border: 1px solid #dcd4df; border-radius: 24px; background: #f6f1f7; color: #504555; font-size: 14px; }
+.note-examples button:active { background: #e8deed; }
+.survey-note textarea { width: 100%; padding: 16px 18px; border: 1px solid #d8d1db; border-radius: 18px; background: #fffdff; color: #29242c; font: inherit; font-size: 16px; line-height: 1.5; resize: vertical; }
+.survey-note textarea:focus-visible, .note-examples button:focus-visible { outline: 2px solid #756282; outline-offset: 2px; }
+[data-auth-step="6"] .auth-copy h2 { line-height: 1.16; }
+
+.intro-progress { width: 28px; height: 28px; fill: none; stroke: #ded9e2; stroke-width: 3; }
+.intro-progress-value { stroke: #756282; stroke-dasharray: 100; stroke-linecap: round; }
+.entry-sheet > .intro-progress { display: none; }
