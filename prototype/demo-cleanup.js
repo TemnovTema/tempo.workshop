@@ -9,11 +9,9 @@
   document.querySelector('.desktop-rhythm-copy p').textContent='Обновите состояние, чтобы получить рекомендацию по вашей отметке.';
  }
 
- const isDemo=new URLSearchParams(location.search).get('demo')==='1';
- const readings=['45 мин','6 240','7 ч 40 мин','64 уд/мин'];
- document.querySelectorAll('.desktop-day-data dd').forEach((n,i)=>n.textContent=isDemo?readings[i]:'Нет данных');
- document.querySelector('.desktop-day-data').setAttribute('aria-label',isDemo?'Демонстрационные данные здоровья':'Данные здоровья не подключены');
- if(isDemo){const note=document.createElement('small');note.textContent='Демонстрационные данные · состояние и показатели здоровья';note.style.cssText='display:block;margin-top:12px;color:var(--muted);font-size:10px';document.querySelector('.desktop-day-data').after(note);}
+ let savedProfile;
+ try { savedProfile = JSON.parse(localStorage.getItem('tempo-onboarding-v1')); } catch {}
+ renderWebHealthPreview(savedProfile?.healthPreview);
 
  const feature=document.querySelector('.featured-practice');if(feature){feature.querySelectorAll('p').forEach(p=>{if(p.textContent.includes('23 минуты'))p.textContent='Практика для самостоятельного выбора';});}
  document.querySelectorAll('.project-milestones').forEach(n=>{n.textContent='Этапы проекта пока не заданы.';});
@@ -32,3 +30,14 @@
  document.querySelector('[data-project-add-person]').title='Приглашение участников пока недоступно';
  refreshMeta();renderCalendarPeriod();
 })();
+
+function renderWebHealthPreview(requested) {
+  const visible = requested || new URLSearchParams(location.search).get('demo') === '1';
+  const metrics = document.querySelector('.desktop-day-data');
+  const readings = ['45 мин', '6 240', '7 ч 40 мин', '64 уд/мин'];
+  metrics.querySelectorAll('dd').forEach((value, i) => {
+    value.textContent = visible ? readings[i] : 'Нет данных';
+  });
+  metrics.setAttribute('aria-label', visible ? 'Демонстрационные данные здоровья' : 'Данные здоровья не подключены');
+  document.querySelector('.web-health-example-label').hidden = !visible;
+}

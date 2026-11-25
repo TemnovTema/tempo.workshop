@@ -2,7 +2,7 @@ const viewButtons = document.querySelectorAll('[data-view]');
 const viewPanels = document.querySelectorAll('[data-view-panel]');
 const webAuthFlow = document.getElementById('webAuthFlow');
 const webAuthSteps = [...document.querySelectorAll('[data-web-auth-step]')];
-const webAuthProgress = [...document.querySelectorAll('[data-web-auth-progress]')];
+const webAuthRing = webAuthFlow.querySelector('.web-intro-ring');
 
 function showWebAuthStep(step) {
   webAuthSteps.forEach((panel) => {
@@ -10,11 +10,11 @@ function showWebAuthStep(step) {
     panel.hidden = !active;
     panel.classList.toggle('active', active);
   });
-  webAuthProgress.forEach((item) => {
-    const itemStep = Number(item.dataset.webAuthProgress);
-    item.classList.toggle('active', itemStep === Number(step));
-    item.classList.toggle('complete', itemStep < Number(step));
-  });
+  webAuthRing.toggleAttribute('hidden', Number(step) === 1);
+  webAuthRing.setAttribute('aria-valuemax', webAuthSteps.length);
+  webAuthRing.setAttribute('aria-valuenow', step);
+  webAuthRing.querySelector('.arc').style.strokeDashoffset = 100 * (1 - Number(step) / webAuthSteps.length);
+  webAuthFlow.querySelector('.web-auth-form-side').scrollTop = 0;
 }
 
 function openWebAuth({ syncHash = true } = {}) {
@@ -53,7 +53,7 @@ document.querySelectorAll('[data-web-rhythm]').forEach((button) => button.addEve
   document.querySelectorAll(`[data-web-rhythm="${button.dataset.webRhythm}"]`).forEach((choice) => { const selected = choice === button; choice.classList.toggle('active', selected); choice.setAttribute('aria-pressed', String(selected)); });
 }));
 document.querySelectorAll('[data-web-source]').forEach((button) => button.addEventListener('click', () => { const selected = button.classList.toggle('selected'); button.setAttribute('aria-pressed', String(selected)); }));
-document.querySelectorAll('[data-web-auth-finish]').forEach((button) => button.addEventListener('click', finishWebAuth));
+webAuthFlow.querySelector('.entry-close').addEventListener('click', finishWebAuth);
 
 document.querySelectorAll('[data-header-panel]').forEach((button) => button.addEventListener('click', () => {
   const target = button.dataset.headerPanel;
