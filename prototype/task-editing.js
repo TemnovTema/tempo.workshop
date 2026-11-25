@@ -178,6 +178,7 @@
     document.getElementById('taskDetailProjectSelect').value=task.dataset.calendarProject;
     document.getElementById('taskDetailProject').textContent=label;
     const record=store.all().find(t=>t.id===task.dataset.taskId);
+    document.getElementById('taskDetailDone').checked = !!record?.completed;
     document.querySelector('.task-detail-status').textContent=record?.completed ? 'Завершено' : 'Запланировано';
     document.getElementById('taskDetailStart').disabled=!!record?.completed;
     let resultNote=detailForm.querySelector('[data-last-focus-result]');
@@ -238,7 +239,7 @@
       }
     }
     const project=document.getElementById('taskDetailProjectSelect').value || 'none';
-    if(!store.save({...previous,date:editDate.value,time:startEdit.value,minutes:n,notes:notes.value,project})) {report(detailForm);return;}
+    if(!store.save({...previous,completed:document.getElementById('taskDetailDone').checked,date:editDate.value,time:startEdit.value,minutes:n,notes:notes.value,project})) {report(detailForm);return;}
     calendarDate=new Date(`${editDate.value}T12:00:00`);
     taskDetailDialog.close(); renderCalendarPeriod();
   });

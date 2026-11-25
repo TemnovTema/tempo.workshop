@@ -667,6 +667,7 @@
     <form method="dialog">
       <header><div><span class="task-detail-status"><i></i> Запланировано</span><small id="taskDetailProject">Tempo Remake</small></div><button value="cancel" aria-label="Закрыть">×</button></header>
       <div class="task-detail-title"><div><span id="taskDetailDate">Сегодня, 26 августа</span><h2 id="calendarTaskTitle">Макет главного экрана</h2></div><button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button></div>
+      <label><input id="taskDetailDone" type="checkbox" /> Выполнено</label>
       <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Дата<input id="taskDetailEditDate" type="date" required /></label><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
       <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Здоровье</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
       <section class="task-detail-section task-resource-grid"><div><h3>Ссылки</h3><div class="task-link-list" id="taskDetailLinks"><a href="https://meet.google.com" target="_blank" rel="noreferrer"><i>G</i><span><strong>Google Meet</strong><small>Видеовстреча команды</small></span></a><button type="button">+ Добавить ссылку</button></div></div><div><h3>Участники</h3><div class="task-member-editor"><button type="button"><i>АТ</i><span>Артём</span></button><button type="button"><i>МК</i><span>Марина</span></button><button type="button"><i>КС</i><span>Кирилл</span></button><button type="button" class="member-add"><i>+</i><span>Добавить</span></button></div></div></section>
@@ -693,14 +694,14 @@
     </div>
   </div>
 
-  <script src="demo-data.js?v=2"></script>
+  <script src="demo-data.js?v=3"></script>
   <script src="demo-today.js?v=1"></script>
   <script src="checkin-state.js?v=2"></script>
   <script src="balance-ring.js?v=1"></script>
   <script src="reflection-prompts.js?v=1"></script>
   <script src="state-history.js?v=3"></script>
   <script src="tempo-app.js?v=history-1"></script>
-  <script src="task-store.js?v=4"></script>
+  <script src="task-store.js?v=5"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>
   <script src="task-today.js?v=3"></script>
@@ -708,7 +709,7 @@
   <script src="task-focus.js?v=4"></script>
   <script src="review-state.js?v=2"></script>
   <script src="task-review.js?v=5"></script>
-  <script src="task-editing.js?v=16"></script>
+  <script src="task-editing.js?v=17"></script>
   <script src="project-settings.js?v=5"></script>
   <script src="reflection-state.js?v=1"></script>
   <script src="reflection-flow.js?v=3"></script>

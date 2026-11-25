@@ -30,12 +30,22 @@
       }
       catch { error = 'Не удалось сохранить задачи в браузере. Правки оставлены в форме — попробуйте ещё раз.'; return false; }
     }
+    // Keep later occurrences in storage so reopening a task restores its series.
+    function visibleTasks() {
+      const stops = new Map();
+      for (const t of tasks) {
+        if (!t.seriesId || !t.completed) continue;
+        const cutoff = t.seriesDate;
+        if (!stops.has(t.seriesId) || cutoff < stops.get(t.seriesId)) stops.set(t.seriesId, cutoff);
+      }
+      return tasks.filter(t => t.completed || !stops.has(t.seriesId) || t.seriesDate <= stops.get(t.seriesId));
+    }
     return {
-      all: () => tasks.map(t => ({...t})), error: () => error,
+      all: () => visibleTasks().map(t => ({...t})), error: () => error,
       save: task => commit(tasks.some(t=>t.id===task.id) ? tasks.map(t=>t.id===task.id ? {...task} : t) : [...tasks,{...task}]),
       saveMany: changes => changes.every(t=>tasks.some(old=>old.id===t.id)) && commit(tasks.map(t=>changes.find(change=>change.id===t.id)||t)),
       remove: id => commit(tasks.filter(t=>t.id!==id)),
-      forDate: (date,project='all') => tasks.filter(t=>t.date===date && (project==='all'||t.project===project)).sort((a,b)=>a.time.localeCompare(b.time)).map(t=>({...t}))
+      forDate: (date,project='all') => visibleTasks().filter(t=>t.date===date && (project==='all'||t.project===project)).sort((a,b)=>a.time.localeCompare(b.time)).map(t=>({...t}))
     };
   }
   const api={create,valid};
