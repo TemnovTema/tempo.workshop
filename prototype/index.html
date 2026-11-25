@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
   <link rel="stylesheet" href="themes.css?v=balance-layout-2" />
-  <link rel="stylesheet" href="wide-screen.css?v=balance-layout-2" />
+  <link rel="stylesheet" href="wide-screen.css?v=history-2" />
   <link rel="stylesheet" href="onboarding.css?v=9" />
 </head>
 <body>
@@ -529,11 +529,12 @@
     </section>
 
     <section class="app-view" data-view-panel="checkin" aria-labelledby="checkinTitle">
+      <div class="view-intro"><h1 class="app-page-title" id="checkinTitle">Состояние</h1></div>
       <div class="checkin-layout">
         <section class="checkin-form">
           <header>
             <p class="date-line"><span>Быстрая проверка</span> около минуты</p>
-            <h1 class="app-page-title" id="checkinTitle">Как вы сейчас?</h1>
+            <h2 class="checkin-question">Как вы сейчас?</h2>
           </header>
 
           <form id="stateForm">
@@ -602,6 +603,13 @@
         <p data-checkin-result></p>
         <p data-checkin-storage role="status"></p>
         <button class="primary-action" type="button" data-open-view="today">Вернуться к дню</button>
+      </section>
+      <section class="state-history" aria-labelledby="historyTitle">
+        <header><h2 id="historyTitle">Динамика состояния</h2><div class="segmented-control" role="group" aria-label="Период статистики"><button type="button" data-history-days="1" aria-pressed="false">День</button><button type="button" class="active" data-history-days="7" aria-pressed="true">Неделя</button><button type="button" data-history-days="30" aria-pressed="false">Месяц</button></div></header>
+        <div class="history-grid">
+          <article><h3>Уровень энергии</h3><p data-energy-summary></p><div class="energy-history-chart" role="group" aria-label="Энергия по дням"></div><div class="history-dates"></div><output class="history-reading"></output></article>
+          <article><h3>Что влияет</h3><p data-factor-caption>Что вы отмечали чаще всего</p><ul class="history-factors"></ul></article>
+        </div>
       </section>
     </section>
   </main>
@@ -690,7 +698,8 @@
   <script src="checkin-state.js?v=2"></script>
   <script src="balance-ring.js?v=1"></script>
   <script src="reflection-prompts.js?v=1"></script>
-  <script src="tempo-app.js?v=balance-action-1"></script>
+  <script src="state-history.js?v=3"></script>
+  <script src="tempo-app.js?v=history-1"></script>
   <script src="task-store.js?v=4"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>

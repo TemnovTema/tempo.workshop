@@ -41,3 +41,41 @@
   .calendar-stage{padding:38px}
   .nav-item{font-size:16px}.calendar-project-row strong{font-size:15px}.practice-meta p,.recommendation-reason p,.state-reading p{font-size:16px}
 }
+
+/* Start every view at the Today view's content baseline. */
+.app-main {
+  --view-start-space: 88px;
+  padding-block-start: var(--view-start-space);
+}
+.app-view > .view-intro {
+  min-height: 0;
+  padding-block-start: 0;
+  align-items: start;
+}
+.view-intro > .intro-meta { align-self: end; }
+.app-view > .checkin-layout { margin-block-start: 0; }
+@media (min-width: 1680px) {
+  .app-main { --view-start-space: 184px; }
+}
+
+.checkin-form .checkin-question { margin: 0; font-size: clamp(28px, 2.5vw, 40px); font-weight: 400; line-height: 1.12; letter-spacing: -.035em; }
+
+.state-history { margin-top: 24px; padding: clamp(22px,3vw,48px); background: var(--paper); border-radius: var(--radius); color: var(--ink); }
+.state-history > header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.state-history h2 { margin: 0; font-size: clamp(28px,3vw,42px); font-weight: 400; letter-spacing: -.035em; }
+.history-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(24px,5vw,80px); margin-top: 32px; }
+.history-grid h3 { margin: 0; font-size: 20px; font-weight: 500; }
+.history-grid p, .history-dates { color: var(--muted); font-size: 13px; }
+.energy-history-chart { display: flex; align-items: end; gap: clamp(2px,.5vw,8px); height: 150px; border-bottom: 1px solid var(--line); background: repeating-linear-gradient(to top, transparent 0 calc(25% - 1px), var(--line) calc(25% - 1px) 25%); }
+.energy-history-chart button { position: relative; flex: 1; min-width: 0; height: 100%; background: transparent; border: 0; padding: 0; }
+.energy-history-chart button::after { content: ''; position: absolute; inset: auto 0 0; height: var(--energy-height, 2px); border-radius: 5px 5px 0 0; background: var(--line); }
+.history-reading { display: block; margin-top: 6px; font-weight: 500; }
+.energy-history-chart button:focus-visible { outline: 2px solid currentColor; }
+.energy-history-chart .has-reading::after { background: #9781ac; }
+.history-dates, .history-factors li { display: flex; justify-content: space-between; padding: 8px 0; }
+.history-factors { list-style: none; padding: 0; margin: 0; }
+.history-factors li { border-bottom: 1px solid var(--line); }
+.energy-history-chart button[aria-pressed="true"]::after { background: #715780; }
+@media (max-width: 700px) { .history-grid { grid-template-columns: 1fr; } }
+
+.energy-history-chart button:only-child { flex: 0 1 44px; }

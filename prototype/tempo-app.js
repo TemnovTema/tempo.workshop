@@ -913,6 +913,8 @@ function renderStateStep() {
 
 const checkinKey = 'tempo-checkin-v1';
 let savedCheckin = null;
+const stateHistory = createStateHistory(document.querySelector('.state-history'), checkinDay);
+
 function checkinDay() {
   const { year, month, day } = getMoscowParts();
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -922,6 +924,7 @@ function loadCheckin() {
   catch { return null; }
 }
 function resetCheckin() {
+  stateHistory.render(checkinDay());
   savedCheckin = savedCheckin?.day === checkinDay() ? savedCheckin : loadCheckin();
   stateStep = 1;
   document.querySelector('.checkin-layout').style.removeProperty('display');
@@ -971,6 +974,7 @@ stateNext?.addEventListener('click', () => {
   let persisted = true;
   try { localStorage.setItem(checkinKey, JSON.stringify(savedCheckin)); }
   catch { persisted = false; }
+  stateHistory.record(savedCheckin);
   applyCheckin(savedCheckin);
   const attention = { scattered: 'рассеянное', switching: 'переключается', steady: 'устойчивое' };
   const factors = { sleep: 'сон', meetings: 'встречи', food: 'голод', noise: 'шум', mood: 'настроение', unknown: 'пока неясно' };
