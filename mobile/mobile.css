@@ -579,7 +579,7 @@ body:before{display:none!important}
 }
 .entry-content { width: min(100%, 340px); text-align: center; }
 .entry-content img { display: block; height: auto; margin: auto; }
-.entry-content h1 { margin: 24px 0; font-size: 25px; letter-spacing: -.04em; }
+.entry-content h1 { margin: 24px 0; font-size: 20px; font-weight: 500; line-height: 1.25; letter-spacing: -.02em; text-wrap: balance; }
 .entry-content form, .entry-content label { display: grid; gap: 9px; }
 .entry-content label { text-align: left; font-size: 13px; }
 .entry-content input, .entry-primary { width: 100%; min-height: 50px; border-radius: 13px; }

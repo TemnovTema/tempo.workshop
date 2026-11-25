@@ -8,8 +8,8 @@
 .web-auth-step-head button { width: 42px; height: 42px; border-radius: 50%; background: #efedeb; }
 [data-web-auth-step="1"] { position: static; animation: none; }
 .entry-content { text-align: center; }
-.entry-content h1, .web-auth-step h2 { font-size: clamp(32px, 3.2vw, 46px); line-height: 1.12; letter-spacing: -.045em; }
-.entry-content h1 { margin: 22px 0; }
+.web-auth-step h2 { font-size: clamp(32px, 3.2vw, 46px); line-height: 1.12; letter-spacing: -.045em; }
+.entry-content h1 { margin: 22px 0; font-size: clamp(22px, 2vw, 28px); font-weight: 500; line-height: 1.22; letter-spacing: -.025em; text-wrap: balance; }
 .entry-content form, .intro-fields, .intro-fields label, .survey-note { display: grid; gap: 10px; }
 .intro-fields { gap: 16px; }
 .web-auth-step :is(input,select,textarea) { width: 100%; box-sizing: border-box; border: 1px solid #cec9d0; border-radius: 14px; padding: 14px; font: inherit; color: #242126; background: white; }
