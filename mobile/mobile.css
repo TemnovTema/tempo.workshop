@@ -577,7 +577,6 @@ body:before{display:none!important}
   background: #fff;
   color: #201f22;
 }
-.entry-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; background: transparent; font-size: 26px; }
 .entry-content { width: min(100%, 340px); text-align: center; }
 .entry-content img { display: block; height: auto; margin: auto; }
 .entry-content h1 { margin: 24px 0; font-size: 25px; letter-spacing: -.04em; }

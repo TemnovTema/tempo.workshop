@@ -5,9 +5,8 @@
 .web-intro-ring .arc { stroke: #756282; stroke-dasharray: 100; stroke-linecap: round; transition: stroke-dashoffset .28s ease; }
 @media (prefers-reduced-motion: reduce) { .web-intro-ring .arc { transition: none; } }
 .web-auth-step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; color: #67626b; font-size: 14px; }
-.web-auth-step-head button, .entry-close { width: 42px; height: 42px; border-radius: 50%; background: #efedeb; }
-.entry-close { position: absolute; right: 22px; top: 18px; font-size: 23px; }
-.web-auth-step:has(.entry-close) { position: static; animation: none; }
+.web-auth-step-head button { width: 42px; height: 42px; border-radius: 50%; background: #efedeb; }
+[data-web-auth-step="1"] { position: static; animation: none; }
 .entry-content { text-align: center; }
 .entry-content h1, .web-auth-step h2 { font-size: clamp(32px, 3.2vw, 46px); line-height: 1.12; letter-spacing: -.045em; }
 .entry-content h1 { margin: 22px 0; }

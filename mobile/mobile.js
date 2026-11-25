@@ -724,7 +724,6 @@ function finishAuth() {
 }
 
 document.querySelectorAll('[data-open-auth]').forEach((button) => button.addEventListener('click', () => openAuth()));
-document.querySelector('.entry-close').addEventListener('click', finishAuth);
 document.querySelectorAll('[data-demo-provider]').forEach(button => {
   button.addEventListener('click', () => {
     showAuthStep(2);

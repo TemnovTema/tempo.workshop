@@ -53,7 +53,6 @@ document.querySelectorAll('[data-web-rhythm]').forEach((button) => button.addEve
   document.querySelectorAll(`[data-web-rhythm="${button.dataset.webRhythm}"]`).forEach((choice) => { const selected = choice === button; choice.classList.toggle('active', selected); choice.setAttribute('aria-pressed', String(selected)); });
 }));
 document.querySelectorAll('[data-web-source]').forEach((button) => button.addEventListener('click', () => { const selected = button.classList.toggle('selected'); button.setAttribute('aria-pressed', String(selected)); }));
-webAuthFlow.querySelector('.entry-close').addEventListener('click', finishWebAuth);
 
 document.querySelectorAll('[data-header-panel]').forEach((button) => button.addEventListener('click', () => {
   const target = button.dataset.headerPanel;
