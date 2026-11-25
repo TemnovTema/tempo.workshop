@@ -25,7 +25,6 @@
     const tasks=store.all().filter(t=>!t.readonly&&(t.date===day||t.movedFrom===day));
     panel.querySelector('.review-intro .date-line').textContent=`Итог дня · ${calendarToday.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}`;
     panel.querySelector('#reviewTitle').textContent=saved.closed?'Итог дня сохранён':'Подведём итог дня';
-    panel.querySelector('.review-intro .intro-meta p').textContent='Выберите задачи для переноса. Остальные останутся на своей дате. Изменения применятся после сохранения.';
     panel.querySelector('.review-ring strong').textContent=tasks.filter(t=>t.completed).length;
     panel.querySelector('.review-ring span').textContent=`из ${tasks.length} задач завершено`;
     const secs=TempoReviewState.seconds(store.all(),day);
@@ -36,7 +35,15 @@
       const row=document.createElement('article'),copy=document.createElement('div'),name=document.createElement('strong'),meta=document.createElement('span');name.textContent=task.name;
       copy.append(name,meta);
       if(!task.completed&&task.date===day){const check=document.createElement('input');check.type='checkbox';check.setAttribute('aria-label',`Перенести на завтра: ${task.name}`);check.addEventListener('change',()=>{if(check.checked)selected.add(task.id);else selected.delete(task.id);preview();});row.append(check);meta.dataset.transferTime=task.id;}
-      else meta.textContent=task.completed?'Завершено':`Перенесено · ${task.date} · ${task.time}`;
+      else if(task.completed){
+        row.classList.add('review-completed');
+        const mark=document.createElement('span');
+        mark.className='review-checkmark';
+        mark.textContent='✓';
+        mark.setAttribute('aria-hidden','true');
+        row.append(mark);
+        meta.textContent='Завершено';
+      } else meta.textContent=`Перенесено · ${task.date} · ${task.time}`;
       row.append(copy);rows.append(row);
     }
     if(!tasks.length)rows.textContent='На сегодня задач нет. Можно сохранить заметку дня.';

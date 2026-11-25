@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="buttons-v2.css" />
   <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
   <link rel="stylesheet" href="calendar-projects.css?v=4" />
-  <link rel="stylesheet" href="calendar-time.css?v=10" />
+  <link rel="stylesheet" href="calendar-time.css?v=13" />
   <link rel="stylesheet" href="calendar-project-hub.css?v=6" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
@@ -147,8 +147,7 @@
           <h1 class="app-page-title" id="todayTitle">Доброе утро, Артём</h1>
         </div>
         <div class="intro-meta">
-          <button class="text-action" type="button" data-open-view="checkin">Обновить состояние</button>
-          <div class="context-links"><button type="button" data-open-view="conflict">Изменение плана</button><button type="button" data-open-view="review">Завершить день</button></div>
+          <div class="context-links"><button type="button" data-open-view="review">Завершить день</button></div>
         </div>
       </div>
 
@@ -170,7 +169,7 @@
             <span>Ритм дня</span>
             <h2>Устойчивый</h2>
             <p>Энергии достаточно для сложной работы. После обеда лучше оставить задачи короче.</p>
-            <button class="primary-action empty-checkin-action" type="button" data-open-view="checkin" hidden>Оценить состояние</button>
+            <button class="primary-action" id="balanceCheckinAction" type="button" data-open-view="checkin">Оценить состояние</button>
           </div>
         </div>
 
@@ -185,7 +184,6 @@
             <div><dt><i class="ph ph-moon-stars" aria-hidden="true"></i><span>Сон</span></dt><dd>7 ч 12 мин</dd></div>
             <div><dt><i class="ph ph-heartbeat" aria-hidden="true"></i><span>Пульс</span></dt><dd>68 <small>уд/мин</small></dd></div>
           </dl>
-          <small class="web-health-example-label" hidden>Пример данных</small>
         </div>
       </section>
 
@@ -265,16 +263,8 @@
       </div>
     </section>
 
-    <section class="app-view" data-view-panel="conflict" aria-labelledby="conflictTitle">
-      <div class="view-intro conflict-intro"><div><p class="date-line"><span>План изменился</span> 11:47</p><h1 id="conflictTitle">Новый созвон<br />занял час.</h1></div><div class="intro-meta"><p>Две задачи больше не помещаются. Tempo собрал вариант без уплотнения вечера.</p><button class="text-action" type="button" data-open-view="today">Вернуться без изменений</button></div></div>
-      <div class="conflict-layout">
-        <section class="plan-diff"><header><span class="section-label">До и после</span><h2>Остаток дня</h2></header><div class="diff-axis"><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span></div><div class="diff-row"><b>Было</b><i class="block meeting" style="--x:3%;--w:18%">Созвон</i><i class="block project" style="--x:29%;--w:29%">Прототип</i><i class="block study" style="--x:64%;--w:27%">Курсовая</i></div><div class="diff-row proposed"><b>Стало</b><i class="block meeting" style="--x:3%;--w:31%">Созвон продлён</i><i class="block project" style="--x:42%;--w:29%">Прототип</i><i class="block free" style="--x:76%;--w:17%">Свободно</i></div></section>
-        <aside class="conflict-decisions"><span class="section-label">Tempo предлагает</span><h2>Перенести курсовую<br />на завтра, 10:00</h2><p>Дедлайн останется достижимым: до пятницы есть ещё два подходящих окна.</p><ul><li><i></i><span><b>Созвон</b> до 13:00</span></li><li><i></i><span><b>Прототип</b> без изменений</span></li><li><i></i><span><b>Курсовая</b> завтра утром</span></li></ul><button class="primary-action" type="button" data-open-view="today">Принять изменения <span>3 решения</span></button><button class="secondary-action" type="button">Настроить вручную</button></aside>
-      </div>
-    </section>
-
     <section class="app-view" data-view-panel="review" aria-labelledby="reviewTitle">
-      <div class="view-intro review-intro"><div><p class="date-line"><span>Итог дня</span> 18:42</p><h1 id="reviewTitle">Рабочий день<br />можно завершить.</h1></div><div class="intro-meta"><p>Главное сделано. Две незавершённые задачи уже получили реалистичное место завтра.</p></div></div>
+      <div class="view-intro review-intro"><div><p class="date-line"><span>Итог дня</span> 18:42</p><h1 id="reviewTitle" class="app-page-title">Рабочий день<br />можно завершить.</h1></div></div>
       <div class="review-grid"><section class="review-score"><span class="section-label">Сегодня</span><div class="review-ring"><strong>4</strong><span>из 6 действий</span></div><h2>4 ч 37 мин<br />сфокусированной работы</h2><p>На 26 минут больше плана, но вечер остался свободным.</p></section><section class="review-list"><header><span class="section-label">Решения</span><h2>Что переносим</h2></header><article><i class="done-mark"></i><div><strong>Макет главного экрана</strong><span>завершено · 57 мин</span></div><b>готово</b></article><article><i></i><div><strong>Курсовая</strong><span>завтра · 10:00–11:30</span></div><button type="button">Изменить</button></article><article><i></i><div><strong>Ответить команде</strong><span>завтра · лёгкий старт дня</span></div><button type="button">Изменить</button></article><label class="day-note">Короткая заметка<textarea placeholder="Что стоит помнить завтра?"></textarea></label></section><aside class="tomorrow-preview"><span class="section-label">Завтра</span><strong>3 ч 10 мин</strong><p>Предварительная нагрузка</p><div class="tomorrow-bars"><i style="--h:45%"></i><i style="--h:76%"></i><i style="--h:32%"></i><i style="--h:58%"></i></div><h3>Утро подходит для сложного</h3><p>Первая встреча только в 12:30.</p><button class="primary-action" type="button" data-open-view="today">Завершить день</button></aside></div>
     </section>
 
@@ -469,7 +459,6 @@
       </section>
 
       <div class="practice-filter-bar">
-        <span>Выбрать направление</span>
         <div class="practice-filters" role="group" aria-label="Фильтр практик">
           <button class="active" type="button" data-practice-filter="all">Все</button>
           <button type="button" data-practice-filter="focus">Фокус</button>
@@ -545,7 +534,6 @@
           <header>
             <p class="date-line"><span>Быстрая проверка</span> около минуты</p>
             <h1 class="app-page-title" id="checkinTitle">Как вы сейчас?</h1>
-            <p>Ответ поможет Tempo предложить реалистичный темп. Здесь нет правильного состояния.</p>
           </header>
 
           <form id="stateForm">
@@ -671,7 +659,7 @@
     <form method="dialog">
       <header><div><span class="task-detail-status"><i></i> Запланировано</span><small id="taskDetailProject">Tempo Remake</small></div><button value="cancel" aria-label="Закрыть">×</button></header>
       <div class="task-detail-title"><div><span id="taskDetailDate">Сегодня, 26 августа</span><h2 id="calendarTaskTitle">Макет главного экрана</h2></div><button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button></div>
-      <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
+      <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Дата<input id="taskDetailEditDate" type="date" required /></label><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
       <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Здоровье</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
       <section class="task-detail-section task-resource-grid"><div><h3>Ссылки</h3><div class="task-link-list" id="taskDetailLinks"><a href="https://meet.google.com" target="_blank" rel="noreferrer"><i>G</i><span><strong>Google Meet</strong><small>Видеовстреча команды</small></span></a><button type="button">+ Добавить ссылку</button></div></div><div><h3>Участники</h3><div class="task-member-editor"><button type="button"><i>АТ</i><span>Артём</span></button><button type="button"><i>МК</i><span>Марина</span></button><button type="button"><i>КС</i><span>Кирилл</span></button><button type="button" class="member-add"><i>+</i><span>Добавить</span></button></div></div></section>
       <footer><button class="task-delete" type="button">Удалить задачу</button><div><button class="secondary-action" value="cancel">Закрыть</button><button class="primary-action" value="confirm">Сохранить изменения</button></div></footer>
@@ -702,7 +690,7 @@
   <script src="checkin-state.js?v=2"></script>
   <script src="balance-ring.js?v=1"></script>
   <script src="reflection-prompts.js?v=1"></script>
-  <script src="tempo-app.js?v=onboarding-4"></script>
+  <script src="tempo-app.js?v=balance-action-1"></script>
   <script src="task-store.js?v=4"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>
@@ -710,16 +698,15 @@
   <script src="focus-state.js?v=1"></script>
   <script src="task-focus.js?v=4"></script>
   <script src="review-state.js?v=2"></script>
-  <script src="task-review.js?v=3"></script>
-  <script src="task-reschedule.js?v=1"></script>
-  <script src="task-editing.js?v=13"></script>
+  <script src="task-review.js?v=5"></script>
+  <script src="task-editing.js?v=16"></script>
   <script src="project-settings.js?v=5"></script>
   <script src="reflection-state.js?v=1"></script>
   <script src="reflection-flow.js?v=3"></script>
   <script src="work-boundaries.js?v=3"></script>
   <script src="local-settings.js?v=2"></script>
   <script src="local-onboarding.js?v=3"></script>
-  <script src="demo-cleanup.js?v=6"></script>
+  <script src="demo-cleanup.js?v=8"></script>
   <script src="session-notice.js?v=1"></script>
 </body>
 </html>

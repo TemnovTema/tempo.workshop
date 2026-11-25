@@ -34,7 +34,7 @@ function openView(name) {
   if (name === 'checkin') resetCheckin();
   viewButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === name));
   viewPanels.forEach((panel) => panel.classList.toggle('active', panel.dataset.viewPanel === name));
-  const viewNames = { today: 'Сегодня', calendar: 'Календарь', practices: 'Практики', checkin: 'Состояние', profile: 'Профиль', conflict: 'Изменение плана', review: 'Итог дня', onboarding: 'Настройка', 'focus-result': 'Результат фокуса' };
+  const viewNames = { today: 'Сегодня', calendar: 'Календарь', practices: 'Практики', checkin: 'Состояние', profile: 'Профиль', review: 'Итог дня', onboarding: 'Настройка', 'focus-result': 'Результат фокуса' };
   const headerTitle = document.querySelector('[data-header-title]');
   if (headerTitle) headerTitle.textContent = viewNames[name] || 'Tempo';
   history.replaceState(null, '', `#${name}`);
@@ -939,7 +939,9 @@ function resetCheckin() {
   renderStateStep();
 }
 function applyCheckin(record) {
-  document.querySelector('.empty-checkin-action').hidden=true;
+  const action = document.getElementById('balanceCheckinAction');
+  action.classList.replace('primary-action', 'text-action');
+  action.textContent = 'Обновить состояние';
   const advice = TempoCheckin.advice(record);
   const wheel = document.querySelector('.desktop-balance-wheel');
   wheel.querySelector('strong').textContent = record.energy;
@@ -994,6 +996,6 @@ document.addEventListener('keydown', (event) => {
 });
 
 const initialHash = location.hash.slice(1);
-const initialView = initialHash === 'tasks' || initialHash === 'projects' ? 'calendar' : initialHash;
+const initialView = ['tasks', 'projects', 'conflict'].includes(initialHash) ? 'calendar' : initialHash;
 if (initialHash === 'signup' || !initialHash) openWebAuth({ syncHash: initialHash !== 'signup' });
 else if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);

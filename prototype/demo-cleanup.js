@@ -1,6 +1,5 @@
 (function(){
  if(!savedCheckin){
-  document.querySelector('.empty-checkin-action').hidden=false;
   TempoBalanceRing.render(document.querySelector('.desktop-balance-wheel'),0);
   document.querySelector('.desktop-balance-wheel strong').textContent='—';
   document.querySelector('.desktop-balance-wheel').setAttribute('aria-label','Состояние сегодня ещё не отмечено');
@@ -39,5 +38,4 @@ function renderWebHealthPreview(requested) {
     value.textContent = visible ? readings[i] : 'Нет данных';
   });
   metrics.setAttribute('aria-label', visible ? 'Демонстрационные данные здоровья' : 'Данные здоровья не подключены');
-  document.querySelector('.web-health-example-label').hidden = !visible;
 }

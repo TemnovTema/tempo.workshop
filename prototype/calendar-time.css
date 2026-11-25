@@ -13,7 +13,7 @@
 .review-list article > div { grid-column: 2; min-width: 0; }
 .review-list article > input[type="checkbox"] { grid-column: 1; accent-color: var(--coral); }
 .review-list article span { overflow-wrap: anywhere; }
-.tomorrow-preview > .secondary-action { margin-top: 12px; }
+.tomorrow-preview > .secondary-action { width: 100%; margin-top: 12px; }
 .calendar-metrics-date { margin: 20px 0 6px; color: var(--muted); font-size: 11px; }
 .practice-player [hidden] { display: none !important; }
 .reflection-player { max-height: calc(100dvh - 100px); overflow-y: auto; }
@@ -23,8 +23,8 @@
 [data-theme="dark"] .settings-nav button { color: #cbd0c7; }
 [data-theme="dark"] .settings-nav button.active { color: #202520; }
 
-.empty-checkin-action { margin-top: 16px; }
-.empty-checkin-action[hidden] { display: none; }
+.desktop-balance-overview .desktop-balance-wheel { scale: 1.1; }
+#balanceCheckinAction { margin-top: 16px; max-width: 100%; white-space: normal; text-align: center; }
 
 /* Compact month rows must not inherit the large day-cell button styles. */
 [data-month-grid] { height:auto!important; grid-auto-rows:auto!important; align-items:stretch; }
@@ -55,3 +55,7 @@
     scrollbar-width:thin;
   }
 }
+
+#reviewTitle.app-page-title { letter-spacing: -.025em; }
+.review-completed strong { color: var(--muted); text-decoration: line-through; }
+.review-list article .review-checkmark { grid-column: 1; margin: 0; text-align: center; font-size: 16px; color: var(--muted); }
