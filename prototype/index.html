@@ -20,7 +20,8 @@
   <link rel="stylesheet" href="primary-quiet.css?v=1" />
   <link rel="stylesheet" href="themes.css?v=balance-layout-2" />
   <link rel="stylesheet" href="wide-screen.css?v=energy-labels-1" />
-  <link rel="stylesheet" href="onboarding.css?v=9" />
+  <link rel="stylesheet" href="onboarding.css?v=steady-frame-1" />
+  <link rel="stylesheet" href="focus-result.css?v=1" />
 </head>
 <body>
   <a class="skip-link" href="#appMain">К содержанию</a>
@@ -53,7 +54,7 @@
             <form data-web-signup-form>
               <input type="text" aria-label="Номер телефона или email" placeholder="Номер телефона или email" autocomplete="off" readonly />
               <button class="web-auth-primary" type="submit">Продолжить</button>
-              <button class="web-auth-skip" type="button" data-web-auth-next="2">Пропустить</button>
+              <button class="web-auth-skip" type="button" data-web-auth-next="2">Пропустить этот шаг</button>
             </form>
             <div class="entry-divider">или</div>
             <div class="entry-services">
@@ -71,46 +72,60 @@
 
       <div class="web-auth-step" data-web-auth-step="2" hidden>
         <header class="web-auth-step-head"><button type="button" data-web-auth-back="1" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Знакомство</span></header>
-        <div class="auth-copy compact"><h2>Давайте знакомиться</h2><p>Выберите профиль для знакомства с Tempo.</p></div>
+        <div class="auth-copy compact"><h2>Давайте знакомиться</h2><p>Настроим рекомендации для вашего дня.</p></div>
+        <div class="auth-step-content">
         <div class="intro-fields">
           <label>Как вас называть?<input id="intro-name" type="text" value="Сергей" maxlength="80" autocomplete="off" /></label>
           <label>Род деятельности<select id="intro-occupation"><option value="">Выберите вариант</option><option>Работаю</option><option>Учусь</option><option selected>Совмещаю работу и учёбу</option><option>Другое</option></select></label>
-          <label>Чего хочется от Tempo?<select id="intro-goal"><option value="">Можно пропустить</option><option selected>Планировать день</option><option>Находить время для отдыха</option><option>Сохранять фокус</option></select></label>
+          <label>В чём Темпо может вам помочь?<select id="intro-goal"><option value="">Можно пропустить</option><option selected>Планировать день</option><option>Находить время для отдыха</option><option>Сохранять фокус</option></select></label>
+          <label>Откуда вы узнали о Темпо?<select id="intro-source"><option value="" selected>Можно пропустить</option><option>От друзей или коллег</option><option>Из социальных сетей</option><option>Из статьи или блога</option><option>Через поиск</option><option>На мероприятии</option><option>Другое</option></select></label>
         </div>
-        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="3">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="3">Пропустить</button></div>
+        </div>
+        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="3">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="3">Пропустить этот шаг</button></div>
       </div>
 
       <div class="web-auth-step" data-web-auth-step="3" hidden>
         <header class="web-auth-step-head"><button type="button" data-web-auth-back="2" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Данные здоровья</span></header>
         <div class="auth-copy compact"><h2>Добавим данные здоровья?</h2><p>Посмотрите, как сон и активность с Apple Watch выглядят в вашем дне.</p></div>
+        <div class="auth-step-content">
         <div class="intro-health"><i class="ph-fill ph-heart"></i><div><strong>Apple Здоровье</strong><small>Сон, шаги и пульс с Apple Watch</small></div></div>
         <p class="intro-hint">В прототипе используются примеры показателей. Доступ к устройствам не требуется.</p>
-        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="4" data-health-preview>Делиться данными с Темпо</button><button class="web-auth-skip" type="button" data-web-auth-next="4">Пропустить</button></div>
+        </div>
+        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="4" data-health-preview>Делиться данными с Темпо</button><button class="web-auth-skip" type="button" data-web-auth-next="4">Продолжить без подключения</button></div>
       </div>
       <div class="web-auth-step" data-web-auth-step="4" hidden>
         <header class="web-auth-step-head"><button type="button" data-web-auth-back="3" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Опрос о дне</span></header>
         <div class="auth-copy compact"><h2>Как проходит ваш день?</h2></div>
-        <section class="rhythm-question"><strong>Как обычно работаете?</strong><div><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-target"></i><span>Длинный фокус</span></button><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-timer"></i><span>Короткие спринты</span></button><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-users-three"></i><span>Много встреч</span></button></div></section>
+        <div class="auth-step-content">
+        <section class="rhythm-question"><strong>Как вам удобнее работать или учиться?</strong><div><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-target"></i><span>Длинный фокус</span></button><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-timer"></i><span>Короткие спринты</span></button><button type="button" data-web-rhythm="work" aria-pressed="false"><i class="ph ph-arrows-clockwise"></i><span>По-разному</span></button></div></section>
         <section class="rhythm-question"><strong>Когда вам легче сосредоточиться?</strong><div><button type="button" data-web-rhythm="focusTime" aria-pressed="false"><i class="ph ph-sun-horizon"></i><span>Утром</span></button><button type="button" data-web-rhythm="focusTime" aria-pressed="false"><i class="ph ph-sun"></i><span>Днём</span></button><button type="button" data-web-rhythm="focusTime" aria-pressed="false"><i class="ph ph-moon"></i><span>Вечером</span></button></div></section>
-        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="5">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="5">Пропустить</button></div>
+        </div>
+        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="5">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="5">Пропустить этот шаг</button></div>
       </div>
       <div class="web-auth-step" data-web-auth-step="5" hidden>
         <header class="web-auth-step-head"><button type="button" data-web-auth-back="4" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Опрос о дне</span></header>
         <div class="auth-copy compact"><h2>Восстановление</h2></div>
+        <div class="auth-step-content">
         <section class="rhythm-question"><strong>Что лучше восстанавливает?</strong><div><button type="button" data-web-rhythm="rest" aria-pressed="false"><i class="ph ph-person-simple-walk"></i><span>Движение</span></button><button type="button" data-web-rhythm="rest" aria-pressed="false"><i class="ph ph-headphones"></i><span>Тишина</span></button><button type="button" data-web-rhythm="rest" aria-pressed="false"><i class="ph ph-chat-circle-dots"></i><span>Общение</span></button></div></section>
         <section class="rhythm-question"><strong>Сколько времени удобно выделить на перерыв?</strong><div><button type="button" data-web-rhythm="breakLength" aria-pressed="false"><i class="ph ph-timer"></i><span>5 минут</span></button><button type="button" data-web-rhythm="breakLength" aria-pressed="false"><i class="ph ph-clock"></i><span>15 минут</span></button><button type="button" data-web-rhythm="breakLength" aria-pressed="false"><i class="ph ph-hourglass"></i><span>30 минут</span></button></div></section>
-        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="6">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="6">Пропустить</button></div>
+        </div>
+        <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-next="6">Продолжить</button><button type="button" class="web-auth-skip" data-web-auth-next="6">Пропустить этот шаг</button></div>
       </div>
       <div class="web-auth-step" data-web-auth-step="6" hidden>
         <header class="web-auth-step-head"><button type="button" data-web-auth-back="5" aria-label="Назад"><i class="ph ph-caret-left"></i></button><span>Опрос о дне</span></header>
         <div class="auth-copy compact"><h2 id="note-title">Что еще важно учесть?</h2></div>
+        <div class="auth-step-content">
         <div class="survey-note">
           <div class="note-examples" role="group" aria-label="Добавить пример в ответ">
             <button type="button">Хочу вставать раньше</button>
             <button type="button">Утром у меня спорт</button>
             <button type="button">По вечерам я учусь</button>
+            <button type="button">Нужны регулярные перерывы</button>
+            <button type="button">Много встреч в течение дня</button>
+            <button type="button">Хочу освободить вечера</button>
           </div>
-          <textarea id="intro-note" aria-labelledby="note-title" rows="3" placeholder="Свой вариант…"></textarea>
+          <textarea id="intro-note" aria-labelledby="note-title" rows="3" placeholder="Пожелание к плану — необязательно"></textarea>
+        </div>
         </div>
         <div class="auth-actions"><button class="web-auth-primary" type="button" data-web-auth-finish="save">Открыть мой день</button></div>
       </div>
@@ -189,6 +204,7 @@
 
       <div class="today-grid">
         <section class="next-action" aria-labelledby="nextActionTitle">
+          <button class="state-context-tag" type="button" data-state-context data-open-view="checkin"><i class="ph ph-lightning" aria-hidden="true"></i><span>Оцените свои силы перед началом</span></button>
           <header class="section-heading">
             <span class="section-label">Следующее действие</span>
             <span class="time-window">10:20–11:10</span>
@@ -235,19 +251,18 @@
       <div class="focus-result-shell">
         <header><span class="section-label">Фокус завершён · 11:17</span><button class="text-action" type="button" data-open-view="today">Закрыть</button></header>
         <section class="focus-result-summary">
-          <div class="result-orbit"><i></i><i></i><strong>50</strong><span>минут</span></div>
+          <div class="result-orbit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><strong>50</strong><span>минут работы</span></div>
           <p>Макет главного экрана</p>
-          <h1 id="focusResultTitle">Хороший блок.<br />Что получилось?</h1>
+          <h1 id="focusResultTitle">Что получилось?</h1>
           <div class="outcome-options" role="group" aria-label="Результат фокус-сессии">
-            <button class="active" type="button"><i>✓</i><span><strong>Завершено</strong><small>задача уйдёт из плана</small></span></button>
-            <button type="button"><i>→</i><span><strong>Нужно продолжить</strong><small>оценить остаток времени</small></span></button>
-            <button type="button"><i>≈</i><span><strong>Продвинулся частично</strong><small>сохранить промежуточный итог</small></span></button>
+            <button class="active" type="button" aria-pressed="true"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></i><span><strong>Завершено</strong><small>Отметим выполненной</small></span></button>
+            <button type="button" aria-pressed="false"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></i><span><strong>Нужно продолжить</strong><small>Оставим в плане</small></span></button>
+            <button type="button" aria-pressed="false"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18v-4m7 4V9m7 9V4"/></svg></i><span><strong>Частично</strong><small>Сохраним прогресс</small></span></button>
           </div>
         </section>
         <aside class="focus-result-impact">
-          <span class="section-label">Влияние на день</span><h2>Появилось<br />18 свободных минут</h2><p>Tempo не заполняет их автоматически. Следующий созвон остаётся в 12:00.</p>
-          <div class="impact-timeline"><span>11:17</span><i></i><b>Свободно</b><span>11:35</span><i class="meeting"></i><b>Подготовка</b><span>12:00</span></div>
-          <label class="result-note">Заметка к результату<textarea placeholder="Что важно продолжить или передать?"></textarea></label>
+          <h2>Итог сессии</h2><p>Время фокуса сохранится в итогах дня.</p>
+          <label class="result-note">Заметка · необязательно<textarea placeholder="Что получилось и что осталось сделать?"></textarea></label>
           <button class="primary-action" type="button" data-open-view="today">Сохранить результат</button>
         </aside>
       </div>
@@ -702,7 +717,7 @@
       <h2 id="reflectionTitle">Что со мной сейчас</h2>
       <p id="reflectionPrompt">Что вы замечаете в теле прямо сейчас?</p>
       <textarea id="reflectionAnswer" aria-label="Ваш ответ" placeholder="Можно записать несколько слов..."></textarea>
-      <div class="reflection-actions"><button class="reflection-skip" type="button">Пропустить</button><button class="primary-action reflection-next" type="button">Следующий вопрос <span>→</span></button></div>
+      <div class="reflection-actions"><button class="reflection-skip" type="button">Пропустить этот шаг</button><button class="primary-action reflection-next" type="button">Следующий вопрос <span>→</span></button></div>
     </div>
   </div>
 
@@ -712,7 +727,7 @@
   <script src="balance-ring.js?v=1"></script>
   <script src="reflection-prompts.js?v=1"></script>
   <script src="state-history.js?v=3"></script>
-  <script src="tempo-app.js?v=energy-labels-1"></script>
+  <script src="tempo-app.js?v=progress-header-2"></script>
   <script src="task-store.js?v=5"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>

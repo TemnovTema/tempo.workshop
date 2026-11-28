@@ -25,20 +25,20 @@
     function finishSession(){
       if(!session)return;
       if(!session.finished){stop();session.finished=new Date().toISOString();}
-      choices.forEach((b,i)=>b.classList.toggle('active',['completed','continue','partial'][i]===session.outcome));note.value=session.note;persist();
+      choices.forEach((b,i)=>{const selected=['completed','continue','partial'][i]===session.outcome;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected));});note.value=session.note;persist();
       focusPlan.classList.remove('open');focusPlan.setAttribute('aria-hidden','true');
       result.querySelector('[data-task-error]')?.remove();
       result.querySelector('header .section-label').textContent='Сессия остановлена · сохраните результат';
       result.querySelector('.result-orbit strong').textContent=Math.floor(session.workMs/60000);
       result.querySelector('.result-orbit span').textContent='минут работы';
       result.querySelector('.focus-result-summary > p').textContent=session.name;
-      result.querySelector('.focus-result-impact h2').textContent='Что изменится в плане';
-      result.querySelector('.focus-result-impact > p').textContent='«Завершено» отметит задачу выполненной. Остальные варианты сохранят её в плане. Перерывы не входят во время работы.';
+      result.querySelector('.focus-result-impact h2').textContent='Итог сессии';
+      result.querySelector('.focus-result-impact > p').textContent='Время фокуса сохранится в итогах дня.';
       result.querySelector('.impact-timeline')?.remove();
       result.querySelector('#focusResultTitle').textContent='Что получилось?';
       workRestSwitch.setAttribute('aria-label','Открыть результат фокуса');
-      choices[1].querySelector('small').textContent='оставить задачу в плане';
-      choices[2].querySelector('small').textContent='сохранить заметку и оставить в плане';
+      choices[1].querySelector('small').textContent='Оставим в плане';
+      choices[2].querySelector('small').textContent='Оставим в плане с заметкой';
       openView('focus-result');
     }
     function tick(){
@@ -82,7 +82,7 @@
     },true);
 
     note.addEventListener('input',()=>{if(session?.finished){session.note=note.value;persist();}});
-    choices.forEach((button,i)=>button.addEventListener('click',()=>{if(session?.finished){session.outcome=['completed','continue','partial'][i];persist();}}));
+    choices.forEach((button,i)=>button.addEventListener('click',()=>{choices.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));if(session?.finished){session.outcome=['completed','continue','partial'][i];persist();}}));
     window.addEventListener('pagehide',()=>{account();persist();});
     document.addEventListener('visibilitychange',()=>{if(session){account();persist();}});
     try{

@@ -1,0 +1,25 @@
+.focus-result-shell{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;padding:32px;min-height:0;align-items:start}
+.focus-result-shell>header{height:auto;padding:0;border:0;gap:20px}
+.focus-result-summary{padding:24px 8px 16px;min-width:0}
+.focus-result-summary>p{font-size:16px;line-height:1.5;color:var(--muted);margin:24px 0 12px}
+.focus-result-summary h1{font-size:clamp(32px,3.5vw,50px);line-height:1.08;letter-spacing:-.045em;margin:0 0 32px}
+.result-orbit{flex-direction:row;justify-content:flex-start;gap:10px;width:auto;height:auto;border:0;margin:0}
+.result-orbit svg{width:24px;height:24px;color:var(--muted)}
+.result-orbit strong{font-size:28px;line-height:1.2}
+.result-orbit span{font-size:14px}
+.outcome-options{gap:12px;grid-template-columns:1fr}
+.outcome-options button{align-items:center;min-height:80px;padding:16px 20px;border-radius:20px;background:var(--white);border:2px solid transparent}
+.outcome-options button.active{border-color:var(--accent,#705978);background:var(--white)}
+.outcome-options button>i{width:40px;height:40px;flex-basis:40px;background:var(--paper);color:var(--muted)}
+.outcome-options button.active>i{background:#705978;color:white}
+.outcome-options svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.outcome-options strong{font-size:16px;line-height:1.3}
+.outcome-options small{font-size:13px;line-height:1.4;margin-top:4px}
+.focus-result-shell .focus-result-impact{margin-top:24px;padding:28px;border-radius:24px;background:var(--white);min-width:0}
+.focus-result-impact h2{font-size:28px;line-height:1.2;letter-spacing:-.035em;margin:0 0 12px}
+.focus-result-impact>p{font-size:15px;margin:0 0 28px}
+.result-note{font-size:14px}
+.result-note textarea{height:160px;background:var(--paper);font:inherit;line-height:1.5;padding:16px;resize:vertical}
+.focus-result-impact .primary-action{margin-top:24px}
+@media(max-width:900px){.focus-result-shell{display:grid;grid-template-columns:1fr;padding:24px;gap:16px}.focus-result-shell .focus-result-impact{margin-top:0}.focus-result-summary{padding:8px 0}.focus-result-shell>header{padding:0}}
+@media(max-width:480px){.focus-result-shell{padding:20px}.focus-result-shell .focus-result-impact{padding:20px}.focus-result-shell>header .section-label{max-width:22ch;line-height:1.5}}

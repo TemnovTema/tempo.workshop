@@ -5,7 +5,8 @@
   try { saved = JSON.parse(localStorage.getItem(key)) || {}; } catch {}
   const contact = root.querySelector('[data-web-signup-form] input');
   const note = root.querySelector('#intro-note');
-  const fields = ['name', 'occupation', 'goal'];
+  const fields = ['name', 'occupation', 'goal', 'source'];
+  const preferenceSteps = {'4': ['work', 'focusTime'], '5': ['rest', 'breakLength']};
   const skipped = new Set();
   let previewHealth = false;
 
@@ -50,9 +51,13 @@
   }
   const status = document.createElement('p');
   status.setAttribute('role', 'status');
-  webAuthSteps.at(-1).append(status);
+  webAuthSteps.at(-1).querySelector('.auth-step-content').append(status);
   root.querySelector('[data-web-auth-finish]').addEventListener('click', () => {
     const data = {...saved, healthPreview: previewHealth, dayNote: note.value.trim()};
+    for (const [step, keys] of Object.entries(preferenceSteps)) {
+      for (const field of keys) delete data[field];
+    }
+    if (skipped.has('2')) for (const field of fields) delete data[field];
     if (!skipped.has('2')) {
       for (const field of fields) data[field] = root.querySelector('#intro-' + field).value.trim();
       data.name ||= 'Сергей';

@@ -11,6 +11,8 @@ function showWebAuthStep(step) {
     panel.classList.toggle('active', active);
   });
   webAuthRing.toggleAttribute('hidden', Number(step) === 1);
+  const stepHeader = webAuthSteps.find(panel => Number(panel.dataset.webAuthStep) === Number(step))?.querySelector('.web-auth-step-head');
+  if (stepHeader) stepHeader.append(webAuthRing);
   webAuthRing.setAttribute('aria-valuemax', webAuthSteps.length);
   webAuthRing.setAttribute('aria-valuenow', step);
   webAuthRing.querySelector('.arc').style.strokeDashoffset = 100 * (1 - Number(step) / webAuthSteps.length);
@@ -937,6 +939,7 @@ function applyCheckin(record) {
   action.classList.replace('primary-action', 'text-action');
   action.textContent = 'Обновить состояние';
   const advice = TempoCheckin.advice(record);
+  document.querySelector('[data-state-context] span').textContent = 'По вашей оценке · ' + advice.title.toLowerCase();
   const wheel = document.querySelector('.desktop-balance-wheel');
   wheel.querySelector('strong').textContent = record.energy;
   wheel.setAttribute('aria-label', `Энергия ${record.energy} из 100`);
