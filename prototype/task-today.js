@@ -1,9 +1,16 @@
 (function () {
-  window.TempoTaskToday = function ({store, makeTask, dayKey}) {
+  window.TempoTaskToday = function ({store, makeTask, dayKey, refresh, report}) {
     let selectedId;
     const agenda = document.querySelector('.mini-agenda');
     const start = document.querySelector('[data-focus-start]');
     const alternatives = document.querySelector('.alternative-stack');
+    const toggle = document.querySelector('[data-alternatives]');
+    function showAlternatives(show) {
+      alternatives.hidden = !show;
+      toggle.setAttribute('aria-expanded', String(show));
+      toggle.textContent = show ? 'Скрыть варианты' : 'Другой вариант';
+    }
+    toggle.addEventListener('click', () => showAlternatives(alternatives.hidden));
     const duration = n => `${Math.floor(n/60)} ч ${n%60} мин`;
     const clock = n => `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`;
     const toMinutes = time => Number(time.slice(0,2))*60+Number(time.slice(3));
@@ -15,8 +22,6 @@
     }
     function render() {
       const tasks=todayTasks(), next=choose();
-      document.querySelector('.today-intro .date-line').textContent=calendarToday.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
-      document.getElementById('todayTitle').textContent='Ваш день, Артём';
       selectedId=next?.id;
       document.getElementById('timelineTitle').textContent=`События: ${tasks.length} · готово: ${tasks.filter(t=>t.completed).length}`;
       agenda.replaceChildren();
@@ -27,7 +32,29 @@
         const copy=document.createElement('div'), name=document.createElement('strong'), meta=document.createElement('span');
         name.textContent=task.name;meta.textContent=task.completed?'завершено':`${task.minutes} мин${task.readonly?' · свободный блок':''}`;
         copy.append(name,meta);row.append(time,copy);
-        if(!task.readonly){row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label',`Открыть задачу ${task.name}`);row.addEventListener('click',()=>openCalendarTask(makeTask(task,'day')));row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.click();}});}
+        if (!task.readonly) {
+          const check = document.createElement('button');
+          check.type = 'button';
+          check.className = 'agenda-check';
+          check.dataset.taskId = task.id;
+          check.setAttribute('aria-label', `Выполнено: ${task.name}`);
+          check.setAttribute('aria-pressed', String(!!task.completed));
+          check.addEventListener('click', () => {
+            if (!store.save({...task, completed: !task.completed})) {
+              report(row);
+              return;
+            }
+            refresh();
+            agenda.querySelector(`[data-task-id="${CSS.escape(task.id)}"]`)?.focus({preventScroll:true});
+          });
+          const edit = document.createElement('button');
+          edit.type = 'button';
+          edit.className = 'agenda-edit';
+          edit.setAttribute('aria-label', `Открыть задачу ${task.name}`);
+          edit.addEventListener('click', () => openCalendarTask(makeTask(task,'day')));
+          row.classList.add('editable');
+          row.append(check, edit);
+        }
         agenda.append(row);
       });
       const totals=TempoTaskMetrics.summarize(tasks);
@@ -41,8 +68,9 @@
       if(next){const span=document.createElement('span');span.textContent=`${next.minutes} мин`;start.append(span);}
       alternatives.replaceChildren();
       const options=available().filter(t=>t.id!==selectedId);
-      options.forEach(task=>{const button=document.createElement('button');button.type='button';button.className='secondary-action';button.textContent=`${task.name} · ${task.minutes} мин`;button.addEventListener('click',()=>{selectedId=task.id;render();});alternatives.append(button);});
-      document.querySelector('[data-alternatives]').disabled=!options.length;
+      options.forEach(task=>{const button=document.createElement('button');button.type='button';button.className='secondary-action';button.textContent=`${task.name} · ${task.minutes} мин`;button.addEventListener('click',()=>{selectedId=task.id;showAlternatives(false);render();toggle.focus();});alternatives.append(button);});
+      toggle.disabled=!options.length;
+      if (!options.length) showAlternatives(false);
     }
     start.addEventListener('click',event=>{
       event.stopImmediatePropagation();

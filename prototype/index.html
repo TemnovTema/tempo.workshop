@@ -7,13 +7,13 @@
   <meta name="theme-color" content="#f2f1ef" />
   <title>Tempo — сегодня</title>
   <script src="themes.js?v=custom-theme-3"></script>
-  <link rel="stylesheet" href="tempo-app.css?v=balance-layout-2" />
+  <link rel="stylesheet" href="tempo-app.css?v=today-layout-6" />
   <link rel="stylesheet" href="state-moods.css?v=collage-2" />
   <link rel="stylesheet" href="practices-v2.css" />
   <link rel="stylesheet" href="buttons-v2.css" />
-  <link rel="stylesheet" href="calendar-dialogs.css?v=3" />
+  <link rel="stylesheet" href="calendar-dialogs.css?v=4" />
   <link rel="stylesheet" href="calendar-projects.css?v=4" />
-  <link rel="stylesheet" href="calendar-time.css?v=13" />
+  <link rel="stylesheet" href="calendar-time.css?v=14" />
   <link rel="stylesheet" href="calendar-project-hub.css?v=6" />
   <link rel="stylesheet" href="header-left.css?v=2" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
@@ -143,8 +143,8 @@
     <section class="app-view active" data-view-panel="today" aria-labelledby="todayTitle">
       <div class="view-intro today-intro">
         <div>
-          <p class="date-line"><span>Среда</span> 26 августа</p>
-          <h1 class="app-page-title" id="todayTitle">Доброе утро, Артём</h1>
+
+          <h1 class="app-page-title" id="todayTitle"></h1>
         </div>
         <div class="intro-meta">
           <div class="context-links"><button type="button" data-open-view="review">Завершить день</button></div>
@@ -190,27 +190,17 @@
       <div class="today-grid">
         <section class="next-action" aria-labelledby="nextActionTitle">
           <header class="section-heading">
-            <div>
-              <span class="section-label">Следующее действие</span>
-              <h2 id="nextActionTitle">Макет главного экрана</h2>
-            </div>
+            <span class="section-label">Следующее действие</span>
             <span class="time-window">10:20–11:10</span>
+            <h2 id="nextActionTitle">Макет главного экрана</h2>
           </header>
-
-          <div class="recommendation-reason">
-            <span class="reason-index">01</span>
-            <p>Выберите незавершённую задачу из сегодняшнего плана. Перед началом можно обновить состояние.</p>
-          </div>
 
           <div class="recommendation-actions">
             <button class="primary-action" type="button" data-focus-start>Начать фокус <span>50 мин</span></button>
-            <button class="secondary-action" type="button" data-alternatives>Другой вариант</button>
+            <button class="secondary-action" type="button" aria-controls="nextAlternatives" aria-expanded="false" data-alternatives>Другой вариант</button>
           </div>
 
-          <div class="alternative-stack" aria-hidden="true">
-            <article><span>Альтернатива</span><strong>Разобрать заметки интервью</strong><small>30–40 минут · средняя нагрузка</small></article>
-            <article><span>Альтернатива</span><strong>Ответить на сообщения команды</strong><small>15–20 минут · низкая нагрузка</small></article>
-          </div>
+          <div class="alternative-stack" id="nextAlternatives" hidden></div>
         </section>
 
         <aside class="today-timeline" aria-labelledby="timelineTitle">
@@ -269,7 +259,7 @@
     </section>
 
     <section class="app-view" data-view-panel="profile" aria-labelledby="profileTitle">
-      <div class="view-intro profile-intro"><div><p class="date-line"><span>Контекст</span> настройки</p><h1 id="profileTitle">Профиль</h1></div><div class="intro-meta"><p>Здесь Tempo хранит только тот контекст, который нужен для реалистичного планирования.</p><button class="text-action" type="button" data-open-view="onboarding">Повторить настройку</button></div></div>
+      <div class="view-intro profile-intro"><div><p class="date-line" id="profileName"></p><h1 class="app-page-title" id="profileTitle">Профиль</h1></div></div>
       <div class="settings-layout">
         <nav class="settings-nav" aria-label="Разделы настроек">
           <button class="active" type="button" data-settings-tab="roles">Роли и границы</button>
@@ -321,7 +311,13 @@
         </section>
         <aside class="integration-panel settings-aside appearance-aside" data-settings-aside="appearance"><i class="ph ph-palette" aria-hidden="true"></i><h3>Ваш привычный ритм</h3><p>Календарь, задачи и практики остаются на своих местах. Меняется только настроение интерфейса.</p><p>Можно вернуться к светлой теме в любой момент.</p></aside>
 
-        <section class="settings-content settings-panel active" data-settings-panel="roles"><header><span class="section-label">01</span><h2>Роли и границы</h2><p>Tempo использует роли, чтобы не смешивать обязательства и защищать личное время.</p></header><div class="role-row"><i class="role-dot work"></i><div><strong>Работа</strong><span>пн–пт · 09:30–18:30</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot study"></i><div><strong>Учёба</strong><span>до 8 часов в неделю</span></div><button>Изменить</button></div><div class="role-row"><i class="role-dot personal"></i><div><strong>Личное</strong><span>вечера и выходные</span></div><button>Изменить</button></div><div class="boundary-card"><span>Защищённое время</span><strong>После 18:30 — без новых обязательств</strong><label><input type="checkbox" checked><i></i></label></div><div class="focus-window"><span>Предпочтительный фокус</span><div><b>09</b><b class="active">10</b><b class="active">11</b><b>12</b><b>13</b><b>14</b><b class="active">15</b><b class="active">16</b><b>17</b></div></div></section>
+        <section class="settings-content settings-panel active" data-settings-panel="roles"><header><span class="section-label">01</span><h2>Роли и границы</h2><p>Tempo использует роли, чтобы не смешивать обязательства и защищать личное время.</p></header><form class="role-boundaries">
+            <div class="role-tabs" aria-label="Роль"><button type="button">Работа</button><button type="button">Учёба</button><button type="button">Личное</button></div>
+            <div class="time-boundary"><label>Начало<input type="time" required></label><label>Конец<input type="time" required></label></div>
+            <label class="protect-evening"><input type="checkbox"><strong>Защищать время после окончания</strong></label>
+            <button class="primary-action" type="submit">Сохранить границы</button>
+            <p role="status"></p>
+          </form><div class="focus-window"><span>Предпочтительный фокус</span><div><b>09</b><b class="active">10</b><b class="active">11</b><b>12</b><b>13</b><b>14</b><b class="active">15</b><b class="active">16</b><b>17</b></div></div></section>
 
         <section class="settings-content settings-panel" data-settings-panel="calendars"><header><span class="section-label">02</span><h2>Календари</h2><p>События из разных источников собираются в один план. Для каждого календаря можно задать роль и влияние на доступное время.</p></header><div class="source-list"><article><i class="source-mark calendar-source"></i><div><strong>Рабочий календарь</strong><span>Google Calendar · двусторонняя синхронизация</span></div><em>Работа</em><label class="switch-control"><input type="checkbox" checked><i></i></label></article><article><i class="source-mark study-source"></i><div><strong>Учёба в ВШЭ</strong><span>Google Calendar · только чтение</span></div><em>Учёба</em><label class="switch-control"><input type="checkbox" checked><i></i></label></article><article><i class="source-mark personal-source"></i><div><strong>Личное</strong><span>Apple Calendar · обновлено 6 мин назад</span></div><em>Личное</em><label class="switch-control"><input type="checkbox" checked><i></i></label></article></div><button class="settings-add" type="button">＋ Подключить календарь</button><div class="settings-rule"><span>События без статуса «занят»</span><strong>Не уменьшают доступное время</strong><label class="switch-control"><input type="checkbox" checked><i></i></label></div></section>
 
@@ -339,9 +335,7 @@
       </div>
     </section>
 
-    <section class="app-view" data-view-panel="onboarding" aria-labelledby="onboardingTitle">
-      <div class="onboarding-shell"><header><a class="app-brand" href="#today" data-route="today"><span class="brand-mark"><i></i><i></i></span><span>Tempo</span></a><span>Настройка · 2 из 3</span></header><div class="onboarding-copy"><span class="section-label">Границы вместо жёсткого расписания</span><h1 id="onboardingTitle">Когда у вашего дня<br />есть начало и конец?</h1><p>Tempo не будет ставить задачи за пределами этих часов без явного подтверждения.</p><div class="role-tabs"><button class="active">Работа</button><button>Учёба</button><button>Личное</button></div><div class="time-boundary"><label>Начало<input type="time" value="09:30"></label><div class="boundary-line"><i></i><b></b></div><label>Конец<input type="time" value="18:30"></label></div><label class="protect-evening"><input type="checkbox" checked><span><strong>Защищать время после 18:30</strong><small>Новые задачи останутся без времени или перейдут на другой день.</small></span></label><div class="onboarding-actions"><button class="secondary-action" type="button" data-open-view="profile">Назад</button><button class="primary-action" type="button" data-open-view="profile">Сохранить и продолжить <span>3 / 3</span></button></div></div><aside class="onboarding-visual"><div class="day-boundary-viz"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span><i class="sleep-zone"></i><i class="work-zone"></i><b>9 ч доступно</b></div><p>На основе календаря за последние две недели Tempo видит, что самые устойчивые окна — с 10:00 до 12:00.</p></aside></div>
-    </section>
+
 
     <section class="app-view" data-view-panel="calendar" aria-labelledby="calendarTitle">
       <div class="view-intro calendar-intro">
@@ -665,9 +659,21 @@
 
   <dialog class="task-detail-dialog" id="taskDetailDialog">
     <form method="dialog">
-      <header><div><span class="task-detail-status"><i></i> Запланировано</span><small id="taskDetailProject">Tempo Remake</small></div><button value="cancel" aria-label="Закрыть">×</button></header>
-      <div class="task-detail-title"><div><span id="taskDetailDate">Сегодня, 26 августа</span><h2 id="calendarTaskTitle">Макет главного экрана</h2></div><button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button></div>
-      <label><input id="taskDetailDone" type="checkbox" /> Выполнено</label>
+      <header>
+        <div class="task-detail-tags">
+          <span class="task-detail-status">Запланировано</span>
+          <span id="taskDetailProject"></span>
+          <span id="taskDetailDate"></span>
+        </div>
+        <button value="cancel" aria-label="Закрыть">×</button>
+      </header>
+      <div class="task-detail-title">
+        <h2 id="calendarTaskTitle">Макет главного экрана</h2>
+        <div class="task-detail-actions">
+          <button class="primary-action" type="button" id="taskDetailStart">Начать фокус</button>
+          <button class="secondary-action" type="button" id="taskDetailDone">Отметить выполненной</button>
+        </div>
+      </div>
       <section class="task-detail-section task-schedule-section"><h3>Расписание</h3><div class="task-time-editor"><label>Дата<input id="taskDetailEditDate" type="date" required /></label><label>Начало<input id="taskDetailStartTime" type="time" value="10:20" /></label><label>Завершение<input id="taskDetailEndTime" type="time" value="11:10" /></label><label>Длительность<select id="taskDetailDuration"><option>30 минут</option><option selected>50 минут</option><option>1 час</option><option>1 ч 20 мин</option></select></label></div></section>
       <section class="task-detail-section"><h3>Контекст</h3><label class="task-wide-field">Проект<select id="taskDetailProjectSelect"><option>Без проекта</option><option selected>Tempo Remake</option><option>Команда</option><option>Курсовая работа</option><option>Здоровье</option></select></label><label class="task-wide-field">Заметки<textarea id="taskDetailNotes">Проверить адаптив главного экрана и подготовить варианты для обсуждения.</textarea></label></section>
       <section class="task-detail-section task-resource-grid"><div><h3>Ссылки</h3><div class="task-link-list" id="taskDetailLinks"><a href="https://meet.google.com" target="_blank" rel="noreferrer"><i>G</i><span><strong>Google Meet</strong><small>Видеовстреча команды</small></span></a><button type="button">+ Добавить ссылку</button></div></div><div><h3>Участники</h3><div class="task-member-editor"><button type="button"><i>АТ</i><span>Артём</span></button><button type="button"><i>МК</i><span>Марина</span></button><button type="button"><i>КС</i><span>Кирилл</span></button><button type="button" class="member-add"><i>+</i><span>Добавить</span></button></div></div></section>
@@ -700,22 +706,22 @@
   <script src="balance-ring.js?v=1"></script>
   <script src="reflection-prompts.js?v=1"></script>
   <script src="state-history.js?v=3"></script>
-  <script src="tempo-app.js?v=history-1"></script>
+  <script src="tempo-app.js?v=today-date-2"></script>
   <script src="task-store.js?v=5"></script>
   <script src="task-projects.js?v=1"></script>
   <script src="task-metrics.js?v=1"></script>
-  <script src="task-today.js?v=3"></script>
+  <script src="task-today.js?v=5"></script>
   <script src="focus-state.js?v=1"></script>
   <script src="task-focus.js?v=4"></script>
   <script src="review-state.js?v=2"></script>
   <script src="task-review.js?v=5"></script>
-  <script src="task-editing.js?v=17"></script>
+  <script src="task-editing.js?v=20"></script>
   <script src="project-settings.js?v=5"></script>
   <script src="reflection-state.js?v=1"></script>
   <script src="reflection-flow.js?v=3"></script>
   <script src="work-boundaries.js?v=3"></script>
   <script src="local-settings.js?v=2"></script>
-  <script src="local-onboarding.js?v=3"></script>
+  <script src="local-onboarding.js?v=profile-3"></script>
   <script src="demo-cleanup.js?v=8"></script>
   <script src="session-notice.js?v=1"></script>
 </body>

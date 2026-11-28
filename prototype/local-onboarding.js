@@ -45,20 +45,8 @@
     }
   }));
 
-  const meta = document.querySelector('.profile-intro .intro-meta');
-  const summary = document.createElement('p');
-  const edit = document.createElement('button');
-  edit.type = 'button';
-  edit.className = 'text-action';
-  edit.textContent = 'Изменить предпочтения';
-  edit.addEventListener('click', () => { openWebAuth(); showWebAuthStep(2); });
-  meta.prepend(summary);
-  meta.append(edit);
   function display() {
-    if (!saved.name) return;
-    document.getElementById('todayTitle').textContent = 'Ваш день, ' + saved.name;
-    document.querySelector('.header-profile')?.setAttribute('aria-label', 'Профиль: ' + saved.name);
-    summary.textContent = [saved.occupation, saved.goal, saved.work, saved.rest].filter(Boolean).join(' · ');
+    document.getElementById('profileName').textContent = saved.name || 'Сергей';
   }
   const status = document.createElement('p');
   status.setAttribute('role', 'status');

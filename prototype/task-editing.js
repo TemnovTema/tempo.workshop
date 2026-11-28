@@ -62,6 +62,10 @@
     const meta=document.createElement('small'); meta.textContent=task.completed ? 'Завершено' : `${task.minutes} мин`;
     node.classList.toggle('task-completed', !!task.completed);
     node.append(time,name,meta);
+    if (kind === 'week') {
+      node.title = `${task.name} · ${task.time} · ${task.minutes} мин${task.completed ? ' · завершено' : ''}`;
+      node.setAttribute('aria-label', node.title);
+    }
     const top=(minutes(task.time)-480)/780*100, height=task.minutes/780*100;
     node.style.setProperty('--start',`${top}%`); node.style.setProperty('--duration',`${height}%`);
     node.style.setProperty('--y',`${top}%`); node.style.setProperty('--h',`${height}%`);
@@ -168,6 +172,22 @@
     createForm.querySelector('[data-task-error]')?.remove();
     title.setCustomValidity(''); start.setCustomValidity('');
   }));
+  const doneButton = document.getElementById('taskDetailDone');
+  function displayCompletion(record) {
+    const completed = !!record?.completed;
+    doneButton.textContent = completed ? 'Вернуть в работу' : 'Отметить выполненной';
+    doneButton.disabled = !record || !!record.readonly;
+    detailForm.querySelector('.task-detail-status').textContent = completed ? 'Завершено' : 'Запланировано';
+    document.getElementById('taskDetailStart').disabled = completed;
+  }
+  doneButton.addEventListener('click', () => {
+    const record = store.all().find(task => task.id === activeCalendarTask?.dataset.taskId);
+    if (!record || record.readonly) return;
+    const updated = {...record, completed: !record.completed};
+    if (!store.save(updated)) { report(detailForm); return; }
+    displayCompletion(updated);
+    renderCalendarPeriod();
+  });
   const originalOpen = openCalendarTask;
   openCalendarTask = function(task) {
     originalOpen(task);
@@ -178,9 +198,7 @@
     document.getElementById('taskDetailProjectSelect').value=task.dataset.calendarProject;
     document.getElementById('taskDetailProject').textContent=label;
     const record=store.all().find(t=>t.id===task.dataset.taskId);
-    document.getElementById('taskDetailDone').checked = !!record?.completed;
-    document.querySelector('.task-detail-status').textContent=record?.completed ? 'Завершено' : 'Запланировано';
-    document.getElementById('taskDetailStart').disabled=!!record?.completed;
+    displayCompletion(record);
     let resultNote=detailForm.querySelector('[data-last-focus-result]');
     if(!resultNote){resultNote=document.createElement('p');resultNote.dataset.lastFocusResult='';notes.parentElement.after(resultNote);}
     const last=record?.focusResults?.at(-1);
@@ -239,7 +257,7 @@
       }
     }
     const project=document.getElementById('taskDetailProjectSelect').value || 'none';
-    if(!store.save({...previous,completed:document.getElementById('taskDetailDone').checked,date:editDate.value,time:startEdit.value,minutes:n,notes:notes.value,project})) {report(detailForm);return;}
+    if(!store.save({...previous,date:editDate.value,time:startEdit.value,minutes:n,notes:notes.value,project})) {report(detailForm);return;}
     calendarDate=new Date(`${editDate.value}T12:00:00`);
     taskDetailDialog.close(); renderCalendarPeriod();
   });
@@ -256,7 +274,7 @@
   filterCalendarByProject=function(key){originalFilter(key);renderCalendarPeriod();};
   refreshProjects=TempoTaskProjects({store,makeTask,renderCalendar:()=>renderCalendarPeriod(),report});
   TempoTaskFocus({store,refresh:()=>renderCalendarPeriod(),report});
-  refreshToday=TempoTaskToday({store,makeTask,dayKey});
+  refreshToday=TempoTaskToday({store,makeTask,dayKey,refresh:()=>renderCalendarPeriod(),report});
   TempoTaskReview({store,dayKey,refresh:()=>renderCalendarPeriod(),report});
   renderCalendarPeriod();
   createForm.querySelector('.task-dialog-footer p').textContent = 'Задача сохраняется в этом браузере. Проверка пересечений и повторение появятся позже.';

@@ -255,6 +255,9 @@ renderCalendarPeriod();
 
 function updateCalendarNow() {
   const now = getMoscowParts();
+  const date = new Date(now.year, now.month - 1, now.day);
+  document.getElementById('todayTitle').textContent =
+    `${now.day} ${monthNamesGenitive[now.month - 1]}, ${weekdayNames[date.getDay()].toLowerCase()}`;
   const marker = document.querySelector('[data-calendar-now]');
   if (!marker) return;
   const isToday = calendarDate.getFullYear() === now.year && calendarDate.getMonth() === now.month - 1 && calendarDate.getDate() === now.day;
@@ -266,7 +269,6 @@ function updateCalendarNow() {
   marker.querySelector('time').textContent = `${String(now.hour).padStart(2, '0')}:${String(now.minute).padStart(2, '0')}`;
   const headerDate = document.querySelector('.header-date-button');
   if (headerDate) {
-    const date = new Date(now.year, now.month - 1, now.day);
     headerDate.querySelector('strong').textContent = now.day;
     headerDate.querySelector('small').textContent = weekdayShort[date.getDay()].toUpperCase();
     headerDate.setAttribute('aria-label', `${weekdayNames[date.getDay()]}, ${now.day} ${monthNamesGenitive[now.month - 1]}, открыть календарь`);
@@ -274,14 +276,6 @@ function updateCalendarNow() {
 }
 updateCalendarNow();
 setInterval(updateCalendarNow, 30000);
-
-const alternativesButton = document.querySelector('[data-alternatives]');
-const alternativesStack = document.querySelector('.alternative-stack');
-alternativesButton?.addEventListener('click', () => {
-  const isOpen = alternativesStack.classList.toggle('open');
-  alternativesStack.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-  alternativesButton.textContent = isOpen ? 'Скрыть варианты' : 'Другой вариант';
-});
 
 const focusOverlay = document.querySelector('.focus-overlay');
 const workRestSwitch = document.querySelector('[data-work-rest-toggle]');
@@ -733,10 +727,6 @@ document.querySelectorAll('.task-open').forEach((button) => button.addEventListe
   document.querySelectorAll('.task-row').forEach((item) => item.classList.toggle('featured', item === row));
 }));
 
-document.querySelectorAll('.role-tabs button').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('.role-tabs button').forEach((item) => item.classList.toggle('active', item === button));
-}));
-
 document.querySelectorAll('[data-settings-tab]').forEach((button) => button.addEventListener('click', () => {
   const section = button.dataset.settingsTab;
   document.querySelectorAll('[data-settings-tab]').forEach((item) => item.classList.toggle('active', item === button));
@@ -954,7 +944,6 @@ function applyCheckin(record) {
   copy.querySelector('span').textContent = 'Энергия по вашей отметке';
   copy.querySelector('h2').textContent = advice.title;
   copy.querySelector('p').textContent = advice.copy;
-  document.querySelector('.recommendation-reason p').textContent = advice.next;
 }
 // «Не знаю» исключает конкретные факторы, а конкретный выбор снимает «Не знаю».
 document.querySelectorAll('[name="factor"]').forEach(input => input.addEventListener('change', () => {
@@ -1000,6 +989,6 @@ document.addEventListener('keydown', (event) => {
 });
 
 const initialHash = location.hash.slice(1);
-const initialView = ['tasks', 'projects', 'conflict'].includes(initialHash) ? 'calendar' : initialHash;
+const initialView = ['tasks', 'projects', 'conflict'].includes(initialHash) ? 'calendar' : initialHash === 'onboarding' ? 'profile' : initialHash;
 if (initialHash === 'signup' || !initialHash) openWebAuth({ syncHash: initialHash !== 'signup' });
 else if ([...viewPanels].some((panel) => panel.dataset.viewPanel === initialView)) openView(initialView);
