@@ -853,14 +853,14 @@ const stateReadingCopy = document.getElementById('stateReadingCopy');
 const moodStage = document.getElementById('moodStage');
 const moodFace = document.getElementById('moodFace');
 const moodLevels = [
-  { value: 10, style: 'angry', label: 'Напряжение', reading: 'Нагрузку лучше снизить', copy: 'Сейчас полезнее оставить только необходимое и создать пространство для восстановления.' },
-  { value: 23, style: 'irritated', label: 'Раздражение', reading: 'Лучше убрать лишние стимулы', copy: 'Tempo сократит переключения и предложит начать с одной короткой понятной задачи.' },
-  { value: 34, style: 'sad', label: 'Грустно', reading: 'Сегодня нужен мягкий темп', copy: 'Tempo предложит знакомые задачи без лишнего давления и сохранит больше пауз.' },
-  { value: 42, style: 'tired', label: 'Усталость', reading: 'Стоит беречь внимание', copy: 'Длинные задачи лучше разделить, а между спринтами оставить полноценное восстановление.' },
-  { value: 52, style: 'surprised', label: 'Удивление', reading: 'Нужна короткая сверка плана', copy: 'Сначала стоит понять, что изменилось, и только потом выбирать следующий фокус.' },
-  { value: 68, style: 'calm', label: 'Спокойно', reading: 'Темп можно сохранить', copy: 'Лучшее окно для сложной задачи - до 13:00. После встречи стоит оставить короткую паузу.' },
-  { value: 82, style: 'energized', label: 'Бодро', reading: 'Есть ресурс для сложного', copy: 'Можно использовать ближайшее длинное окно для глубокой работы, не уплотняя вечер.' },
-  { value: 96, style: 'delighted', label: 'В восторге', reading: 'Энергию можно направить в важное', copy: 'Хороший момент для задачи, которую давно хотелось сдвинуть с места.' }
+  { value: 10, style: 'angry', label: 'Сил почти нет', reading: 'Нагрузку лучше снизить', copy: 'Сейчас полезнее оставить только необходимое и создать пространство для восстановления.' },
+  { value: 23, style: 'irritated', label: 'Очень мало сил', reading: 'Лучше убрать лишние стимулы', copy: 'Tempo сократит переключения и предложит начать с одной короткой понятной задачи.' },
+  { value: 34, style: 'sad', label: 'Энергии мало', reading: 'Сегодня нужен мягкий темп', copy: 'Tempo предложит знакомые задачи без лишнего давления и сохранит больше пауз.' },
+  { value: 42, style: 'tired', label: 'Немного усталости', reading: 'Стоит беречь внимание', copy: 'Длинные задачи лучше разделить, а между спринтами оставить полноценное восстановление.' },
+  { value: 52, style: 'surprised', label: 'Сил достаточно для простых дел', reading: 'Нужна короткая сверка плана', copy: 'Сначала стоит понять, что изменилось, и только потом выбирать следующий фокус.' },
+  { value: 68, style: 'calm', label: 'В ровном темпе', reading: 'Темп можно сохранить', copy: 'Лучшее окно для сложной задачи - до 13:00. После встречи стоит оставить короткую паузу.' },
+  { value: 82, style: 'energized', label: 'Много сил', reading: 'Есть ресурс для сложного', copy: 'Можно использовать ближайшее длинное окно для глубокой работы, не уплотняя вечер.' },
+  { value: 96, style: 'delighted', label: 'Полон энергии', reading: 'Энергию можно направить в важное', copy: 'Хороший момент для задачи, которую давно хотелось сдвинуть с места.' }
 ];
 
 function renderMood(value) {
@@ -868,6 +868,7 @@ function renderMood(value) {
   moodStage.className = `mood-stage mood-${mood.style} is-changing`;
   moodFace.className = `face face-${mood.style}`;
   statePreviewLabel.textContent = mood.label;
+  document.querySelector('.mood-hint').textContent = mood.label;
   stateReading.textContent = mood.reading;
   stateReadingCopy.textContent = mood.copy;
   window.clearTimeout(renderMood.timeout);
@@ -897,7 +898,7 @@ function renderStateStep() {
   stateSteps.forEach((step) => step.classList.toggle('active', Number(step.dataset.step) === stateStep));
   stateProgress.forEach((dot, index) => dot.classList.toggle('active', index < stateStep));
   stateBack.disabled = stateStep === 1;
-  stateNext.innerHTML = stateStep === 3 ? 'Сохранить <span>готово</span>' : `Продолжить <span>${stateStep} / 3</span>`;
+  stateNext.innerHTML = `${stateStep === 3 ? 'Сохранить' : 'Продолжить'} <span>${stateStep} / 3</span>`;
   document.querySelector('.step-progress').setAttribute('aria-label', `Шаг ${stateStep} из 3`);
 }
 
@@ -943,7 +944,9 @@ function applyCheckin(record) {
   const copy = document.querySelector('.desktop-rhythm-copy');
   copy.querySelector('span').textContent = 'Энергия по вашей отметке';
   copy.querySelector('h2').textContent = advice.title;
-  copy.querySelector('p').textContent = advice.copy;
+  const recommendation = advice.copy.replace(/(^|\s)(в|к|с|на|по|из|за|до|для|между) /gi, '$1$2\u00a0');
+  copy.querySelector('p').textContent = recommendation;
+  document.querySelector('[data-result-advice]').textContent = recommendation;
 }
 // «Не знаю» исключает конкретные факторы, а конкретный выбор снимает «Не знаю».
 document.querySelectorAll('[name="factor"]').forEach(input => input.addEventListener('change', () => {
@@ -967,10 +970,10 @@ stateNext?.addEventListener('click', () => {
   applyCheckin(savedCheckin);
   const attention = { scattered: 'рассеянное', switching: 'переключается', steady: 'устойчивое' };
   const factors = { sleep: 'сон', meetings: 'встречи', food: 'голод', noise: 'шум', mood: 'настроение', unknown: 'пока неясно' };
-  const summary = `Энергия — ${savedCheckin.energy} из 100. Внимание — ${attention[savedCheckin.attention]}.`;
-  document.querySelector('[data-checkin-summary]').textContent = summary + (savedCheckin.factors.length ? ` Влияет: ${savedCheckin.factors.map(key => factors[key]).join(', ')}.` : ' Факторы не указаны.');
-  document.querySelector('[data-checkin-result]').textContent = 'Рекомендация на главной обновлена. Задачи и время в календаре сохранены.';
-  document.querySelector('[data-checkin-storage]').textContent = persisted ? 'Отметка сохранена в этом браузере на сегодня.' : 'Отметка доступна до закрытия страницы: браузер не разрешил сохранение.';
+  document.querySelector('[data-result-energy]').textContent = savedCheckin.energy + ' / 100';
+  document.querySelector('[data-result-attention]').textContent = attention[savedCheckin.attention];
+  document.querySelector('[data-result-factors]').textContent = savedCheckin.factors.map(key => factors[key]).join(', ') || 'Не указаны';
+  document.querySelector('[data-checkin-storage]').textContent = persisted ? '' : 'Отметка доступна только до закрытия страницы.';
   document.querySelector('.checkin-layout').style.display = 'none';
   const success = document.querySelector('.checkin-success');
   success.classList.add('open');
